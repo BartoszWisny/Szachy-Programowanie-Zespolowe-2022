@@ -5,7 +5,7 @@ import SidebarMenu from "../components/SidebarMenu"
 
 function Login() {
   return (
-    <div className="logn">
+    <div className="login">
       <Helmet>
         <meta charSet="utf-8" />
           <title>Log In</title>
