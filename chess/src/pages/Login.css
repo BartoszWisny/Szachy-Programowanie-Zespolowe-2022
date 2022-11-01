@@ -40,3 +40,98 @@ body {
   right: 0;
   z-index: 0;
 }
+
+.logintiles {
+  display: grid;
+  position: relative;
+  margin-top: 5rem;
+  margin-left: 4rem;
+  margin-right: 4rem;
+  margin-bottom: 4rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 18rem));
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem 1.5rem;
+  font-size: 1rem;
+}
+
+.logintile {
+  height: 30rem;
+  width: 18rem;
+  overflow: hidden;
+  box-shadow: 0 0 1rem var(--gray6);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  cursor: pointer;
+  transition: transform 200ms ease-in;
+  background-color: rgba(255,255,255,0.8);
+  text-align: center;
+}
+
+.logintile_title {
+  padding: 0rem;
+}
+
+.logintile_description {
+  padding: 0rem;
+}
+
+.logintile_button1 {
+  padding: 1rem;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1rem;
+  border: 0.1rem solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+}
+
+.logintile_button2 {
+  padding: 1rem;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1rem;
+  border: 0.1rem solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+}
+
+.logintile_button3 {
+  padding: 1rem;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1rem;
+  border: 0.1rem solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+}
+
+.logintile:hover {
+  transform: scale(1.04);
+}
+
+.logintile_button1:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.logintile_button2:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.logintile_button3:hover {
+  background: var(--primary);
+  color: white;
+}

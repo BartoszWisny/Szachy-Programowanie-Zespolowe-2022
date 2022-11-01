@@ -4,6 +4,7 @@ import {Link} from "react-router-dom"
 import * as FaIcons from "react-icons/fa"
 import * as AiIcons from "react-icons/ai"
 import * as IoIcons from "react-icons/io"
+import * as BiIcons from "react-icons/bi"
 import {SidebarData} from "./SidebarData"
 import SubMenu from "./SubMenu"
 import {useNavigate} from "react-router-dom"
@@ -62,12 +63,29 @@ const HomeButton = styled.button`
   border: 0;
 `
 
+const LoginButton = styled.button`
+  background-color: var(--primary);
+  color: var(--secondary);
+  opacity: 0.98; 
+  position: absolute; 
+  right: 0.6rem;
+  font-size: 1.6rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: 0;
+`
+
 const SidebarMenu = () => {
   const [sidebar, setSidebar] = useState(false)
   const showSidebar = () => setSidebar(!sidebar)
   const navigate = useNavigate();
   const homeRoute = () => {
     navigate("/");
+  };
+  const loginRoute = () => {
+    navigate("/login");
   };
 
   return (
@@ -79,6 +97,9 @@ const SidebarMenu = () => {
         <HomeButton onClick={homeRoute}>
           <AiIcons.AiFillHome/>
         </HomeButton>
+        <LoginButton onClick={loginRoute}>
+          <BiIcons.BiLogIn/>
+        </LoginButton>
       </Nav>
       <SidebarNav sidebar={sidebar} className="sidebar_nav">
         <SidebarWrap className="sidebar_wrap">

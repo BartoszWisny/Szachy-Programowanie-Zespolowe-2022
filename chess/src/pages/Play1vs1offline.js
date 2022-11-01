@@ -1,7 +1,9 @@
-import React from "react"
+import React/*, {useState}*/ from "react"
 import "./Play1vs1offline.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
+/* import Boardandpieces from "../components/Boardandpieces"
+import {Chess} from "chess.js" */
 
 function Play1vs1offline() {
   return (
@@ -13,6 +15,8 @@ function Play1vs1offline() {
           <meta name="description" content="Title" />
       </Helmet>
       <SidebarMenu />
+      {/* <Boardandpieces 
+  /> */}
     </div>
   )
 }
