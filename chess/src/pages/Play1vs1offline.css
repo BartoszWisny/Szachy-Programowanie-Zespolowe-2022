@@ -40,3 +40,14 @@ body {
   right: 0;
   z-index: 0;
 }
+
+/* .boardandpieces {
+  position: relative;
+  display: grid;
+  margin-top: 5rem;
+  margin-left: 4rem;
+  margin-right: 4rem;
+  margin-bottom: 4rem;
+  justify-content: center;
+  align-items: center;
+} */
