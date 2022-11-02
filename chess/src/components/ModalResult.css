@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.overlay {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 1.5rem;
+  font-size: 1rem;
+}
+
+.modal_container {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 12.5rem;
+  height: 25rem;
+  width: 25rem;
+  overflow: hidden;
+  box-shadow: 0 0 1rem var(--gray6);
+  border-radius: var(--radius);
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 200ms ease-in;
+  background-color: rgba(255,255,255,0.8);
+}
+  
+.modal_image {
+  height: 15rem;
+  width: 100%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+  
+.modal_container:hover {
+  transform: scale(1.04);
+}
+
+.modal_button1 {
+  padding: 1rem;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1rem;
+  border: 0.1rem solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+}
+  
+.modal_button2 {
+  padding: 1rem;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1rem;
+  border: 0.1rem solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+}
+  
+.modal_button1:hover {
+  background: var(--primary);
+  color: white;
+}
+  
+.modal_button2:hover {
+  background: var(--primary);
+  color: white;
+}

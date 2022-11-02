@@ -38,16 +38,141 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 0;
 }
 
-/* .boardandpieces {
-  position: relative;
-  display: grid;
-  margin-top: 5rem;
-  margin-left: 4rem;
-  margin-right: 4rem;
-  margin-bottom: 4rem;
-  justify-content: center;
+.chessboard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-} */
+  justify-content: center;
+  box-shadow: 0 0 2rem var(--gray6);
+}
+
+.board_container {
+  margin-top: 5rem; 
+  margin-bottom: 4rem;
+  width: 40rem;
+  height: 40rem; /* adjust height to the size of the smartphone screen */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.square {
+  width: 12.5%;
+  height: 12.5%;
+}
+
+.darksquare {
+  background: rgba(255, 255, 255, 0) url("../assets/chessboard/darksquare.jpg");
+  background-size: 100%;
+}
+
+.lightsquare {
+  background: url("../assets/chessboard/lightsquare.jpg");
+  background-size: 100%;
+}
+
+.chessboardsquare {
+  width: 100%;
+  height: 100%;
+}
+
+.piececontainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  cursor: grab;
+  align-items: center;
+  justify-content: center;
+}
+
+.piece_p {
+  display: block;
+  max-width: 48%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.piece_r {
+  display: block;
+  max-width: 48%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.piece_n {
+  display: block;
+  max-width: 53.5%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.piece_b {
+  display: block;
+  max-width: 47.5%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.piece_q {
+  display: block;
+  max-width: 54%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.piece_k {
+  display: block;
+  max-width: 51.5%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.promotionsquare {
+  position: relative;
+  min-width: 110%;
+  height: 110%;
+  cursor: pointer;
+  z-index: 0;
+  border: 0.25rem solid var(--primary);
+  border-radius: var(--radius);
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0) url("../assets/chessboard/lightsquare.jpg");
+  transition: background 200ms ease-in, color 200ms ease-in;
+}
+
+.promotionsquare:hover {
+  background-color: var(--primary);
+}
+
+.promotionsquare:before {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-color: inherit;
+  content: "";
+}
+
+.promotionpiece {
+  cursor: pointer;
+  z-index: 2;
+}

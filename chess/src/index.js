@@ -26,6 +26,9 @@ root.render(
       <Route path="/login" element={<Login/>}/>
       <Route path="/play/1vs1online" element={<Play1vs1online/>}/>
       <Route path="/play/vscomputer" element={<Playvscomputer/>}/>
+      {/* <DndProvider backend={HTML5Backend}>
+        <Route path="/play/1vs1offline" element={<Play1vs1offline/>}/>
+</DndProvider> */}
       <Route path="/play/1vs1offline" element={<Play1vs1offline/>}/>
       <Route path="/play/vsourchessai" element={<Playvsourchessai/>}/>
       <Route path="/learn/analyze" element={<Learnanalyze/>}/>

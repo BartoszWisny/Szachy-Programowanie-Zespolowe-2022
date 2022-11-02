@@ -13,8 +13,8 @@ function Login() {
           <link rel="canonical" href="http://mysite.com/example" />
           <meta name="description" content="Title" />
       </Helmet>
-      <SidebarMenu />
       <LoginTiles />
+      <SidebarMenu />
     </div>
   )
 }

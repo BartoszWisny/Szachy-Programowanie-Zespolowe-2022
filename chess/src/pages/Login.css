@@ -48,7 +48,7 @@ body {
   margin-left: 4rem;
   margin-right: 4rem;
   margin-bottom: 4rem;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 18rem));
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 20rem));
   justify-content: center;
   align-items: center;
   gap: 1.5rem 1.5rem;
@@ -56,8 +56,8 @@ body {
 }
 
 .logintile {
-  height: 30rem;
-  width: 18rem;
+  height: 30rem; /* adjust height to the size of the smartphone screen */
+  width: 20rem; /* or 25rem, if adjusted for mobile screen */
   overflow: hidden;
   box-shadow: 0 0 1rem var(--gray6);
   border-radius: var(--radius);
