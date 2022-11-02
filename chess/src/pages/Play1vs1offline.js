@@ -23,7 +23,7 @@ function Play1vs1offline() {
       setResult(game.result)
       setTimeout(function() {
         setTurn(game.turn);
-      }, 1000);
+      }, 1000)
       setWinner(game.winner)
     })
     return () => subscribe.unsubscribe()
