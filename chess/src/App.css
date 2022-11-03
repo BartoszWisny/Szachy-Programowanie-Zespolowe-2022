@@ -73,7 +73,7 @@ video {
   text-align: center;
 }
 
-.tile_image {
+.tile_image { /* check on mobile devices */
   height: 10rem;
   width: 100%;
   object-fit: cover;
