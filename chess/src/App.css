@@ -59,6 +59,7 @@ video {
 }
 
 .tile {
+  position: relative;
   height: 18rem;
   width: 15rem;
   overflow: hidden;
@@ -73,13 +74,26 @@ video {
   text-align: center;
 }
 
-.tile_image { /* check on mobile devices */
+.tile_blurhash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 10rem;
+  width: 100%;
+  object-fit: cover;
+}
+
+.tile_image {
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 10rem;
   width: 100%;
   object-fit: cover;
 }
 
 .tile_title {
+  margin-top: 10.5rem;
   padding: 0rem;
 }
 
