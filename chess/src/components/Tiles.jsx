@@ -146,7 +146,6 @@ function Tile(props) {
         <LazyLoadImage src={props.img} class="tile_image" alt="chess" onLoad={handleLoad} beforeLoad={handleLoadStarted} />
         {!isLoaded && isLoadStarted && 
         (<BlurhashCanvas class="tile_blurhash" hash={props.hash} punch={1} />)}
-        {/*<img src={props.img} class="tile_image" alt="chess"/>*/}
         <h2 className="tile_title">{props.title}</h2>
         <p className="tile_description">{props.description}</p>
       </div>
