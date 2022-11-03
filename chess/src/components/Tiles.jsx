@@ -16,7 +16,6 @@ import helpbug from "../assets/tiles/helpbug.jpg"
 import about from "../assets/tiles/about.jpg"
 import {BlurhashCanvas} from "react-blurhash"
 import {LazyLoadImage} from "react-lazy-load-image-component"
-import styled from "styled-components"
 
 const Tiles = () => {
   return (
@@ -143,9 +142,9 @@ function Tile(props) {
   return(
     <div className="tile">
       <div className="tile_body">
-        <LazyLoadImage src={props.img} class="tile_image" alt="chess" onLoad={handleLoad} beforeLoad={handleLoadStarted} />
+        <LazyLoadImage src={props.img} className="tile_image" alt="chess" onLoad={handleLoad} beforeLoad={handleLoadStarted} />
         {!isLoaded && isLoadStarted && 
-        (<BlurhashCanvas class="tile_blurhash" hash={props.hash} punch={1} />)}
+        (<BlurhashCanvas className="tile_blurhash" hash={props.hash} punch={1} />)}
         <h2 className="tile_title">{props.title}</h2>
         <p className="tile_description">{props.description}</p>
       </div>
