@@ -2,10 +2,23 @@ package engine;
 
 public class Board {
 	
-	private Piece[][] squares;
+	public Piece[][] squares;
 	
 	public Board() {
 		this.squares = new Piece[8][8];
+	}
+	
+	void makeMove(Move move) {
+		Piece movedPiece = this.squares[move.beginCol][move.beginRow];
+		this.squares[move.beginCol][move.beginRow] = null;
+		move.takenPiece = this.squares[move.endCol][move.endRow];
+		this.squares[move.endCol][move.endRow] = movedPiece;
+	}
+	
+	void undoMove(Move move) {
+		Piece movedPiece = this.squares[move.endCol][move.endRow];
+		this.squares[move.endCol][move.endRow] = move.takenPiece;
+		this.squares[move.beginCol][move.beginRow] = movedPiece;
 	}
 	
 	public void setup() {
