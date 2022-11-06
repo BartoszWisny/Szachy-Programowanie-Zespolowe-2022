@@ -28,7 +28,7 @@ const Chessboard = ({board, turn}) => {
     <div className="chessboard">
       {currentChessboard.map((piece, i) => (
         <div key={i} className="square">
-          <ChessboardSquare piece={piece} dark={isDark(i)} position={getPosition(i)}/>
+          <ChessboardSquare piece={piece} dark={isDark(i)} position={getPosition(i)} turn={turn} />
         </div>
       ))}
     </div>

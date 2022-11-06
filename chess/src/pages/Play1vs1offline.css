@@ -70,11 +70,12 @@ body {
 }
 
 .lightsquare {
-  background: url("../assets/chessboard/lightsquare.jpg");
+  background: rgba(255, 255, 255, 0) url("../assets/chessboard/lightsquare.jpg");
   background-size: 100%;
 }
 
 .chessboardsquare {
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -86,6 +87,9 @@ body {
   cursor: grab;
   align-items: center;
   justify-content: center;
+  /* position: absolute;
+  top: 0;
+  left: 0; */
 }
 
 .piece_p {
@@ -153,7 +157,7 @@ body {
   min-width: 110%;
   height: 110%;
   cursor: pointer;
-  z-index: 0;
+  z-index: 2;
   border: 0.25rem solid var(--primary);
   border-radius: var(--radius);
   color: var(--primary);
@@ -174,5 +178,5 @@ body {
 
 .promotionpiece {
   cursor: pointer;
-  z-index: 2;
+  z-index: 3;
 }

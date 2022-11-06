@@ -32,10 +32,11 @@ export function handleMove(from, to) {
   move(from, to)
 }
 
-/* export function getPossibleMoves(from) {
-  const moves = chess.moves({verbose: true}).filter(move => move.from)
-  return moves
-} */
+export function getPossibleMoves(from) {
+  const moves = chess.moves({verbose: true}).filter(move => move.from === from)
+  const squares = moves.map((i) => i.to)
+  return squares
+}
 
 export function move(from, to, promotion) {
   const temporaryMove = {from, to}

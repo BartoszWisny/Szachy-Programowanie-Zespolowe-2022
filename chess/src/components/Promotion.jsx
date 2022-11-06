@@ -12,7 +12,7 @@ const Promotion = ({promotion: {from, to, color}}) => {
         <Square>
           <div className="piececontainer" onClick={() => move(from, to, piece)}>
             <img src={require(`../assets/chessboard/${piece}_${color}.png`)} 
-            alt="chess" className="promotionpiece"/>
+            alt="chess" className="promotionpiece" />
           </div>
         </Square>
         </div>
