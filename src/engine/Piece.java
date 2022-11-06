@@ -54,4 +54,40 @@ public class Piece {
 		}
 	}
 	
+	public void printPieceGraphic() {
+		if(this.color == PieceColor.WHITE) {
+			
+			if(this.type == PieceType.PAWN) {
+				System.out.print("♙");
+			} else if (this.type == PieceType.ROOK) {
+				System.out.print("♖");
+			} else if (this.type == PieceType.KNIGHT) {
+				System.out.print("♘");
+			} else if (this.type == PieceType.BISHOP) {
+				System.out.print("♗");
+			} else if (this.type == PieceType.QUEEN) {
+				System.out.print("♕");
+			} else if (this.type == PieceType.KING) {
+				System.out.print("♔");
+			}
+			
+		} else {
+			
+			if(this.type == PieceType.PAWN) {
+				System.out.print("♟");
+			} else if (this.type == PieceType.ROOK) {
+				System.out.print("♜");
+			} else if (this.type == PieceType.KNIGHT) {
+				System.out.print("♞");
+			} else if (this.type == PieceType.BISHOP) {
+				System.out.print("♝");
+			} else if (this.type == PieceType.QUEEN) {
+				System.out.print("♛");
+			} else if (this.type == PieceType.KING) {
+				System.out.print("♚");
+			}
+			
+		}
+	}
+	
 }
