@@ -5,7 +5,7 @@ import {useDrop} from "react-dnd"
 import {handleMove, gameSubject} from "./Game"
 import Promotion from "./Promotion"
 
-const ChessboardSquare = ({piece, dark, position}) => {
+const ChessboardSquare = ({piece, dark, position, turn}) => {
   const [promotion, setPromotion] = useState(null)
 
   const [, drop] = useDrop({
@@ -27,9 +27,9 @@ const ChessboardSquare = ({piece, dark, position}) => {
 
   return (
     <div className="chessboardsquare" ref={drop}>
-      <Square dark={dark}>
-        {promotion ? <Promotion promotion={promotion}/> 
-        : piece ? (<Piece piece={piece} position={position}/>)
+      <Square dark={dark} position={position}>
+        {promotion ? <Promotion promotion={promotion} /> 
+        : piece ? (<Piece piece={piece} position={position} turn={turn} />)
         : null}
       </Square>
     </div>

@@ -32,12 +32,34 @@
   transition: transform 200ms ease-in;
   background-color: rgba(255,255,255,0.8);
 }
-  
-.modal_image {
+
+.modal_blurhash {
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 15rem;
   width: 100%;
   object-fit: cover;
   margin-bottom: 1rem;
+}
+
+.modal_image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 15rem;
+  width: 100%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.modal_title {
+  margin-top: 15.5rem;
+  padding: 0rem;
+}
+
+.modal_result {
+  padding: 0rem;
 }
   
 .modal_container:hover {
