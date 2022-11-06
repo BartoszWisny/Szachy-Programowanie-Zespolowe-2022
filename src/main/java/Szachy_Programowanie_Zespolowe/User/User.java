@@ -1,21 +1,15 @@
-package Szachy.Programowanie.Zespolowe.User;
+package Szachy_Programowanie_Zespolowe.User;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name="`user`")
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
-    @Column(name = "username", unique = true, nullable = false)
     private String username;
-
-    @JsonIgnore
-    @Column(name = "password", nullable = false)
     private String password;
 }

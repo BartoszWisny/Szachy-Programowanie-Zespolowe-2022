@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "szachy-programowanie-zespolowe",
+  "private_key_id": "4c53b3c7f1ab223a0159fd8c929060ac9429bd86",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDPXxJsM2iJNsy7\n689iFYxYpswPihHNGuUxCJOn2uWjLIYrjHUGAISlPQkkk3gH/OPk7d/hcrOJHqHq\nUU6/Q0zsk0rnbtBFKByjoXpbEZlWw2pUz41Wgk2ro66s/UV3zmk+6Jyvvf3o78IW\n343eVAVZZ3RYaJWLPSw1buvOd/zIKSId/JqC2Xs3xBzCdRw1ZQ8fQLM2yE6QAxf2\n6sXRxdDJ7nHV2JsBEiPbEga8RtjTKbnfNsDX9f61St8DVJXs+BJy7KCPPcJyc0F+\ntCQUZjAl11c5i49ClmQpHeJ+5fOj2c8GiMSSVAPV9fzkLMolU5d9jBp7w6Byf+zc\nO6aqPQk1AgMBAAECggEAPxzmVHwI8sn04bTRNz7rqgeJz6jr5gqrepLrrYiXn2Pr\nqdFjxGHf/RJod/NR8sxq57/mBY2NSsxB5zi7yMZI4S+q+mjlhkbBAKQiwxjGHHv5\nHrrUf2HFFdoJTaj/vYjay0Sse2hNoNlnruJ3IRVdU2qDJG0gJnKFw/VwWzR1gM1H\nuZVamg8Zc+D15NOL3SKTeizbg37YpK+7sCkh5m/ov80WvXNECLs5M4dtA81XwSEp\nAzW0bdqkO8EBeEnRQDGSpn40Za/u4+bmFlTMN0feRjU1omegjm6DW+2k/dHb6JUA\nqjAqWWVjkVSsPNpvnDDawWhpSswQVrNlRLy0Q1CC+QKBgQDuh6vGVuCSHZN/M/xF\nIooqClxUZ0IdQX6PuiBp1YFxCe7A82Ry8MqjWsOO8pQe1aGZ9Xz6jbS1wrDWCQ0J\nx2ANP651OocNGttB+vGXTVsK7llkF4LyuBQFF2Usfc7cF3Z2S0lVq+MO0J0Xi1Dg\nqNu7z01PWSVImNiGCxo7cJ+oswKBgQDejzEFq3MuAwfoJ35z7hdJcF+JIoIpJl23\nIvt2w5d53AGO0ILE2gyxxs/iteB5lHsvfVCjQdJd44SV4rLTTVHAqYqtlA+ySiVO\nypiMQ1vhjS7JoXCcdpoRGxqGXnBFSRJK5/P79WjpBipjff5ua2Rjfltn4dZj7j59\n1zBYdebqdwKBgG/AQEn8Cdpq4N+Hi3kYZYKst/UTK3ZpaNINcYIj9TDwZlsfrL/s\n8AL4UwZ1v89yZvOqf5MjMLa3MAIW23TpY6bRXvqtIPiSzIZs+yLXqv/ECz1JhqAQ\nfdCk1VGy32dd1rI1M3ZfwVD/i5msO4gFlGy5Ao9aRI1ujoK+UNvoN+ThAoGAVTJ7\nkbAQZ4zBeh2kSrzaLULXT6fmK9qEBZderBgz5HJUJlert6/BLEzvR9pYFDLC9WsD\nc3u/DDIMj1Q5IKp4oUhFzizf1WCM55ymyQsAIVfqkUU71qmQUPwPK2D7mYpfdk1V\nGR7ZCltR3sRcoeh6hZvZYesSJy8MvR+jYjnALAECgYBhmCVpBN+ZcItXTlZ/8NvU\nndm68SO85u7L2uWTicl0dLoqIOMIylYdOtut0hy6Fyu6SQtw3+vAwfMcOma21nfl\nOcM0NBh8DY2TJtWr0ZxebKxOzW1E49Mi4zonaTohn0APaWPpXFgd5nvWP7InsdTs\nTRcDswXu85gSz2HaDUlH+w==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-xauv8@szachy-programowanie-zespolowe.iam.gserviceaccount.com",
+  "client_id": "107667489979668532311",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-xauv8%40szachy-programowanie-zespolowe.iam.gserviceaccount.com"
+}
