@@ -5,7 +5,6 @@ import BackgroundVideo from "./components/BackgroundVideo"
 import SidebarMenu from "./components/SidebarMenu"
 
 function App() {
-
   return (
     <div className="main">
       <Helmet>
@@ -14,9 +13,9 @@ function App() {
         <link rel="canonical" href="http://mysite.com/example" />
         <meta name="description" content="Title" />
       </Helmet>
+      <SidebarMenu />
       <BackgroundVideo />
       <Tiles />
-      <SidebarMenu />
     </div>
   )
 }

@@ -12,6 +12,7 @@
   --gray7: #2a324b;
   --gray8: #161d34;
   --radius: 0.4rem;
+  --background: url("../assets/backgroundgray.jpg");
 }
 
 *,
@@ -25,19 +26,20 @@
 body {
   font-family: Oxygen, sans-serif;
   margin: 0rem;
-  background: url("../assets/backgroundgray.jpg");
 }
 
 .play1vs1offline {
-  width: 100%;
-  height: 100%;
-}
-
-.sidebar_menu {
+  background: var(--background);
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
+  background-size: 100%;
+  transition: background 200ms ease-in;
+}
+
+[data-theme="darkmode"] {
+  --background: url("../assets/backgrounddarkgray.jpg");
 }
 
 .chessboard {
@@ -87,9 +89,6 @@ body {
   cursor: grab;
   align-items: center;
   justify-content: center;
-  /* position: absolute;
-  top: 0;
-  left: 0; */
 }
 
 .piece_p {
@@ -100,6 +99,7 @@ body {
   cursor: grab;
   margin-left: auto;
   margin-right: auto;
+  pointer-events: none;
 }
 
 .piece_r {
@@ -110,6 +110,7 @@ body {
   cursor: grab;
   margin-left: auto;
   margin-right: auto;
+  pointer-events: none;
 }
 
 .piece_n {
@@ -120,6 +121,7 @@ body {
   cursor: grab;
   margin-left: auto;
   margin-right: auto;
+  pointer-events: none;
 }
 
 .piece_b {
@@ -130,6 +132,7 @@ body {
   cursor: grab;
   margin-left: auto;
   margin-right: auto;
+  pointer-events: none;
 }
 
 .piece_q {
@@ -140,6 +143,7 @@ body {
   cursor: grab;
   margin-left: auto;
   margin-right: auto;
+  pointer-events: none;
 }
 
 .piece_k {
@@ -150,6 +154,7 @@ body {
   cursor: grab;
   margin-left: auto;
   margin-right: auto;
+  pointer-events: none;
 }
 
 .promotionsquare {
