@@ -30,7 +30,7 @@ function Minigamespuzzles() {
   }
 
   return (
-    <div className="minigamespuzzles">
+    <div className="minigamespuzzles" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Puzzles</title>

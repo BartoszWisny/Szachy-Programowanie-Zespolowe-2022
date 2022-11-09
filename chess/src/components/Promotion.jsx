@@ -9,12 +9,12 @@ const Promotion = ({promotion: {from, to, color}}) => {
     <div className="chessboard">
       {promotionPieces.map((piece, i) => (
         <div key={i} className="promotionsquare">
-        <Square>
-          <div className="piececontainer" onClick={() => move(from, to, piece)}>
-            <img src={require(`../assets/chessboard/${piece}_${color}.png`)} 
-            alt="chess" className="promotionpiece" />
-          </div>
-        </Square>
+          <Square>
+            <div className="promotioncontainer" onClick={() => move(from, to, piece)}>
+              <img src={require(`../assets/chessboard/${piece}_${color}.png`)} 
+              alt="chess" className="promotionpiece" />
+            </div>
+          </Square>
         </div>
       ))}
     </div>

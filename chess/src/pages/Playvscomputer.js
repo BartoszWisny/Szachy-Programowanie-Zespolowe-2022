@@ -30,7 +30,7 @@ function Playvscomputer() {
   }
 
   return (
-    <div className="playvscomputer">
+    <div className="playvscomputer" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Play vs computer</title>

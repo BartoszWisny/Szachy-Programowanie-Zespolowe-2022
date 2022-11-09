@@ -30,7 +30,7 @@ function Helpfeedback() {
   }
   
   return (
-    <div className="helpfeedback">
+    <div className="helpfeedback" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Leave your feedback</title>

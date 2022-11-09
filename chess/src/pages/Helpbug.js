@@ -30,7 +30,7 @@ function Helpbug() {
   }
 
   return (
-    <div className="helpbug">
+    <div className="helpbug" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Report a bug</title>

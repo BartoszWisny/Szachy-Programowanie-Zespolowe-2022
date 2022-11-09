@@ -30,7 +30,7 @@ function Minigamesdaily() {
   }
 
   return (
-    <div className="minigamesdaily">
+    <div className="minigamesdaily" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Daily challenge</title>

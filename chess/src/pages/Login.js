@@ -31,7 +31,7 @@ function Login() {
   }
 
   return (
-    <div className="login">
+    <div className="login" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Login</title>

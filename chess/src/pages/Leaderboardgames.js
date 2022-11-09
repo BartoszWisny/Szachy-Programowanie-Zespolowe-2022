@@ -30,7 +30,7 @@ function Leaderboardgames() {
   }
 
   return (
-    <div className="leaderboardgames">
+    <div className="leaderboardgames" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Leaderboard - games</title>
