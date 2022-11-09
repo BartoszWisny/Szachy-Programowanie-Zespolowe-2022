@@ -30,7 +30,7 @@ function Learnanalyze() {
   }
 
   return (
-    <div className="learnanalyze">
+    <div className="learnanalyze" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Analyze games</title>

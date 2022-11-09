@@ -30,7 +30,7 @@ function Playvsourchessai() {
   }
 
   return (
-    <div className="playvsourchessai">
+    <div className="playvsourchessai" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Play vs our chess AI</title>

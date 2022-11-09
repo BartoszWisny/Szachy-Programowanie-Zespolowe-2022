@@ -30,7 +30,7 @@ function Learnwatch() {
   }
 
   return (
-    <div className="learnwatch">
+    <div className="learnwatch" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Watch games</title>

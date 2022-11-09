@@ -38,6 +38,10 @@ body {
   transition: background 200ms ease-in;
 }
 
+[data-theme="lightmode"] {
+  --background: url("../assets/backgroundgray.jpg");
+}
+
 [data-theme="darkmode"] {
   --background: url("../assets/backgrounddarkgray.jpg");
 }
@@ -53,7 +57,7 @@ body {
 }
 
 .board_container {
-  margin-top: 5rem; 
+  margin-top: 3rem; 
   margin-bottom: 4rem;
   width: 40rem;
   height: 40rem; /* adjust height to the size of the smartphone screen */
@@ -76,6 +80,11 @@ body {
   background-size: 100%;
 }
 
+.checksquare {
+  background: rgba(255, 0, 0, 1);
+  background-size: 100%;
+}
+
 .chessboardsquare {
   position: relative;
   width: 100%;
@@ -86,7 +95,6 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
-  cursor: grab;
   align-items: center;
   justify-content: center;
 }
@@ -160,28 +168,29 @@ body {
 .promotionsquare {
   position: relative;
   min-width: 110%;
-  height: 110%;
+  min-height: 110%;
   cursor: pointer;
   z-index: 2;
   border: 0.25rem solid var(--primary);
   border-radius: var(--radius);
-  color: var(--primary);
+}
+
+.promotioncontainer {
+  background-color: var(--primary);
   background: rgba(255, 255, 255, 0) url("../assets/chessboard/lightsquare.jpg");
+  background-size: 100%;
   transition: background 200ms ease-in, color 200ms ease-in;
 }
 
-.promotionsquare:hover {
-  background-color: var(--primary);
-}
-
-.promotionsquare:before {
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background-color: inherit;
-  content: "";
+.promotioncontainer:hover {
+  background: var(--primary);
 }
 
 .promotionpiece {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   cursor: pointer;
   z-index: 3;
+  pointer-events: none;
 }

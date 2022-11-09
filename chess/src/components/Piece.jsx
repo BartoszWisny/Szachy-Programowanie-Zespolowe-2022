@@ -16,19 +16,18 @@ const Piece = ({piece: {type, color}, position, turn}) => {
   return (
     <div>
       <DragPreviewImage className="previewimage" connect={preview} src={image} />
-      <div className="piececontainer" ref={drag} style={{opacity: isDragging ? 0 : 1}}>
+      <div className="piececontainer" ref={drag} style={{opacity: isDragging ? 0 : 1, cursor: "grab"}}>
         <img src={image} alt="chess" className={`piece_${type}`} />
       </div>
       {isDragging ? getPossibleMoves(position).map((pos) => (
-        <div key={pos}
+        <div key={pos[0]}
           style={{
-            background: "red",
+            background: pos[1] ? "red" : "lawngreen",
             width: "10%",
             height: "10%",
             position: "absolute", 
-            left: ((pos.charCodeAt(0) - position.charCodeAt(0)) * 100 + 45 * (turn === "w" ? 1 : -1)) * (turn === "w" ? 1 : -1) + "%", 
-            top: ((position.charCodeAt(1) - pos.charCodeAt(1)) * 100 + 45 * (turn === "w" ? 1 : -1)) * (turn === "w" ? 1 : -1) + "%",
-            /* border: "2px solid red", */
+            left: ((pos[0].charCodeAt(0) - position.charCodeAt(0)) * 100 + 45 * (turn === "w" ? 1 : -1)) * (turn === "w" ? 1 : -1) + "%", 
+            top: ((position.charCodeAt(1) - pos[0].charCodeAt(1)) * 100 + 45 * (turn === "w" ? 1 : -1)) * (turn === "w" ? 1 : -1) + "%",
             borderRadius: "5px",
             zIndex: 1,
         }} />

@@ -30,7 +30,7 @@ function Helpsuggestion() {
   }
 
   return (
-    <div className="helpsuggestion">
+    <div className="helpsuggestion" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Make a suggestion</title>

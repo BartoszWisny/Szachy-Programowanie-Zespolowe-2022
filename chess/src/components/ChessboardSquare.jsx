@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react"
 import Square from "./Square"
 import Piece from "./Piece"
 import {useDrop} from "react-dnd"
-import {handleMove, gameSubject} from "./Game"
+import {handleMove, gameSubject, isCheck, getTurn} from "./Game"
 import Promotion from "./Promotion"
 
 const ChessboardSquare = ({piece, dark, position, turn}) => {
@@ -27,7 +27,7 @@ const ChessboardSquare = ({piece, dark, position, turn}) => {
 
   return (
     <div className="chessboardsquare" ref={drop}>
-      <Square dark={dark} position={position}>
+      <Square dark={dark} position={position} check={isCheck() && piece ? (piece.type === "k" && piece.color === getTurn() ? true : false) : false}>
         {promotion ? <Promotion promotion={promotion} /> 
         : piece ? (<Piece piece={piece} position={position} turn={turn} />)
         : null}

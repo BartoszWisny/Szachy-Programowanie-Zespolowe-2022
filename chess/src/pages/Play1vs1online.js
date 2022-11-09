@@ -30,7 +30,7 @@ function Play1vs1online() {
   }
 
   return (
-    <div className="play1vs1online">
+    <div className="play1vs1online" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Play 1 vs 1 (online)</title>
