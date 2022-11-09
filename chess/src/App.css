@@ -70,7 +70,7 @@ video {
   justify-content: space-around;
   cursor: pointer;
   transition: transform 200ms ease-in;
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255, 255, 255, 0.85);
   text-align: center;
 }
 
