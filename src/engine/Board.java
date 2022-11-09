@@ -187,6 +187,42 @@ public class Board {
 			move.takenPiece = this.squares[move.endCol][move.beginRow];
 			this.squares[move.endCol][move.beginRow] = null;
 			
+		} else if(move instanceof CastlingMove) {
+			
+			if(move.endCol == 2 && move.endRow == 0) {
+				//Usuwamy wieżę z jej pola
+				this.squares[0][0] = null;
+				//Usuwamy króla z jego pola
+				this.squares[4][0] = null;
+				//Stawiamy wieżę na docelowym polu
+				this.squares[3][0] = new Piece(PieceType.ROOK, PieceColor.WHITE);
+				//Stawiamy króla na jego polu
+				this.squares[2][0] = new Piece(PieceType.KING, PieceColor.WHITE);
+				
+			} else if(move.endCol == 6 && move.endRow == 0) {
+
+				this.squares[7][0] = null;
+				this.squares[4][0] = null;
+				this.squares[5][0] = new Piece(PieceType.ROOK, PieceColor.WHITE);
+				this.squares[6][0] = new Piece(PieceType.KING, PieceColor.WHITE);
+				
+			} else if(move.endCol == 2 && move.endRow == 7) {
+				
+				this.squares[0][7] = null;
+				this.squares[4][7] = null;
+				this.squares[3][7] = new Piece(PieceType.ROOK, PieceColor.BLACK);
+				this.squares[2][7] = new Piece(PieceType.KING, PieceColor.BLACK);
+
+				
+			} else if(move.endCol == 6 && move.endRow == 7) {
+
+				this.squares[7][7] = null;
+				this.squares[4][7] = null;
+				this.squares[5][7] = new Piece(PieceType.ROOK, PieceColor.BLACK);
+				this.squares[6][7] = new Piece(PieceType.KING, PieceColor.BLACK);
+				
+			}
+			
 		} else {
 			Piece movedPiece = this.squares[move.beginCol][move.beginRow];
 			this.squares[move.beginCol][move.beginRow] = null;
@@ -215,6 +251,39 @@ public class Board {
 			this.squares[move.endCol][move.beginRow] = move.takenPiece;
 			
 
+		} else if(move instanceof CastlingMove) {
+			
+			if(move.endCol == 2 && move.endRow == 0) {
+
+				this.squares[0][0] = new Piece(PieceType.ROOK, PieceColor.WHITE);
+				this.squares[4][0] = new Piece(PieceType.KING, PieceColor.WHITE);
+				this.squares[3][0] = null;
+				this.squares[2][0] = null;
+				
+			} else if(move.endCol == 6 && move.endRow == 0) {
+
+				this.squares[7][0] = new Piece(PieceType.ROOK, PieceColor.WHITE);
+				this.squares[4][0] = new Piece(PieceType.KING, PieceColor.WHITE);
+				this.squares[5][0] = null;
+				this.squares[6][0] = null;
+				
+			} else if(move.endCol == 2 && move.endRow == 7) {
+				
+				this.squares[0][7] = new Piece(PieceType.ROOK, PieceColor.BLACK);
+				this.squares[4][7] = new Piece(PieceType.KING, PieceColor.BLACK);
+				this.squares[3][7] = null;
+				this.squares[2][7] = null;
+
+				
+			} else if(move.endCol == 6 && move.endRow == 7) {
+
+				this.squares[7][7] = new Piece(PieceType.ROOK, PieceColor.BLACK);
+				this.squares[4][7] = new Piece(PieceType.KING, PieceColor.BLACK);
+				this.squares[5][7] = null;
+				this.squares[6][7] = null;
+				
+			}
+			
 		} else {
 			Piece movedPiece = this.squares[move.endCol][move.endRow];
 			this.squares[move.endCol][move.endRow] = move.takenPiece;

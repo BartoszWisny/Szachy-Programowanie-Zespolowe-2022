@@ -316,6 +316,28 @@ public class MoveGenerator {
 		if( onChessboard(beginCol-1, beginRow-1) && freeOrColor(beginCol-1, beginRow-1, oppColor) ) {
 			possibleMoves.add(new Move(beginCol, beginRow, beginCol-1, beginRow-1));
 		}
+		
+		if(myColor == PieceColor.WHITE) {
+			
+			if(board.isWhiteKingsideCastling() && freeSquare(5, 0) && freeSquare(6, 0) ) {
+				possibleMoves.add(new CastlingMove(4, 0, 6, 0));
+			}
+			
+			if(board.isWhiteQueensideCastling()  && freeSquare(1, 0) && freeSquare(2, 0) && freeSquare(3, 0)) {
+				possibleMoves.add(new CastlingMove(4, 0, 2, 0));
+			}
+			
+		} else if(myColor == PieceColor.BLACK) {
+			
+			if(board.isBlackKingsideCastling() && freeSquare(5, 7) && freeSquare(6, 7)) {
+				possibleMoves.add(new CastlingMove(4, 7, 6, 7));
+			}
+			
+			if(board.isBlackQueensideCastling() && freeSquare(1, 7) && freeSquare(2, 7) && freeSquare(3, 7) ) {
+				possibleMoves.add(new CastlingMove(4, 7, 2, 7));
+			}
+			
+		}
 
 
 		
