@@ -22,14 +22,15 @@ const Piece = ({piece: {type, color}, position, turn}) => {
       {isDragging ? getPossibleMoves(position).map((pos) => (
         <div key={pos[0]}
           style={{
-            background: pos[1] ? "red" : "lawngreen",
-            width: "10%",
-            height: "10%",
+            background: pos[1] ? "rgba(255, 0, 0, 0.7)" : "rgba(0, 255, 0, 0.7)",
+            width: "30%",
+            height: "30%",
             position: "absolute", 
-            left: ((pos[0].charCodeAt(0) - position.charCodeAt(0)) * 100 + 45 * (turn === "w" ? 1 : -1)) * (turn === "w" ? 1 : -1) + "%", 
-            top: ((position.charCodeAt(1) - pos[0].charCodeAt(1)) * 100 + 45 * (turn === "w" ? 1 : -1)) * (turn === "w" ? 1 : -1) + "%",
-            borderRadius: "5px",
+            left: ((pos[0].charCodeAt(0) - position.charCodeAt(0)) * 100 + 35 * (turn === "w" ? 1 : -1)) * (turn === "w" ? 1 : -1) + "%", 
+            top: ((position.charCodeAt(1) - pos[0].charCodeAt(1)) * 100 + 35 * (turn === "w" ? 1 : -1)) * (turn === "w" ? 1 : -1) + "%",
+            borderRadius: "15px",
             zIndex: 1,
+            pointerEvents: "none",
         }} />
       )) : null}
     </div>
