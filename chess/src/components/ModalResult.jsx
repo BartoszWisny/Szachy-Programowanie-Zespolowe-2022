@@ -38,8 +38,6 @@ const ModalResult = ({open, result, winner}) => {
         (<BlurhashCanvas className="modal_blurhash" 
         hash={winner === "w" ? modalresultwinwhitehash : (winner === "b" ? modalresultwinblackhash : modalresultdrawhash)} 
         punch={1} />)}
-        {/*<img className="modal_image" src={winner === "w" ? 
-        modalresultwinwhite : (winner === "b" ? modalresultwinblack : modalresultdraw)} alt="chess"/> */}
         <div className="modal_content">
           <h1 className="modal_title">GAME OVER</h1>
           <p className="modal_result">{result}</p>
