@@ -2,16 +2,34 @@ import React, {useState, useEffect} from "react"
 import Square from "./Square"
 import Piece from "./Piece"
 import {useDrop} from "react-dnd"
-import {handleMove, gameSubject, isCheck, getTurn} from "./Game"
+import {handleMove, gameSubject, isCheck, getTurn, getMove} from "./Game"
 import Promotion from "./Promotion"
+import move from "../assets/sounds/move.mp3"
+import capture from "../assets/sounds/capture.mp3"
+import silence from "../assets/sounds/silence.mp3"
 
 const ChessboardSquare = ({piece, dark, position, turn}) => {
   const [promotion, setPromotion] = useState(null)
 
+  function playMoveSound() {
+    new Audio(move).play()
+  }
+
+  function playCaptureSound() {
+    new Audio(capture).play()
+  }
+
+  function playSilenceSound() {
+    new Audio(silence).play()
+  }
+
   const [, drop] = useDrop({
     accept: "piece",
     drop: (item) => {
-      const [fromPosition] = item.id.split('_')
+      const [fromPosition, type, color] = item.id.split('_')
+      const move = getMove(fromPosition, position)
+      const captured = move.map((i) => (i.captured))
+      fromPosition !== position && type && color === turn ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
       handleMove(fromPosition, position)
     }
   })

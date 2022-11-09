@@ -16,7 +16,7 @@ const SwitchThemeButton = styled.button`
   color: var(--secondary);
   opacity: 0.98; 
   position: absolute; 
-  right: 3rem;
+  right: 2.6rem;
   font-size: 1.6rem;
   height: 2.2rem;
   display: flex;
@@ -48,8 +48,7 @@ function Play1vs1offline() {
     return () => subscribe.unsubscribe()
   }, [])
 
-  const defaultLightmode = window.matchMedia("(prefers-color-scheme: lightmode)").matches;
-  const [theme, setTheme] = useLocalStorage("theme", defaultLightmode ? "lightmode" : "darkmode")
+  const [theme, setTheme] = useLocalStorage("theme" ? "darkmode" : "lightmode")
   
   const switchTheme = () => {
     const newTheme = theme === "lightmode" ? "darkmode" : "lightmode"
