@@ -22,8 +22,7 @@ const SwitchThemeButton = styled.button`
 `
 
 function About() {
-  const defaultLightmode = window.matchMedia("(prefers-color-scheme: lightmode)").matches
-  const [theme, setTheme] = useLocalStorage("theme", defaultLightmode ? "lightmode" : "darkmode")
+  const [theme, setTheme] = useLocalStorage("theme" ? "darkmode" : "lightmode")
   
   const switchTheme = () => {
     const newTheme = theme === "lightmode" ? "darkmode" : "lightmode"
