@@ -32,12 +32,6 @@ export function handleMove(from, to) {
   move(from, to)
 }
 
-export function getPossibleMoves(from) {
-  const moves = chess.moves({verbose: true}).filter(move => move.from === from)
-  const squares = moves.map((i) => ([i.to, i.captured]))
-  return squares
-}
-
 export function move(from, to, promotion) {
   const temporaryMove = {from, to}
 
@@ -52,12 +46,22 @@ export function move(from, to, promotion) {
   }
 }
 
+export function getPossibleMoves(from) {
+  const moves = chess.moves({verbose: true}).filter(move => move.from === from)
+  const squares = moves.map((i) => ([i.to, i.captured]))
+  return squares
+}
+
 export function isCheck() {
   return chess.isCheck()
 }
 
 export function getTurn() {
   return chess.turn()
+}
+
+export function getMove(from, to) {
+  return chess.moves({verbose: true}).filter(move => move.from === from && move.to === to)
 }
 
 function updateGame(pendingPromotion) {
