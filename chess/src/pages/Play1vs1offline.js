@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import "./Play1vs1offline.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
-import {gameSubject, initGame} from "../components/Game"
+import {gameSubject, initGame, resetGame} from "../components/Game"
 import Chessboard from "../components/Chessboard"
 import {DndProvider} from "react-dnd"
 import {HTML5Backend} from "react-dnd-html5-backend"
@@ -34,6 +34,7 @@ function Play1vs1offline() {
   const [winner, setWinner] = useState()
 
   useEffect(() => {
+    resetGame()
     initGame()
     const subscribe = gameSubject.subscribe((game) => {
       setBoard(game.board);
