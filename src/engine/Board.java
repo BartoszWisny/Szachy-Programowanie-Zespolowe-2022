@@ -5,7 +5,7 @@ public class Board {
 	public Piece[][] squares;
 	
 	private PieceColor activeColor;
-	
+
 	private boolean whiteKingsideCastling;
 	private boolean whiteQueensideCastling;
 	private boolean blackKingsideCastling;
@@ -106,18 +106,123 @@ public class Board {
 		
 	}
 	
+	public boolean isWhiteKingsideCastling() {
+		return whiteKingsideCastling;
+	}
+
+	public void setWhiteKingsideCastling(boolean whiteKingsideCastling) {
+		this.whiteKingsideCastling = whiteKingsideCastling;
+	}
+
+	public boolean isWhiteQueensideCastling() {
+		return whiteQueensideCastling;
+	}
+
+	public void setWhiteQueensideCastling(boolean whiteQueensideCastling) {
+		this.whiteQueensideCastling = whiteQueensideCastling;
+	}
+
+	public boolean isBlackKingsideCastling() {
+		return blackKingsideCastling;
+	}
+
+	public void setBlackKingsideCastling(boolean blackKingsideCastling) {
+		this.blackKingsideCastling = blackKingsideCastling;
+	}
+
+	public boolean isBlackQueensideCastling() {
+		return blackQueensideCastling;
+	}
+
+	public void setBlackQueensideCastling(boolean blackQueensideCastling) {
+		this.blackQueensideCastling = blackQueensideCastling;
+	}
+	
+	
+	
+	public boolean getEnPassant() {
+		return this.enPassant;
+	}
+	
+	public int getEnPassantTargetCol() {
+		return this.enPassantTargetCol;
+	}
+	
+	public int getEnPassantTargetRow() {
+		return this.enPassantTargetRow;
+	}
+	
+	
+	public void setEnPassant(boolean b) {
+		this.enPassant = b;
+	}
+	
+	public void setEnPassantTargetCol(int i) {
+		this.enPassantTargetCol = i;
+	}
+	
+	public void setEnPassantTargetRow(int i) {
+		this.enPassantTargetRow = i;
+	}
+	
+	
 	void makeMove(Move move) {
-		Piece movedPiece = this.squares[move.beginCol][move.beginRow];
-		this.squares[move.beginCol][move.beginRow] = null;
-		move.takenPiece = this.squares[move.endCol][move.endRow];
-		this.squares[move.endCol][move.endRow] = movedPiece;
+		
+		move.setSavedEnPassant(this.enPassant);
+		move.setSavedEnPassantTargetCol(this.enPassantTargetCol);
+		move.setSavedEnPassantTargetRow(this.enPassantTargetRow);
+		move.setSavedWhiteKingsideCastling(this.whiteKingsideCastling);
+		move.setSavedWhiteQueensideCastling(this.whiteQueensideCastling);
+		move.setSavedBlackKingsideCastling(this.blackKingsideCastling);
+		move.setSavedBlackQueensideCastling(this.blackQueensideCastling);
+		
+		if(move instanceof EnPassantMove) {
+			
+			Piece movedPiece = this.squares[move.beginCol][move.beginRow];
+			this.squares[move.beginCol][move.beginRow] = null;
+			this.squares[move.endCol][move.endRow] = movedPiece;
+			
+			//Wykonujemy bicie en passant - zbijamy piona, który stoi w rzędzie początkowym, ale w kolumnie końcowej ruchu
+			
+			move.takenPiece = this.squares[move.endCol][move.beginRow];
+			this.squares[move.endCol][move.beginRow] = null;
+			
+		} else {
+			Piece movedPiece = this.squares[move.beginCol][move.beginRow];
+			this.squares[move.beginCol][move.beginRow] = null;
+			move.takenPiece = this.squares[move.endCol][move.endRow];
+			this.squares[move.endCol][move.endRow] = movedPiece;
+		}
 	}
 	
 	void undoMove(Move move) {
-		Piece movedPiece = this.squares[move.endCol][move.endRow];
-		this.squares[move.endCol][move.endRow] = move.takenPiece;
-		this.squares[move.beginCol][move.beginRow] = movedPiece;
+		
+		this.setWhiteKingsideCastling(move.isSavedWhiteKingsideCastling());
+		this.setWhiteQueensideCastling(move.isSavedWhiteQueensideCastling());
+		this.setBlackKingsideCastling(move.isSavedBlackKingsideCastling());
+		this.setBlackQueensideCastling(move.isSavedBlackQueensideCastling());
+		this.setEnPassant(move.isSavedEnPassant());
+		this.setEnPassantTargetCol(move.getSavedEnPassantTargetCol());
+		this.setEnPassantTargetRow(move.getSavedEnPassantTargetRow());
+		
+		if(move instanceof EnPassantMove) {
+			
+			//Odstawiamy pionek, który zrobił ruch na pozycję początkową
+			
+			Piece movedPiece = this.squares[move.endCol][move.endRow];
+			this.squares[move.endCol][move.endRow] = null;
+			this.squares[move.beginCol][move.beginRow] = movedPiece;
+			this.squares[move.endCol][move.beginRow] = move.takenPiece;
+			
+
+		} else {
+			Piece movedPiece = this.squares[move.endCol][move.endRow];
+			this.squares[move.endCol][move.endRow] = move.takenPiece;
+			this.squares[move.beginCol][move.beginRow] = movedPiece;
+		}
+
 	}
+	
 	
 	public void setup() {
 		

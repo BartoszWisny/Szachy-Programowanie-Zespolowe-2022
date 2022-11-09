@@ -9,13 +9,21 @@ public class Test {
 		//Board board = new Board("4k2r/6r1/8/8/8/8/3R4/R3K3 w Qk - 0 1");
 		//Board board = new Board("8/8/8/4p1K1/2k1P3/8/8/8 b - - 0 1");
 		//Board board = new Board("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2 ");
-		Board board = new Board("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+		//Board board = new Board("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
 		
-
-		
+		Board board = new Board("rnbqkbnr/p1pppppp/8/8/3pP3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
 		
 		board.printBoardGraphic();
+
+		EnPassantMove epm = new EnPassantMove(3, 3, 4, 2);
 		
+		board.makeMove(epm);
+				
+		board.printBoardGraphic();
+		
+		board.undoMove(epm);
+		
+		board.printBoardGraphic();
 
 		
 	}

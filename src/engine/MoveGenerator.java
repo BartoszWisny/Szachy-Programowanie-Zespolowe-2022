@@ -243,7 +243,7 @@ public class MoveGenerator {
 			if( onChessboard(beginCol, beginRow+1) && freeSquare(beginCol, beginRow+1) ) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol, beginRow+1));
 			}
-			if( beginRow == 1 && onChessboard(beginCol, beginRow+2) && freeSquare(beginCol, beginRow+2) ) {
+			if( beginRow == 1 && onChessboard(beginCol, beginRow+2) && freeSquare(beginCol, beginRow+2) && freeSquare(beginCol, beginRow+1) ) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol, beginRow+2));
 			}
 			if( onChessboard(beginCol+1, beginRow+1) && !freeSquare(beginCol+1, beginRow+1) && this.board.squares[beginCol+1][beginRow+1].getColor() == oppColor ) {
@@ -252,6 +252,13 @@ public class MoveGenerator {
 			if( onChessboard(beginCol-1, beginRow+1) && !freeSquare(beginCol-1, beginRow+1) && this.board.squares[beginCol-1][beginRow+1].getColor() == oppColor ) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol-1, beginRow+1));
 			}
+			//Dwa ostatnie rozpatrywane ruchy obejmują bicie en passant
+			if( this.board.getEnPassant() && beginRow == 4 && this.board.getEnPassantTargetCol() == beginCol + 1) {
+				possibleMoves.add(new EnPassantMove(beginCol, beginRow, beginRow+1, beginCol+1));
+			}
+			if( this.board.getEnPassant() && beginRow == 4 && this.board.getEnPassantTargetCol() == beginCol - 1) {
+				possibleMoves.add(new EnPassantMove(beginCol, beginRow, beginRow+1, beginCol-1));
+			}
 			
 			
 		} else {
@@ -259,7 +266,7 @@ public class MoveGenerator {
 			if( onChessboard(beginCol, beginRow-1) && freeSquare(beginCol, beginRow-1) ) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol, beginRow-1));
 			}
-			if( beginRow == 6 && onChessboard(beginCol, beginRow-2) && freeSquare(beginCol, beginRow-2) ) {
+			if( beginRow == 6 && onChessboard(beginCol, beginRow-2) && freeSquare(beginCol, beginRow-2) && freeSquare(beginCol, beginRow-1)) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol, beginRow-2));
 			}
 			if( onChessboard(beginCol+1, beginRow-1) && !freeSquare(beginCol+1, beginRow-1) && this.board.squares[beginCol+1][beginRow+1].getColor() == oppColor ) {
@@ -267,6 +274,13 @@ public class MoveGenerator {
 			}
 			if( onChessboard(beginCol-1, beginRow-1) && !freeSquare(beginCol-1, beginRow-1) && this.board.squares[beginCol-1][beginRow+1].getColor() == oppColor ) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol-1, beginRow-1));
+			}
+			//Dwa ostatnie rozpatrywane ruchy obejmują bicie en passant
+			if( this.board.getEnPassant() && beginRow == 3 && this.board.getEnPassantTargetCol() == beginCol + 1) {
+				possibleMoves.add(new EnPassantMove(beginCol, beginRow, beginRow-1, beginCol+1));
+			}
+			if( this.board.getEnPassant() && beginRow == 3 && this.board.getEnPassantTargetCol() == beginCol - 1) {
+				possibleMoves.add(new EnPassantMove(beginCol, beginRow, beginRow-1, beginCol-1));
 			}
 			
 		}
