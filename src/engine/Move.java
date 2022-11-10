@@ -66,7 +66,7 @@ public class Move {
 	public void setSavedEnPassantTargetCol(int savedEnPassantTargetCol) {
 		this.savedEnPassantTargetCol = savedEnPassantTargetCol;
 	}
-
+ 
 	public int getSavedEnPassantTargetRow() {
 		return savedEnPassantTargetRow;
 	}

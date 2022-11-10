@@ -6,7 +6,7 @@ public class MoveGenerator {
 
 	Board board;
 	
-	public MoveGenerator(Board board) {
+	public MoveGenerator(Board board) { 
 		this.board = board;
 	}
 	

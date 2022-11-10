@@ -232,7 +232,7 @@ public class Board {
 			this.squares[move.endCol][move.endRow] = movedPiece;
 		}
 		
-		//Ustawiamy konieczne flagi po ruchu
+		//Ustawiamy konieczne flagi po ruchu 
 		
 		//Gdy ruszaliśmy się z pól wież, ustawiamy odpowiednie flagi roszad (gdy był to pierwszy ruch tą wieżą, powoduje to zmianę, gdy był 
 		//już koleny albo ruch inną figurą to nic nie zmienia)

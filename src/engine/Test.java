@@ -15,7 +15,7 @@ public class Test {
 		
 		board.makeMove(new Move(7, 6, 7, 4));
 		board.printBoardGraphic();
-
+ 
 		board.makeMove(new Move(7, 7, 7, 6));
 		board.printBoardGraphic();
 		
