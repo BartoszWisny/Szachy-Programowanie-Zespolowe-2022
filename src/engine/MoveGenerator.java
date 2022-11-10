@@ -38,8 +38,84 @@ public class MoveGenerator {
 			}
 		}
 		
+		//Tu przeglądamy wygenerowane ruchy i  odrzucamy te, które pozostawiają króla w szachu
+		
+		int kingCol = 0, kingRow = 0;
+		//W tej liście będziemy przetrzymywać wszystkie ruchy, które mają zostać usunięte (bo pozostawiają króla w szachu)
+		ArrayList<Move> improperMoves = new ArrayList<Move>();
+		
+		for(Move m : possibleMoves) {
+			
+			//1. Robimy ruch
+			board.makeMove(m);
+			//2. Znajdujemy króla na szachownicy po wykoaniu ruchu
+			for(int i=0; i<=7; i++) {
+				for(int j=0; j<=7; j++) {
+					if(!freeSquare(i, j) && board.squares[i][j].getColor() == color && board.squares[i][j].getType() == PieceType.KING) {
+						kingCol = i;
+						kingRow = j;
+					}
+				}
+			}
+			//3. Sprawdzamy, czy pole z królem jest atakowane przez bierki przeciwnego koloru (jeśli tak - cofamy ruch)
+			if(isSquareAttacked(opponentColor(color), kingCol, kingRow)) {
+				improperMoves.add(m);
+			}
+			//4. Cofamy ruch wykonany w punkcie 1
+			board.undoMove(m);
+		}
+		
+		possibleMoves.removeAll(improperMoves);
+		
 		Move arr[] = new Move[possibleMoves.size()];
 		return possibleMoves.toArray(arr);
+	}
+	
+	public Move[] getAttackingMoves(PieceColor color) {
+		
+		ArrayList<Move> possibleMoves = new ArrayList<Move>();
+		
+		for(int i=0; i<=7; i++) {
+			for(int j=0; j<=7; j++) {
+				
+				if(hasColor(i, j, color)) {
+					
+					if(this.board.squares[i][j].getType() == PieceType.ROOK) {
+						addRookMoves(i, j, color, possibleMoves);
+					} else if(this.board.squares[i][j].getType() == PieceType.KNIGHT) {
+						addKnightMoves(i, j, color, possibleMoves);
+					} else if(this.board.squares[i][j].getType() == PieceType.BISHOP) {
+						addBishopMoves(i, j, color, possibleMoves);
+					} else if(this.board.squares[i][j].getType() == PieceType.QUEEN) {
+						addQueenMoves(i, j, color, possibleMoves);
+					//} else if(this.board.squares[i][j].getType() == PieceType.KING) {
+						//addKingMoves(i, j, color, possibleMoves);
+					} else if(this.board.squares[i][j].getType() == PieceType.PAWN) {
+						addPawnMoves(i, j, color, possibleMoves);
+					} 
+					
+				}
+				
+			}
+		}
+				
+		Move arr[] = new Move[possibleMoves.size()];
+		return possibleMoves.toArray(arr);
+	}
+	
+	//Metoda sprawdza, czy przy obecnym ustawieniu szachownicy dane pole jest atakowane przez bierki danego koloru 
+	
+	private boolean isSquareAttacked(PieceColor color,  int col, int row) {
+		
+		Move[] attackingMoves = getAttackingMoves(color);
+		
+		for(Move m : attackingMoves) {
+			if(m.endCol == col && m.endRow == row) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	private PieceColor opponentColor(PieceColor color) {
@@ -269,10 +345,10 @@ public class MoveGenerator {
 			if( beginRow == 6 && onChessboard(beginCol, beginRow-2) && freeSquare(beginCol, beginRow-2) && freeSquare(beginCol, beginRow-1)) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol, beginRow-2));
 			}
-			if( onChessboard(beginCol+1, beginRow-1) && !freeSquare(beginCol+1, beginRow-1) && this.board.squares[beginCol+1][beginRow+1].getColor() == oppColor ) {
+			if( onChessboard(beginCol+1, beginRow-1) && !freeSquare(beginCol+1, beginRow-1) && this.board.squares[beginCol+1][beginRow-1].getColor() == oppColor ) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol+1, beginRow-1));
 			}
-			if( onChessboard(beginCol-1, beginRow-1) && !freeSquare(beginCol-1, beginRow-1) && this.board.squares[beginCol-1][beginRow+1].getColor() == oppColor ) {
+			if( onChessboard(beginCol-1, beginRow-1) && !freeSquare(beginCol-1, beginRow-1) && this.board.squares[beginCol-1][beginRow-1].getColor() == oppColor ) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol-1, beginRow-1));
 			}
 			//Dwa ostatnie rozpatrywane ruchy obejmują bicie en passant
@@ -317,24 +393,34 @@ public class MoveGenerator {
 			possibleMoves.add(new Move(beginCol, beginRow, beginCol-1, beginRow-1));
 		}
 		
+		//Rozpatrujemy dostępne roszady
+		
 		if(myColor == PieceColor.WHITE) {
 			
 			if(board.isWhiteKingsideCastling() && freeSquare(5, 0) && freeSquare(6, 0) ) {
-				possibleMoves.add(new CastlingMove(4, 0, 6, 0));
+				if(!isSquareAttacked(PieceColor.BLACK, 5, 0) && !isSquareAttacked(PieceColor.BLACK, 6, 0)) {
+					possibleMoves.add(new CastlingMove(4, 0, 6, 0));
+				}
 			}
 			
 			if(board.isWhiteQueensideCastling()  && freeSquare(1, 0) && freeSquare(2, 0) && freeSquare(3, 0)) {
-				possibleMoves.add(new CastlingMove(4, 0, 2, 0));
+				if(!isSquareAttacked(PieceColor.BLACK, 1, 0) && !isSquareAttacked(PieceColor.BLACK, 2, 0) && !isSquareAttacked(PieceColor.BLACK, 3, 0)) {
+					possibleMoves.add(new CastlingMove(4, 0, 2, 0));
+				}
 			}
 			
 		} else if(myColor == PieceColor.BLACK) {
 			
 			if(board.isBlackKingsideCastling() && freeSquare(5, 7) && freeSquare(6, 7)) {
-				possibleMoves.add(new CastlingMove(4, 7, 6, 7));
+				if(!isSquareAttacked(PieceColor.WHITE, 5, 7) && !isSquareAttacked(PieceColor.WHITE, 6, 7)) {
+					possibleMoves.add(new CastlingMove(4, 7, 6, 7));
+				}	
 			}
 			
 			if(board.isBlackQueensideCastling() && freeSquare(1, 7) && freeSquare(2, 7) && freeSquare(3, 7) ) {
-				possibleMoves.add(new CastlingMove(4, 7, 2, 7));
+				if(!isSquareAttacked(PieceColor.WHITE, 1, 7) && !isSquareAttacked(PieceColor.WHITE, 2, 7) && !isSquareAttacked(PieceColor.WHITE, 3, 7)) {
+					possibleMoves.add(new CastlingMove(4, 7, 2, 7));
+				}
 			}
 			
 		}

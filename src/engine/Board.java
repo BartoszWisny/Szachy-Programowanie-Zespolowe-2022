@@ -265,7 +265,6 @@ public class Board {
 				this.setEnPassant(true);
 				this.setEnPassantTargetCol(move.beginCol);
 				this.setEnPassantTargetRow(move.beginRow+1);
-				System.out.println("Rząd początkowy ruchu: " + move.beginRow);
 			}
 		} else if(movedPiece.getType() == PieceType.PAWN && movedPiece.getColor() == PieceColor.BLACK) {
 			if(move.endRow - move.beginRow == -2) {
