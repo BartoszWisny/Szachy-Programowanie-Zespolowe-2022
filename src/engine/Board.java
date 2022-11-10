@@ -306,7 +306,7 @@ public class Board {
 			this.squares[move.beginCol][move.beginRow] = movedPiece;
 			this.squares[move.endCol][move.beginRow] = move.takenPiece;
 			
-
+ 
 		} else if(move instanceof CastlingMove) {
 			
 			if(move.endCol == 2 && move.endRow == 0) {
