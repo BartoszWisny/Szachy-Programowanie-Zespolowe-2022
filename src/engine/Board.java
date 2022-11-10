@@ -100,7 +100,7 @@ public class Board {
 		if(elements[3].compareTo("-") != 0) {
 			this.enPassant = true;
 			this.enPassantTargetCol = (int)elements[3].charAt(0) - 97;
-			this.enPassantTargetRow =  Integer.parseInt("" + elements[3].charAt(1));
+			this.enPassantTargetRow =  Integer.parseInt("" + elements[3].charAt(1)) - 1;
 		}
 		
 		
@@ -168,6 +168,8 @@ public class Board {
 	
 	void makeMove(Move move) {
 		
+		Piece movedPiece = this.squares[move.beginCol][move.beginRow];
+		
 		move.setSavedEnPassant(this.enPassant);
 		move.setSavedEnPassantTargetCol(this.enPassantTargetCol);
 		move.setSavedEnPassantTargetRow(this.enPassantTargetRow);
@@ -178,7 +180,7 @@ public class Board {
 		
 		if(move instanceof EnPassantMove) {
 			
-			Piece movedPiece = this.squares[move.beginCol][move.beginRow];
+			//Piece movedPiece = this.squares[move.beginCol][move.beginRow];
 			this.squares[move.beginCol][move.beginRow] = null;
 			this.squares[move.endCol][move.endRow] = movedPiece;
 			
@@ -224,11 +226,65 @@ public class Board {
 			}
 			
 		} else {
-			Piece movedPiece = this.squares[move.beginCol][move.beginRow];
+			//Piece movedPiece = this.squares[move.beginCol][move.beginRow];
 			this.squares[move.beginCol][move.beginRow] = null;
 			move.takenPiece = this.squares[move.endCol][move.endRow];
 			this.squares[move.endCol][move.endRow] = movedPiece;
 		}
+		
+		//Ustawiamy konieczne flagi po ruchu
+		
+		//Gdy ruszaliśmy się z pól wież, ustawiamy odpowiednie flagi roszad (gdy był to pierwszy ruch tą wieżą, powoduje to zmianę, gdy był 
+		//już koleny albo ruch inną figurą to nic nie zmienia)
+		
+		if(move.beginCol == 0 && move.beginRow == 0) {
+			this.setWhiteQueensideCastling(false);
+		} else if(move.beginCol == 7 && move.beginRow == 0) {
+			this.setWhiteKingsideCastling(false);
+		} else if(move.beginCol == 0 && move.beginRow == 7) {
+			this.setBlackQueensideCastling(false);
+		} else if(move.beginCol == 7 && move.beginRow == 7) {
+			this.setBlackKingsideCastling(false);
+		}
+		
+		//Po dowolnym ruchu królem danego koloru, ustawiamy obie flagi roszad na false (roszady nie będą już możliwe)
+		
+		if(movedPiece.getType() == PieceType.KING && movedPiece.getColor() == PieceColor.WHITE) {
+			this.setWhiteKingsideCastling(false);
+			this.setWhiteQueensideCastling(false);
+		} else if(movedPiece.getType() == PieceType.KING && movedPiece.getColor() == PieceColor.BLACK) {
+			this.setBlackKingsideCastling(false);
+			this.setBlackQueensideCastling(false);		
+		}
+		
+		//Jeśli ruszaną bierką był pionek i ruszał się o dwa pola, to ustawiamy flagę en passant na a true i 
+		//wpisujemy odpowiednie pole
+		
+		if(movedPiece.getType() == PieceType.PAWN && movedPiece.getColor() == PieceColor.WHITE) {
+			if(move.endRow - move.beginRow == 2) {
+				this.setEnPassant(true);
+				this.setEnPassantTargetCol(move.beginCol);
+				this.setEnPassantTargetRow(move.beginRow+1);
+				System.out.println("Rząd początkowy ruchu: " + move.beginRow);
+			}
+		} else if(movedPiece.getType() == PieceType.PAWN && movedPiece.getColor() == PieceColor.BLACK) {
+			if(move.endRow - move.beginRow == -2) {
+				this.setEnPassant(true);
+				this.setEnPassantTargetCol(move.beginCol);
+				this.setEnPassantTargetRow(move.beginRow-1);
+			}
+		} else {
+			this.setEnPassant(false);
+		}
+		
+		//Zmieniamy aktynego gracza na przeciwnego
+		
+		if(this.activeColor == PieceColor.WHITE) {
+			this.activeColor = PieceColor.BLACK;
+		} else {
+			this.activeColor = PieceColor.WHITE;
+		}
+		
 	}
 	
 	void undoMove(Move move) {
@@ -381,7 +437,7 @@ public class Board {
 		
 		if(this.enPassant) {
 			System.out.println("no. of en passant target column: " + this.enPassantTargetCol);
-			System.out.println("no. of en passant target row: " + (this.enPassantTargetRow - 1));
+			System.out.println("no. of en passant target row: " + this.enPassantTargetRow);
 		}
 		
 		
