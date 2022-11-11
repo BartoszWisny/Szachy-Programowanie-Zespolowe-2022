@@ -1,4 +1,4 @@
-import React, {useEffect, useState, CSSProperties} from "react"
+import React, {useEffect, useState} from "react"
 import "./Play1vs1offline.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
