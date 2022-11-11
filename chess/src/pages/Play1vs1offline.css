@@ -13,6 +13,8 @@
   --gray8: #161d34;
   --radius: 0.4rem;
   --background: url("../assets/backgroundgray.jpg");
+  --lightsquare: #eed7c5;
+  --darksquare: #8c5829;
 }
 
 *,
@@ -29,7 +31,7 @@ body {
 }
 
 .play1vs1offline {
-  background: var(--background);
+  background: var(--gray4) var(--background);
   position: absolute;
   top: 0;
   left: 0;
@@ -193,4 +195,24 @@ body {
   cursor: pointer;
   z-index: 3;
   pointer-events: none;
+}
+
+.number {
+  position: absolute;
+  font-size: 1rem;
+}
+
+.letter {
+  position: absolute;
+  font-size: 1rem;
+}
+
+.loading {
+  position: absolute;
+  font-size: 2rem;
+  margin: 0;
+  position: absolute;
+  top: 67%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

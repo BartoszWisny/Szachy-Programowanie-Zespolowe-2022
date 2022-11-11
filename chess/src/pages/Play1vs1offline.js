@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, CSSProperties} from "react"
 import "./Play1vs1offline.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
@@ -10,6 +10,7 @@ import ModalResult from "../components/ModalResult"
 import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
+import {GridLoader} from "react-spinners"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -55,24 +56,41 @@ function Play1vs1offline() {
     setTheme(newTheme)
   }
 
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 1500)
+  }, [])
+
   return (
     <div className="play1vs1offline" data-theme={theme}>
-      <DndProvider backend={HTML5Backend}>
-        <Helmet>
-          <meta charSet="utf-8" />
-            <title>Play 1 vs 1 (offline)</title>
-            <link rel="canonical" href="http://mysite.com/example" />
-            <meta name="description" content="Title" />
-        </Helmet>
-        <SidebarMenu />
-        <ModalResult open={isGameOver} result={result} winner={winner}/>
-        <div className="board_container">
-          <Chessboard className="chessboard" board={board} turn={turn}/>
-        </div>
-        <SwitchThemeButton onClick={switchTheme}>
-          {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
-        </SwitchThemeButton>
-      </DndProvider>
+       <DndProvider backend={HTML5Backend}>
+          <Helmet>
+            <meta charSet="utf-8" />
+              <title>Play 1 vs 1 (offline)</title>
+              <link rel="canonical" href="http://mysite.com/example" />
+              <meta name="description" content="Title" />
+          </Helmet>
+          <SidebarMenu />
+          {loading ? 
+            <div>
+              <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={100} 
+              speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", width: "100vw", height: "100vh"}}/>
+              <h2 className="loading" style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)"}}>Loading...</h2>
+            </div> :
+            <div>
+              <ModalResult open={isGameOver} result={result} winner={winner}/>
+              <div className="board_container">
+                <Chessboard className="chessboard" board={board} turn={turn}/>
+              </div>
+            </div> }
+          <SwitchThemeButton onClick={switchTheme}>
+            {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
+          </SwitchThemeButton>
+        </DndProvider>
     </div>
   )
 }

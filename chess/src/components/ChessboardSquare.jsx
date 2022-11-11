@@ -45,7 +45,7 @@ const ChessboardSquare = ({piece, dark, position, turn}) => {
 
   return (
     <div className="chessboardsquare" ref={drop}>
-      <Square dark={dark} position={position} check={isCheck() && piece ? (piece.type === "k" && piece.color === getTurn() ? true : false) : false}>
+      <Square dark={dark} position={position} check={isCheck() && piece ? (piece.type === "k" && piece.color === getTurn() ? true : false) : false} turn={turn}>
         {promotion ? <Promotion promotion={promotion} /> 
         : piece ? (<Piece piece={piece} position={position} turn={turn} />)
         : null}
