@@ -317,16 +317,38 @@ public class MoveGenerator {
 		if(myColor == PieceColor.WHITE) {
 			
 			if( onChessboard(beginCol, beginRow+1) && freeSquare(beginCol, beginRow+1) ) {
-				possibleMoves.add(new Move(beginCol, beginRow, beginCol, beginRow+1));
+				if(beginRow+1 == 7) {
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, beginRow+1, PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, beginRow+1, PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, beginRow+1, PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, beginRow+1, PieceType.QUEEN));
+				} else {
+					possibleMoves.add(new Move(beginCol, beginRow, beginCol, beginRow+1));
+				}	
 			}
 			if( beginRow == 1 && onChessboard(beginCol, beginRow+2) && freeSquare(beginCol, beginRow+2) && freeSquare(beginCol, beginRow+1) ) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol, beginRow+2));
 			}
 			if( onChessboard(beginCol+1, beginRow+1) && !freeSquare(beginCol+1, beginRow+1) && this.board.squares[beginCol+1][beginRow+1].getColor() == oppColor ) {
-				possibleMoves.add(new Move(beginCol, beginRow, beginCol+1, beginRow+1));
+				
+				if(beginRow+1 == 7) {
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol+1, beginRow+1, PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol+1, beginRow+1, PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol+1, beginRow+1, PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol+1, beginRow+1, PieceType.QUEEN));
+				} else {
+					possibleMoves.add(new Move(beginCol, beginRow, beginCol+1, beginRow+1));
+				}	
 			}
 			if( onChessboard(beginCol-1, beginRow+1) && !freeSquare(beginCol-1, beginRow+1) && this.board.squares[beginCol-1][beginRow+1].getColor() == oppColor ) {
-				possibleMoves.add(new Move(beginCol, beginRow, beginCol-1, beginRow+1));
+				if(beginRow+1 == 7) {
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow+1, PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow+1, PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow+1, PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow+1, PieceType.QUEEN));
+				} else {
+					possibleMoves.add(new Move(beginCol, beginRow, beginCol-1, beginRow+1));
+				}
 			}
 			//Dwa ostatnie rozpatrywane ruchy obejmują bicie en passant
 			if( this.board.getEnPassant() && beginRow == 4 && this.board.getEnPassantTargetCol() == beginCol + 1) {
@@ -340,16 +362,37 @@ public class MoveGenerator {
 		} else {
 			
 			if( onChessboard(beginCol, beginRow-1) && freeSquare(beginCol, beginRow-1) ) {
-				possibleMoves.add(new Move(beginCol, beginRow, beginCol, beginRow-1));
+				if(beginRow-1 == 0) {
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, beginRow-1, PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, beginRow-1, PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, beginRow-1, PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, beginRow-1, PieceType.QUEEN));
+				} else {
+					possibleMoves.add(new Move(beginCol, beginRow, beginCol, beginRow-1));
+				}	
 			}
 			if( beginRow == 6 && onChessboard(beginCol, beginRow-2) && freeSquare(beginCol, beginRow-2) && freeSquare(beginCol, beginRow-1)) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol, beginRow-2));
 			}
 			if( onChessboard(beginCol+1, beginRow-1) && !freeSquare(beginCol+1, beginRow-1) && this.board.squares[beginCol+1][beginRow-1].getColor() == oppColor ) {
-				possibleMoves.add(new Move(beginCol, beginRow, beginCol+1, beginRow-1));
+				if(beginRow-1 == 0) {
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol+1, beginRow-1, PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol+1, beginRow-1, PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol+1, beginRow-1, PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol+1, beginRow-1, PieceType.QUEEN));
+				} else {
+					possibleMoves.add(new Move(beginCol, beginRow, beginCol+1, beginRow-1));
+				}
 			}
 			if( onChessboard(beginCol-1, beginRow-1) && !freeSquare(beginCol-1, beginRow-1) && this.board.squares[beginCol-1][beginRow-1].getColor() == oppColor ) {
-				possibleMoves.add(new Move(beginCol, beginRow, beginCol-1, beginRow-1));
+				if(beginRow-1 == 0) {
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow-1, PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow-1, PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow-1, PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow-1, PieceType.QUEEN));
+				} else {
+					possibleMoves.add(new Move(beginCol, beginRow, beginCol-1, beginRow-1));
+				}
 			}
 			//Dwa ostatnie rozpatrywane ruchy obejmują bicie en passant
 			if( this.board.getEnPassant() && beginRow == 3 && this.board.getEnPassantTargetCol() == beginCol + 1) {

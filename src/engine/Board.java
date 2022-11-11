@@ -178,7 +178,14 @@ public class Board {
 		move.setSavedBlackKingsideCastling(this.blackKingsideCastling);
 		move.setSavedBlackQueensideCastling(this.blackQueensideCastling);
 		
-		if(move instanceof EnPassantMove) {
+		if(move instanceof PromotionMove) {
+			
+			this.squares[move.beginCol][move.beginRow] = null;
+			move.takenPiece = this.squares[move.endCol][move.endRow];
+			PieceType newPieceType = ((PromotionMove)move).getNewPieceType();
+			this.squares[move.endCol][move.endRow] = new Piece(newPieceType, movedPiece.getColor());
+			
+		} else if(move instanceof EnPassantMove) {
 			
 			//Piece movedPiece = this.squares[move.beginCol][move.beginRow];
 			this.squares[move.beginCol][move.beginRow] = null;
@@ -296,7 +303,13 @@ public class Board {
 		this.setEnPassantTargetCol(move.getSavedEnPassantTargetCol());
 		this.setEnPassantTargetRow(move.getSavedEnPassantTargetRow());
 		
-		if(move instanceof EnPassantMove) {
+		if(move instanceof PromotionMove) {
+			
+			PieceColor pawnColor = this.squares[move.endCol][move.endRow].getColor();
+			this.squares[move.endCol][move.endRow] = move.takenPiece;
+			this.squares[move.beginCol][move.beginRow] = new Piece(PieceType.PAWN, pawnColor);
+			
+		} else if(move instanceof EnPassantMove) {
 			
 			//Odstawiamy pionek, który zrobił ruch na pozycję początkową
 			
@@ -409,11 +422,11 @@ public class Board {
 			System.out.println("");
 		}
 		
-		if(this.activeColor == PieceColor.WHITE) {
-			System.out.println("Active color: WHITE");
-		} else {
-			System.out.println("Active color: BLACK");
-		}
+//		if(this.activeColor == PieceColor.WHITE) {
+//			System.out.println("Active color: WHITE");
+//		} else {
+//			System.out.println("Active color: BLACK");
+//		}
 		
 		
 		

@@ -15,7 +15,7 @@ public class Test {
 		//Result 3 (position 4) = 6 OK
 		//Board board = new Board("r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1");
 		
-		//Result 4 (position 5) = 44  NIE JEST DOBRY WYNIK
+		//Result 4 (position 5) = 44  OK
 		Board board = new Board("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8");
 		
 		//Result 5 (position 6) = 46 OK
@@ -26,6 +26,8 @@ public class Test {
 		MoveGenerator mg = new MoveGenerator(board);
 		
 		Move[] moves = mg.getPossibleMoves(PieceColor.WHITE);
+		
+		board.printBoardGraphic();
 		
 		System.out.print(moves.length);
 		
