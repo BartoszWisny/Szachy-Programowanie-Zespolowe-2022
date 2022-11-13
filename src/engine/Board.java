@@ -170,6 +170,14 @@ public class Board {
 		
 		Piece movedPiece = this.squares[move.beginCol][move.beginRow];
 		
+//		if(movedPiece == null) {
+//			System.out.println(move.beginCol);
+//			System.out.println(move.beginRow);
+//			System.out.println(move.endCol);
+//			System.out.println(move.endRow);
+//			this.printBoardGraphic();
+//		}
+		
 		move.setSavedEnPassant(this.enPassant);
 		move.setSavedEnPassantTargetCol(this.enPassantTargetCol);
 		move.setSavedEnPassantTargetRow(this.enPassantTargetRow);
@@ -242,7 +250,7 @@ public class Board {
 		//Ustawiamy konieczne flagi po ruchu 
 		
 		//Gdy ruszaliśmy się z pól wież, ustawiamy odpowiednie flagi roszad (gdy był to pierwszy ruch tą wieżą, powoduje to zmianę, gdy był 
-		//już koleny albo ruch inną figurą to nic nie zmienia)
+		//już koleny albo ruch inną figurą to nic nie zmienia), ustawiamy flagi roszad również, gdy któraś z wież została zbita
 		
 		if(move.beginCol == 0 && move.beginRow == 0) {
 			this.setWhiteQueensideCastling(false);
@@ -254,8 +262,18 @@ public class Board {
 			this.setBlackKingsideCastling(false);
 		}
 		
-		//Po dowolnym ruchu królem danego koloru, ustawiamy obie flagi roszad na false (roszady nie będą już możliwe)
+		if(move.endCol == 0 && move.endRow == 0) {
+			this.setWhiteQueensideCastling(false);
+		} else if(move.endCol == 7 && move.endRow == 0) {
+			this.setWhiteKingsideCastling(false);
+		} else if(move.endCol == 0 && move.endRow == 7) {
+			this.setBlackQueensideCastling(false);
+		} else if(move.endCol == 7 && move.endRow == 7) {
+			this.setBlackKingsideCastling(false);
+		}
 		
+		//Po dowolnym ruchu królem danego koloru, ustawiamy obie flagi roszad na false (roszady nie będą już możliwe)
+				
 		if(movedPiece.getType() == PieceType.KING && movedPiece.getColor() == PieceColor.WHITE) {
 			this.setWhiteKingsideCastling(false);
 			this.setWhiteQueensideCastling(false);
@@ -264,21 +282,17 @@ public class Board {
 			this.setBlackQueensideCastling(false);		
 		}
 		
-		//Jeśli ruszaną bierką był pionek i ruszał się o dwa pola, to ustawiamy flagę en passant na a true i 
+		//Jeśli ruszaną bierką był pionek i ruszał się o dwa pola, to ustawiamy flagę en passant na true i 
 		//wpisujemy odpowiednie pole
 		
-		if(movedPiece.getType() == PieceType.PAWN && movedPiece.getColor() == PieceColor.WHITE) {
-			if(move.endRow - move.beginRow == 2) {
-				this.setEnPassant(true);
-				this.setEnPassantTargetCol(move.beginCol);
-				this.setEnPassantTargetRow(move.beginRow+1);
-			}
-		} else if(movedPiece.getType() == PieceType.PAWN && movedPiece.getColor() == PieceColor.BLACK) {
-			if(move.endRow - move.beginRow == -2) {
-				this.setEnPassant(true);
-				this.setEnPassantTargetCol(move.beginCol);
-				this.setEnPassantTargetRow(move.beginRow-1);
-			}
+		if(movedPiece.getType() == PieceType.PAWN && movedPiece.getColor() == PieceColor.WHITE && move.endRow - move.beginRow == 2) {
+			this.setEnPassant(true);
+			this.setEnPassantTargetCol(move.beginCol);
+			this.setEnPassantTargetRow(move.beginRow+1);
+		} else if(movedPiece.getType() == PieceType.PAWN && movedPiece.getColor() == PieceColor.BLACK && move.endRow - move.beginRow == -2) {
+			this.setEnPassant(true);
+			this.setEnPassantTargetCol(move.beginCol);
+			this.setEnPassantTargetRow(move.beginRow-1);
 		} else {
 			this.setEnPassant(false);
 		}

@@ -407,7 +407,7 @@ public class MoveGenerator {
 				possibleMoves.add(new EnPassantMove(beginCol, beginRow, beginCol+1, beginRow-1));
 			}
 			if( this.board.getEnPassant() && beginRow == 3 && this.board.getEnPassantTargetCol() == beginCol - 1) {
-				possibleMoves.add(new EnPassantMove(beginCol, beginRow, beginCol-1, beginRow+1));
+				possibleMoves.add(new EnPassantMove(beginCol, beginRow, beginCol-1, beginRow-1));
 			}
 			
 		}
@@ -503,28 +503,28 @@ public class MoveGenerator {
 		
 		if(myColor == PieceColor.WHITE) {
 			
-			if(board.isWhiteKingsideCastling() && freeSquare(5, 0) && freeSquare(6, 0) ) {
+			if(board.isWhiteKingsideCastling() && board.squares[7][0].getColor() == PieceColor.WHITE && board.squares[7][0].getType() == PieceType.ROOK && freeSquare(5, 0) && freeSquare(6, 0) ) {
 				if(!isSquareAttacked(PieceColor.BLACK, 4, 0) && !isSquareAttacked(PieceColor.BLACK, 5, 0) && !isSquareAttacked(PieceColor.BLACK, 6, 0)) {
 					possibleMoves.add(new CastlingMove(4, 0, 6, 0));
 				}
 			}
 			
-			if(board.isWhiteQueensideCastling()  && freeSquare(1, 0) && freeSquare(2, 0) && freeSquare(3, 0)) {
-				if(!isSquareAttacked(PieceColor.BLACK, 4, 0) && !isSquareAttacked(PieceColor.BLACK, 1, 0) && !isSquareAttacked(PieceColor.BLACK, 2, 0) && !isSquareAttacked(PieceColor.BLACK, 3, 0)) {
+			if(board.isWhiteQueensideCastling() && board.squares[0][0].getColor() == PieceColor.WHITE && board.squares[0][0].getType() == PieceType.ROOK  && freeSquare(1, 0) && freeSquare(2, 0) && freeSquare(3, 0)) {
+				if(!isSquareAttacked(PieceColor.BLACK, 4, 0) &&  !isSquareAttacked(PieceColor.BLACK, 2, 0) && !isSquareAttacked(PieceColor.BLACK, 3, 0)) {
 					possibleMoves.add(new CastlingMove(4, 0, 2, 0));
 				}
 			}
 			
 		} else if(myColor == PieceColor.BLACK) {
 			
-			if(board.isBlackKingsideCastling() && freeSquare(5, 7) && freeSquare(6, 7)) {
+			if(board.isBlackKingsideCastling() && board.squares[7][7].getColor() == PieceColor.BLACK && board.squares[7][7].getType() == PieceType.ROOK && freeSquare(5, 7) && freeSquare(6, 7)) {
 				if(!isSquareAttacked(PieceColor.WHITE, 4, 7) && !isSquareAttacked(PieceColor.WHITE, 5, 7) && !isSquareAttacked(PieceColor.WHITE, 6, 7)) {
 					possibleMoves.add(new CastlingMove(4, 7, 6, 7));
 				}	
 			}
 			
-			if(board.isBlackQueensideCastling() && freeSquare(1, 7) && freeSquare(2, 7) && freeSquare(3, 7) ) {
-				if(!isSquareAttacked(PieceColor.WHITE, 4, 7) && !isSquareAttacked(PieceColor.WHITE, 1, 7) && !isSquareAttacked(PieceColor.WHITE, 2, 7) && !isSquareAttacked(PieceColor.WHITE, 3, 7)) {
+			if(board.isBlackQueensideCastling() && board.squares[0][7].getColor() == PieceColor.BLACK && board.squares[0][7].getType() == PieceType.ROOK && freeSquare(1, 7) && freeSquare(2, 7) && freeSquare(3, 7) ) {
+				if(!isSquareAttacked(PieceColor.WHITE, 4, 7) &&  !isSquareAttacked(PieceColor.WHITE, 2, 7) && !isSquareAttacked(PieceColor.WHITE, 3, 7)) {
 					possibleMoves.add(new CastlingMove(4, 7, 2, 7));
 				}
 			}
