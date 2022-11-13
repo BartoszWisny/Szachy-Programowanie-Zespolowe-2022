@@ -43,6 +43,7 @@ video {
   top: 0;
   bottom: 0;
   z-index: -1;
+  pointer-events: none;
 }
 
 .tiles {
@@ -72,6 +73,7 @@ video {
   transition: transform 200ms ease-in;
   background-color: rgba(255, 255, 255, 0.85);
   text-align: center;
+  user-select: none;
 }
 
 .tile_blurhash {
@@ -81,6 +83,7 @@ video {
   height: 10rem;
   width: 100%;
   object-fit: cover;
+  pointer-events: none;
 }
 
 .tile_image {
@@ -90,15 +93,18 @@ video {
   height: 10rem;
   width: 100%;
   object-fit: cover;
+  pointer-events: none;
 }
 
 .tile_title {
   margin-top: 10.5rem;
   padding: 0rem;
+  user-select: none;
 }
 
 .tile_description {
   padding: 0rem;
+  user-select: none;
 }
 
 .tile_button {
@@ -112,6 +118,7 @@ video {
   border-radius: var(--radius);
   cursor: pointer;
   transition: background 200ms ease-in, color 200ms ease-in;
+  user-select: none;
 }
 
 .tile:hover {

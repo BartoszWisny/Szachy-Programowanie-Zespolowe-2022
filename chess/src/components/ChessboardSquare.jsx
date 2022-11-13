@@ -29,7 +29,7 @@ const ChessboardSquare = ({piece, dark, position, turn}) => {
       const [fromPosition, type, color] = item.id.split('_')
       const move = getMove(fromPosition, position)
       const captured = move.map((i) => (i.captured))
-      fromPosition !== position && type && color === turn ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
+      move.length !== 0 && type && color === turn ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
       handleMove(fromPosition, position)
     }
   })
@@ -45,7 +45,8 @@ const ChessboardSquare = ({piece, dark, position, turn}) => {
 
   return (
     <div className="chessboardsquare" ref={drop}>
-      <Square dark={dark} position={position} check={isCheck() && piece ? (piece.type === "k" && piece.color === getTurn() ? true : false) : false} turn={turn}>
+      <Square dark={dark} position={position} check={isCheck() && piece ? (piece.type === "k" 
+      && piece.color === getTurn() ? true : false) : false} turn={turn}>
         {promotion ? <Promotion promotion={promotion} /> 
         : piece ? (<Piece piece={piece} position={position} turn={turn} />)
         : null}

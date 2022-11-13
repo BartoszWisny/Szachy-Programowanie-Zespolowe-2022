@@ -91,7 +91,7 @@ const SidebarMenu = () => {
   return (
     <div className="sidebar_menu">
       <Nav className="nav">
-        <NavIcon to="#" className="nav_icon">
+        <NavIcon to="#" className="nav_icon" draggable="false">
           <FaIcons.FaBars onClick={showSidebar}/>
         </NavIcon>
         <HomeButton onClick={homeRoute}>
@@ -103,7 +103,7 @@ const SidebarMenu = () => {
       </Nav>
       <SidebarNav sidebar={sidebar} className="sidebar_nav">
         <SidebarWrap className="sidebar_wrap">
-          <NavIcon to="#">
+          <NavIcon to="#" draggable="false">
             <IoIcons.IoIosCloseCircle onClick={showSidebar} />
           </NavIcon>
           {SidebarData.map((item, index) => {
