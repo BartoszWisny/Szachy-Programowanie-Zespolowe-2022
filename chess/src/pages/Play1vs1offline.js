@@ -62,7 +62,7 @@ function Play1vs1offline() {
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
-    }, 1500)
+    }, 2000)
   }, [])
 
   return (
@@ -78,9 +78,10 @@ function Play1vs1offline() {
           {loading ? 
             <div>
               <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={100} 
-              speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", width: "100vw", height: "100vh"}}/>
+              speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", width: "100vw", height: "100vh", 
+              userSelect: "none"}}/>
               <h2 className="loading" style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)"}}>Loading...</h2>
-            </div> :
+          </div> :
             <div>
               <ModalResult open={isGameOver} result={result} winner={winner}/>
               <div className="board_container">

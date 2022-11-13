@@ -13,6 +13,7 @@ const SidebarLink = styled(Link)`
   height: 2.2rem;
   text-decoration: none;
   font-size: 1rem;
+  user-drag: none;
 
   &:hover {
     background-color: var(--secondary);
@@ -39,6 +40,7 @@ const DropdownLink = styled(Link)`
   height: 2.2rem;
   text-decoration: none;
   font-size: 0.9rem;
+  user-drag: none;
 
   &:hover {
     background-color: var(--secondary);
