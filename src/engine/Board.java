@@ -244,6 +244,10 @@ public class Board {
 			//Piece movedPiece = this.squares[move.beginCol][move.beginRow];
 			this.squares[move.beginCol][move.beginRow] = null;
 			move.takenPiece = this.squares[move.endCol][move.endRow];
+//			if(move.takenPiece != null && move.takenPiece.getType() == PieceType.KING) {
+//				System.out.println("Captured a king");
+//				System.exit(-1);
+//			}
 			this.squares[move.endCol][move.endRow] = movedPiece;
 		}
 		

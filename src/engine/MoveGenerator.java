@@ -420,7 +420,7 @@ public class MoveGenerator {
 		
 		if(myColor == PieceColor.WHITE) {
 			
-			if( onChessboard(beginCol+1, beginRow+1) && !freeSquare(beginCol+1, beginRow+1) && this.board.squares[beginCol+1][beginRow+1].getColor() == oppColor ) {
+			if( onChessboard(beginCol+1, beginRow+1)) {
 				
 				if(beginRow+1 == 7) {
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol+1, beginRow+1, PieceType.ROOK));
@@ -431,7 +431,7 @@ public class MoveGenerator {
 					possibleMoves.add(new Move(beginCol, beginRow, beginCol+1, beginRow+1));
 				}	
 			}
-			if( onChessboard(beginCol-1, beginRow+1) && !freeSquare(beginCol-1, beginRow+1) && this.board.squares[beginCol-1][beginRow+1].getColor() == oppColor ) {
+			if( onChessboard(beginCol-1, beginRow+1)) {
 				if(beginRow+1 == 7) {
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow+1, PieceType.ROOK));
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow+1, PieceType.KNIGHT));
@@ -444,7 +444,7 @@ public class MoveGenerator {
 			
 		} else {
 			
-			if( onChessboard(beginCol+1, beginRow-1) && !freeSquare(beginCol+1, beginRow-1) && this.board.squares[beginCol+1][beginRow-1].getColor() == oppColor ) {
+			if( onChessboard(beginCol+1, beginRow-1)) {
 				if(beginRow-1 == 0) {
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol+1, beginRow-1, PieceType.ROOK));
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol+1, beginRow-1, PieceType.KNIGHT));
@@ -454,7 +454,7 @@ public class MoveGenerator {
 					possibleMoves.add(new Move(beginCol, beginRow, beginCol+1, beginRow-1));
 				}
 			}
-			if( onChessboard(beginCol-1, beginRow-1) && !freeSquare(beginCol-1, beginRow-1) && this.board.squares[beginCol-1][beginRow-1].getColor() == oppColor ) {
+			if( onChessboard(beginCol-1, beginRow-1)) {
 				if(beginRow-1 == 0) {
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow-1, PieceType.ROOK));
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol-1, beginRow-1, PieceType.KNIGHT));
