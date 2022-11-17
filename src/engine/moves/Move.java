@@ -1,14 +1,16 @@
-package engine;
+package engine.moves;
+
+import engine.board_and_pieces.Piece;
 
 public class Move {
 	
-	int beginCol;
-	int beginRow;
+	public int beginCol;
+	public int beginRow;
 	
-	int endCol;
-	int endRow;
+	public int endCol;
+	public int endRow;
 	
-	Piece takenPiece;
+	public Piece takenPiece;
 	
 	private boolean savedWhiteKingsideCastling;
 	private boolean savedWhiteQueensideCastling;

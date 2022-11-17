@@ -1,4 +1,4 @@
-package engine;
+package engine.board_and_pieces;
 
 public class Piece {
 	

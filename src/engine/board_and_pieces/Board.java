@@ -1,10 +1,15 @@
-package engine;
+package engine.board_and_pieces;
+
+import engine.moves.CastlingMove;
+import engine.moves.EnPassantMove;
+import engine.moves.Move;
+import engine.moves.PromotionMove;
 
 public class Board {
 	
 	public Piece[][] squares;
 	
-	private PieceColor activeColor;
+	public PieceColor activeColor;
 
 	private boolean whiteKingsideCastling;
 	private boolean whiteQueensideCastling;
@@ -166,7 +171,7 @@ public class Board {
 	}
 	
 	
-	void makeMove(Move move) {
+	public void makeMove(Move move) {
 		
 		Piece movedPiece = this.squares[move.beginCol][move.beginRow];
 		
@@ -311,7 +316,7 @@ public class Board {
 		
 	}
 	
-	void undoMove(Move move) {
+	public void undoMove(Move move) {
 		
 		this.setWhiteKingsideCastling(move.isSavedWhiteKingsideCastling());
 		this.setWhiteQueensideCastling(move.isSavedWhiteQueensideCastling());

@@ -1,4 +1,4 @@
-package engine;
+package engine.moves;
 
 public class CastlingMove extends Move {
 

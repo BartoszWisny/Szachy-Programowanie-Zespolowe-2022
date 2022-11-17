@@ -1,4 +1,6 @@
-package engine;
+package engine.moves;
+
+import engine.board_and_pieces.PieceType;
 
 public class PromotionMove extends Move {
 

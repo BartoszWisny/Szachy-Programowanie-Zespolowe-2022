@@ -1,4 +1,8 @@
-package engine;
+package engine.moves;
+
+import engine.board_and_pieces.Board;
+import engine.board_and_pieces.PieceColor;
+import engine.board_and_pieces.PieceType;
 
 import java.util.ArrayList;
 
