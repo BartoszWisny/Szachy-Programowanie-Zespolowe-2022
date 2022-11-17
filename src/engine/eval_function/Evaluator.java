@@ -7,7 +7,7 @@ import engine.board_and_pieces.PieceType;
 
 public class Evaluator {
 
-    public static double evaluate(Board board) {
+    public static int evaluate(Board board) {
         int evaluation = 0;
         Piece currentPiece;
 
@@ -16,8 +16,7 @@ public class Evaluator {
 
                 currentPiece = board.squares[row][column];
                 if (!(currentPiece == null)) {
-                    evaluation += calcPieceValue(currentPiece, row, column) *
-                            board.activeColor.getColorValue();
+                    evaluation += calcPieceValue(currentPiece, row, column);
                 }
             }
         }
