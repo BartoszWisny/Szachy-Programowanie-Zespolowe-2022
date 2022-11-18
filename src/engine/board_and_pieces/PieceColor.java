@@ -4,6 +4,7 @@ public enum PieceColor {
 	WHITE(1),
 	BLACK(-1);
 
+	// color characteristic (black (-) evaluation, white (+) evaluation)
 	final private int colorValue;
 
 	PieceColor(int colorValue) {

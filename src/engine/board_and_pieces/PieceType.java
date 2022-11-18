@@ -2,13 +2,16 @@ package engine.board_and_pieces;
 
 public enum PieceType {
 	PAWN(100),
-	KNIGHT(300),
+	KNIGHT(320),
 	BISHOP(330),
 	ROOK(500),
-	QUEEN(1000),
-	KING(10000);
+	QUEEN(900),
+	KING(20000);
 
+	// piece value in centi-pawns
 	final private int typeValue;
+
+
 	PieceType(int typeValue) {
 		this.typeValue = typeValue;
 	}

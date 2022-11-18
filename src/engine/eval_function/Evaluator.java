@@ -11,12 +11,12 @@ public class Evaluator {
         int evaluation = 0;
         Piece currentPiece;
 
-        for (int row = 0; row < board.squares.length; row ++) {
-            for (int column = 0; column < board.squares[row].length; column++) {
+        for (int row = 0; row < ConstValues.BOARD_ROWS; row ++) {
+            for (int column = 0; column < ConstValues.BOARD_COLS; column++) {
 
                 currentPiece = board.squares[row][column];
                 if (!(currentPiece == null)) {
-                    evaluation += calcPieceValue(currentPiece, row, column);
+                    evaluation += calcTotalPieceValue(currentPiece, row, column);
                 }
             }
         }
@@ -25,24 +25,19 @@ public class Evaluator {
     }
 
 
-    private static int calcPieceValue(Piece piece, int row, int column) {
+    private static int calcTotalPieceValue(Piece piece, int row, int column) {
+        return piece.getValue() + positionImpact(piece, row, column);
+    }
+
+
+    private static int positionImpact(Piece piece, int row, int column) {
         if (piece.getColor() == PieceColor.BLACK) {
             row = (ConstValues.BOARD_ROWS - 1) - row;
         }
 
-        int pieceValue;
-        pieceValue = piece.getColor().getColorValue() *
-                     piece.getType().getTypeValue() +
-                     positionImpact(piece.getType(), row, column);
-
-        return pieceValue;
-    }
-
-
-    private static int positionImpact(PieceType type, int row, int column) {
         int positionAspectVal = 0;
 
-        switch (type) {
+        switch (piece.getType()) {
             case PAWN   -> positionAspectVal = EvalTables.PAWN_POSITION_VALUE_TABLE[row][column];
             case KNIGHT -> positionAspectVal = EvalTables.KNIGHT_POSITION_VALUE_TABLE[row][column];
             case BISHOP -> positionAspectVal = EvalTables.BISHOP_POSITION_VALUE_TABLE[row][column];
@@ -51,6 +46,6 @@ public class Evaluator {
             case KING   -> positionAspectVal = EvalTables.KING_POSITION_VALUE_TABLE[row][column];
         }
 
-        return positionAspectVal;
+        return positionAspectVal * piece.getColor().getColorValue();
     }
 }
