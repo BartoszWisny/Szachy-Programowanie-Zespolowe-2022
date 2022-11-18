@@ -14,29 +14,30 @@ public class Engine {
     }
 
 
-    public int findBestMove(int depth) {
-        int eval = negatedMinMax(board, depth);
-        return eval;
+    public EngineEval findBestMove(int depth) {
+        return negatedMinMax(board, depth);
     }
 
 
-    int negatedMinMax(Board board, int depth) {
-        if (depth == 0) return Evaluator.evaluate(board);
+    EngineEval negatedMinMax(Board board, int depth) {
+        if (depth == 0) return new EngineEval(null, Evaluator.evaluate(board));
         int max = Integer.MIN_VALUE;
+
+        EngineEval result;
+        Move outMove = null;
         int score;
 
         Move[] moves = MoveGenerator.getPossibleMoves(board);
         for (Move move : moves) {
-            score = -negatedMinMax(
-                     MoveHandler.makeMove(board, move),
-                    (depth - 1)
-            );
+            result = negatedMinMax(MoveHandler.makeMove(board, move), (depth - 1));
+            score = -result.positionEval();
 
             if (score > max) {
                 max = score;
+                outMove = move;
             }
         }
-        return  max;
+        return  new EngineEval(outMove, max);
     }
 
     private void mapPossibilities() {}
