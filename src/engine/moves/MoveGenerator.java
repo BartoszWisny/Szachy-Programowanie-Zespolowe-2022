@@ -15,7 +15,6 @@ public class MoveGenerator {
 
 		for (int i=0; i<=7; i++) {
 			for (int j=0; j<=7; j++) {
-
 				if (hasColor(board, i, j, color)) {
 					if (board.squares[i][j].getType() == PieceType.ROOK) {
 						addRookMoves(board, i, j, color, possibleMoves);
@@ -78,7 +77,7 @@ public class MoveGenerator {
 	
 	public static Move[] getAttackingMoves(Board board, PieceColor color) {
 		ArrayList<Move> possibleMoves = new ArrayList<Move>();
-		
+
 		for (int i=0; i<=7; i++) {
 			for (int j=0; j<=7; j++) {
 				if (hasColor(board, i, j, color)) {

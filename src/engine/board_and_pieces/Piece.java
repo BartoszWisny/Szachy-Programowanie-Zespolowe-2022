@@ -39,7 +39,6 @@ public class Piece {
 
 	public void printPiece() {
 		if (this.color == PieceColor.WHITE) {
-
 			if(this.type == PieceType.PAWN) {
 				System.out.print("P");
 			} else if (this.type == PieceType.ROOK) {
@@ -53,9 +52,7 @@ public class Piece {
 			} else if (this.type == PieceType.KING) {
 				System.out.print("K");
 			}
-
 		} else {
-
 			if(this.type == PieceType.PAWN) {
 				System.out.print("p");
 			} else if (this.type == PieceType.ROOK) {
@@ -69,13 +66,11 @@ public class Piece {
 			} else if (this.type == PieceType.KING) {
 				System.out.print("k");
 			}
-
 		}
 	}
 
 	public void printPieceGraphic() {
 		if(this.color == PieceColor.WHITE) {
-
 			if(this.type == PieceType.PAWN) {
 				System.out.print("♙");
 			} else if (this.type == PieceType.ROOK) {
@@ -89,9 +84,7 @@ public class Piece {
 			} else if (this.type == PieceType.KING) {
 				System.out.print("♔");
 			}
-
 		} else {
-
 			if(this.type == PieceType.PAWN) {
 				System.out.print("♟");
 			} else if (this.type == PieceType.ROOK) {
@@ -105,8 +98,6 @@ public class Piece {
 			} else if (this.type == PieceType.KING) {
 				System.out.print("♚");
 			}
-
 		}
 	}
-
 }

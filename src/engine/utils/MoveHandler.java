@@ -130,6 +130,7 @@ public class MoveHandler {
         updatedBoard.setWhiteQueensideCastling(move.isSavedWhiteQueensideCastling());
         updatedBoard.setBlackKingsideCastling(move.isSavedBlackKingsideCastling());
         updatedBoard.setBlackQueensideCastling(move.isSavedBlackQueensideCastling());
+
         updatedBoard.setEnPassant(move.isSavedEnPassant());
         updatedBoard.setEnPassantTargetCol(move.getSavedEnPassantTargetCol());
         updatedBoard.setEnPassantTargetRow(move.getSavedEnPassantTargetRow());
