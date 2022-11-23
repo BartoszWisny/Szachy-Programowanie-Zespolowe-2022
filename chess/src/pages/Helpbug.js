@@ -1,10 +1,12 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import "./Helpbug.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
+import BugTiles from "../components/BugTiles"
 import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
+import {GridLoader} from "react-spinners"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -29,6 +31,15 @@ function Helpbug() {
     setTheme(newTheme)
   }
 
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }, [])
+
   return (
     <div className="helpbug" data-theme={theme}>
       <Helmet>
@@ -38,6 +49,14 @@ function Helpbug() {
           <meta name="description" content="Title" />
       </Helmet>
       <SidebarMenu />
+      {loading ? 
+        <div>
+          <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={100} 
+          speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", width: "100vw", height: "100vh", 
+          userSelect: "none"}}/>
+          <h2 className="loading" style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)"}}>Loading...</h2>
+        </div> :
+        <BugTiles /> }
       <SwitchThemeButton onClick={switchTheme}>
         {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
       </SwitchThemeButton>

@@ -1,10 +1,12 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import "./Helpfeedback.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
+import FeedbackTiles from "../components/FeedbackTiles"
 import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
+import {GridLoader} from "react-spinners"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -28,6 +30,15 @@ function Helpfeedback() {
     const newTheme = theme === "lightmode" ? "darkmode" : "lightmode"
     setTheme(newTheme)
   }
+
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }, [])
   
   return (
     <div className="helpfeedback" data-theme={theme}>
@@ -38,6 +49,14 @@ function Helpfeedback() {
           <meta name="description" content="Title" />
       </Helmet>
       <SidebarMenu />
+      {loading ? 
+        <div>
+          <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={100} 
+          speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", width: "100vw", height: "100vh", 
+          userSelect: "none"}}/>
+          <h2 className="loading" style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)"}}>Loading...</h2>
+        </div> :
+        <FeedbackTiles /> }
       <SwitchThemeButton onClick={switchTheme}>
         {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
       </SwitchThemeButton>

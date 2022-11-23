@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import * as FaIcons from "react-icons/fa"
 import * as MdIcons from "react-icons/md"
 import styled from "styled-components"
@@ -25,10 +25,22 @@ function LoginTile(props) {
     navigate(props.path);
   }; */
 
+  const [email, setEmail] = useState("")
+
+  const handleEmailChange = e => {
+    setEmail(e.target.value)
+  }
+
+  const [password, setPassword] = useState("")
+
+  const handlePasswordChange = e => {
+    setPassword(e.target.value)
+  }
+
   return(
     <div className="logintile">
-      <Input type="text" placeholder="Email"/>
-      <Input type="password" placeholder="Password"/>
+      <Input type="text" placeholder="Email" value={email} onChange={handleEmailChange}/>
+      <Input type="password" placeholder="Password" value={password} onChange={handlePasswordChange}/>
       <button className="logintile_button1" /*onClick={route}*/>
         <LoginIcon>
           <MdIcons.MdEmail />
