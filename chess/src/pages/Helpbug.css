@@ -47,3 +47,66 @@ body {
 [data-theme="darkmode"] {
   --background: url("../assets/backgrounddarkgray.jpg");
 }
+
+.bugtiles {
+  display: grid;
+  position: relative;
+  margin-top: 5rem;
+  margin-left: 4rem;
+  margin-right: 4rem;
+  margin-bottom: 4rem;
+  grid-template-columns: repeat(auto-fit, minmax(35rem, 45rem));
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem 1.5rem;
+  font-size: 1rem;
+}
+
+.bugtile {
+  height: 30rem; /* adjust height to the size of the smartphone screen */
+  width: 45rem; /* adjust for mobile screen */
+  overflow: hidden;
+  box-shadow: 0 0 1rem var(--gray6);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  cursor: pointer;
+  transition: transform 200ms ease-in;
+  background-color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  user-select: none;
+}
+
+.bugtile_title {
+  padding: 0rem;
+  pointer-events: none;
+}
+
+.bugtile_description {
+  padding: 0rem;
+  pointer-events: none;
+}
+
+.bugtile_button {
+  padding: 1rem;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1rem;
+  border: 0.1rem solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  user-select: none;
+}
+
+.bugtile:hover {
+  transform: scale(1.04);
+}
+
+.bugtile_button:hover {
+  background: var(--primary);
+  color: white;
+}
