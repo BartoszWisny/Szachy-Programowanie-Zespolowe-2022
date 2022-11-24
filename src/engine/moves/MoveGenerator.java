@@ -6,11 +6,13 @@ import engine.board_and_pieces.PieceType;
 import engine.utils.MoveHandler;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MoveGenerator {
 	
-	public static Move[] getPossibleMoves(Board board) {
-		ArrayList<Move> possibleMoves = new ArrayList<Move>();
+	public static List<Move> getPossibleMoves(Board board) {
+		LinkedList<Move> possibleMoves = new LinkedList<>();
 		PieceColor color = board.activeColor;
 
 		for (int i=0; i<=7; i++) {
@@ -32,20 +34,12 @@ public class MoveGenerator {
 				}
 			}
 		}
-		
-		//Tu przeglądamy wygenerowane ruchy i  odrzucamy te, które pozostawiają króla w szachu
-		
+
 		int kingCol = 0, kingRow = 0;
-		//W tej liście będziemy przetrzymywać wszystkie ruchy, które mają zostać usunięte (bo pozostawiają króla w szachu)
-		ArrayList<Move> improperMoves = new ArrayList<>();
-		
+		LinkedList<Move> improperMoves = new LinkedList<>();
 		for (Move m : possibleMoves) {
-			
-			//1. Robimy ruch
-			
 			board = MoveHandler.makeMove(board, m);
 
-			//2. Znajdujemy króla na szachownicy po wykoaniu ruchu
 			for (int i=0; i<=7; i++) {
 				for (int j=0; j<=7; j++) {
 					if (!freeSquare(board, i, j) && board.squares[i][j].getColor() == color && board.squares[i][j].getType() == PieceType.KING) {
@@ -54,27 +48,21 @@ public class MoveGenerator {
 					}
 				}
 			}
-			//3. Sprawdzamy, czy pole z królem jest atakowane przez bierki przeciwnego koloru (jeśli tak - cofamy ruch)
 			if (isSquareAttacked(board, opponentColor(color), kingCol, kingRow)) {
 				improperMoves.add(m);
 			}
-			//4. Cofamy ruch wykonany w punkcie 1
 			board = MoveHandler.undoMove(board, m);
-
 		}
 		
 		possibleMoves.removeAll(improperMoves);
-		
-		Move arr[] = new Move[possibleMoves.size()];
-		return possibleMoves.toArray(arr);
+		return possibleMoves;
 	}
 	
 	/**
 	 * Generates all possible moves, even if the king is checked by opponent's pieces afterward.
 	 */
-	
-	public static Move[] getPseudoLegalMoves(Board board) {
-		ArrayList<Move> possibleMoves = new ArrayList<Move>();
+	public static List<Move> getPseudoLegalMoves(Board board) {
+		List<Move> possibleMoves = new LinkedList<>();
 		PieceColor color = board.activeColor;
 
 		for (int i=0; i<=7; i++) {
@@ -96,14 +84,11 @@ public class MoveGenerator {
 				}
 			}
 		}
-		
-		Move arr[] = new Move[possibleMoves.size()];
-		return possibleMoves.toArray(arr);
+		return possibleMoves;
 	}
-	
-	
-	public static Move[] getAttackingMoves(Board board, PieceColor color) {
-		ArrayList<Move> possibleMoves = new ArrayList<Move>();
+
+	public static List<Move> getAttackingMoves(Board board, PieceColor color) {
+		LinkedList<Move> possibleMoves = new LinkedList<>();
 		
 		for (int i=0; i<=7; i++) {
 			for (int j=0; j<=7; j++) {
@@ -124,16 +109,14 @@ public class MoveGenerator {
 				}
 			}
 		}
-
-		Move arr[] = new Move[possibleMoves.size()];
-		return possibleMoves.toArray(arr);
+		return possibleMoves;
 	}
-	
+
 	/**
 	 * Generates all possible moves that involve capturing opponent's pieces.
 	 */
-	public static Move[] getCaptureMoves(Board board) {
-		ArrayList<Move> possibleMoves = new ArrayList<Move>();
+	public static List<Move> getCaptureMoves(Board board) {
+		LinkedList<Move> possibleMoves = new LinkedList<>();
 		PieceColor color = board.activeColor;
 		
 		for (int i=0; i<=7; i++) {
@@ -155,15 +138,16 @@ public class MoveGenerator {
 				}
 			}
 		}
-
-		Move arr[] = new Move[possibleMoves.size()];
-		return possibleMoves.toArray(arr);
+		return possibleMoves;
 	}
-	
-	
-	//Metoda sprawdza, czy przy obecnym ustawieniu szachownicy dane pole jest atakowane przez bierki danego koloru
+
+
+
+	/**
+	 * Checks if given square is attacked by pieces of given color
+	 */
 	private static boolean isSquareAttacked(Board board, PieceColor color,  int col, int row) {
-		Move[] attackingMoves = getAttackingMoves(board, color);
+		List<Move> attackingMoves = getAttackingMoves(board, color);
 		
 		for (Move m : attackingMoves) {
 			if (m.endCol == col && m.endRow == row) {
@@ -172,7 +156,10 @@ public class MoveGenerator {
 		}
 		return false;
 	}
-	
+
+	/**
+	 * returns an opposite color to the one we provided
+	 */
 	private static PieceColor opponentColor(PieceColor color) {
 		if (color == PieceColor.BLACK) {
 			return PieceColor.WHITE;
@@ -180,15 +167,24 @@ public class MoveGenerator {
 			return PieceColor.BLACK;
 		}
 	}
-	
+
+	/**
+	 * checks if position is still on the chessboard
+	 */
 	private static boolean onChessboard(int col, int row) {
 		return (col >= 0 && col <= 7 && row >= 0 && row <= 7);
 	}
-	
+
+	/**
+	 * checks if given board field is free (there is no piece here)
+	 */
 	private static boolean freeSquare(Board board, int col, int row) {
 		return (board.squares[col][row] == null);
 	}
-	
+
+	/**
+	 * checks if piece on given square has expected color
+	 */
 	private static boolean hasColor(Board board, int col, int row, PieceColor color) {
 		if (board.squares[col][row] == null) {
 			return false;
@@ -196,18 +192,22 @@ public class MoveGenerator {
 			return (board.squares[col][row].getColor() == color);
 		}
 	}
-	
+
+	/**
+	 * checks if piece on given square has expected color or is free (if so then returns true)
+	 */
 	private static boolean freeOrColor(Board board, int col, int row, PieceColor color) {
 		if (board.squares[col][row] == null) {
 			return true;
 		} else if (board.squares[col][row].getColor() == color) {
 			return true;
-		} {
-			return false;
 		}
+		return false;
 	}
-	
-	private static void addRookMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+
+
+
+	private static void addRookMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		PieceColor oppColor = opponentColor(myColor);
 			
 		int i = 1;
@@ -215,7 +215,6 @@ public class MoveGenerator {
 			possibleMoves.add(new Move(beginCol, beginRow, (beginCol + i), beginRow));
 			i++;
 		}
-		
 		if (onChessboard((beginCol + i), beginRow)) {
 			if (board.squares[(beginCol + i)][beginRow].getColor() == oppColor) {
 				possibleMoves.add(new Move(beginCol, beginRow, (beginCol + i), beginRow));
@@ -256,7 +255,7 @@ public class MoveGenerator {
 		}
 	}
 
-	private static void addBishopMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addBishopMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		PieceColor oppColor = opponentColor(myColor);
 			
 		int i = 1;
@@ -304,12 +303,12 @@ public class MoveGenerator {
 		}
 	}
 
-	private static void addQueenMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addQueenMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		addRookMoves(board, beginCol, beginRow, myColor, possibleMoves);
 		addBishopMoves(board, beginCol, beginRow, myColor, possibleMoves);
 	}
 	
-	private static void addKnightMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addKnightMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		PieceColor oppColor = opponentColor(myColor);
 		
 		if (onChessboard((beginCol + 2), (beginRow + 1)) && freeOrColor(board, (beginCol + 2), (beginRow + 1), oppColor)) {
@@ -338,7 +337,7 @@ public class MoveGenerator {
 		}
 	}
 	
-	private static void addPawnMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addPawnMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		PieceColor oppColor = opponentColor(myColor);
 		
 		if (myColor == PieceColor.WHITE) {
@@ -386,10 +385,10 @@ public class MoveGenerator {
 		else {
 			if (onChessboard(beginCol, (beginRow - 1)) && freeSquare(board, beginCol, (beginRow - 1))) {
 				if ((beginRow - 1) == 0) {
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, (beginRow - 1), PieceType.ROOK));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, (beginRow - 1), PieceType.KNIGHT));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, (beginRow - 1), PieceType.BISHOP));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, (beginRow - 1), PieceType.QUEEN));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, (0), PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, (0), PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, (0), PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, beginCol, (0), PieceType.QUEEN));
 				} else {
 					possibleMoves.add(new Move(beginCol, beginRow, beginCol, (beginRow - 1)));
 				}	
@@ -399,20 +398,20 @@ public class MoveGenerator {
 			}
 			if (onChessboard((beginCol + 1), (beginRow - 1)) && !freeSquare(board, (beginCol + 1), (beginRow - 1)) && board.squares[(beginCol + 1)][(beginRow - 1)].getColor() == oppColor) {
 				if ((beginRow - 1) == 0) {
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.ROOK));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.KNIGHT));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.BISHOP));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.QUEEN));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.QUEEN));
 				} else {
 					possibleMoves.add(new Move(beginCol, beginRow, (beginCol + 1), (beginRow - 1)));
 				}
 			}
 			if (onChessboard((beginCol - 1), (beginRow - 1)) && !freeSquare(board, (beginCol - 1), (beginRow - 1)) && board.squares[(beginCol - 1)][(beginRow - 1)].getColor() == oppColor) {
 				if ((beginRow - 1) == 0) {
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.ROOK));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.KNIGHT));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.BISHOP));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.QUEEN));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.QUEEN));
 				} else {
 					possibleMoves.add(new Move(beginCol, beginRow, (beginCol - 1), (beginRow - 1)));
 				}
@@ -427,8 +426,7 @@ public class MoveGenerator {
 		}
 	}
 	
-	private static void addPawnAttackingMoves(int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
-		PieceColor oppColor = opponentColor(myColor);
+	private static void addPawnAttackingMoves(int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		
 		if (myColor == PieceColor.WHITE) {
 			if (onChessboard((beginCol + 1), (beginRow + 1))) {
@@ -455,20 +453,20 @@ public class MoveGenerator {
 		else {
 			if (onChessboard((beginCol + 1), (beginRow - 1))) {
 				if (beginRow - 1 == 0) {
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.ROOK));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.KNIGHT));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.BISHOP));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.QUEEN));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.QUEEN));
 				} else {
 					possibleMoves.add(new Move(beginCol, beginRow, (beginCol + 1), (beginRow - 1)));
 				}
 			}
 			if (onChessboard((beginCol - 1), (beginRow - 1))) {
 				if (beginRow - 1 == 0) {
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.ROOK));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.KNIGHT));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.BISHOP));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.QUEEN));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.QUEEN));
 				} else {
 					possibleMoves.add(new Move(beginCol, beginRow, (beginCol - 1), (beginRow - 1)));
 				}
@@ -476,7 +474,7 @@ public class MoveGenerator {
 		}
 	}
 	
-	private static void addKingMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addKingMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		PieceColor oppColor = opponentColor(myColor);
 		
 		if (onChessboard(beginCol, (beginRow + 1)) && freeOrColor(board, beginCol, (beginRow + 1), oppColor)) {
@@ -534,7 +532,7 @@ public class MoveGenerator {
 		}
 	}
 	
-	private static void addKingAttackingMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addKingAttackingMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		PieceColor oppColor = opponentColor(myColor);
 		
 		if (onChessboard(beginCol, (beginRow + 1)) && freeOrColor(board, beginCol, (beginRow + 1), oppColor)) {
@@ -564,14 +562,11 @@ public class MoveGenerator {
 		}
 	}
 	
-	private static void addRookCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addRookCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		PieceColor oppColor = opponentColor(myColor);
 			
 		int i = 1;
-		while (onChessboard((beginCol + i), beginRow) && freeSquare(board, (beginCol + i), beginRow)) {
-			i++;
-		}
-		
+		while (onChessboard((beginCol + i), beginRow) && freeSquare(board, (beginCol + i), beginRow)) { i++; }
 		if (onChessboard((beginCol + i), beginRow)) {
 			if (board.squares[(beginCol + i)][beginRow].getColor() == oppColor) {
 				possibleMoves.add(new Move(beginCol, beginRow, (beginCol + i), beginRow));
@@ -579,9 +574,7 @@ public class MoveGenerator {
 		}
 			
 		i = 1;
-		while (onChessboard((beginCol - i), beginRow) && freeSquare(board, (beginCol - i), beginRow)) {
-			i++;
-		}
+		while (onChessboard((beginCol - i), beginRow) && freeSquare(board, (beginCol - i), beginRow)) { i++; }
 		if (onChessboard((beginCol - i), beginRow)) {
 			if (board.squares[(beginCol - i)][beginRow].getColor() == oppColor) {
 				possibleMoves.add(new Move(beginCol, beginRow, (beginCol - i), beginRow));
@@ -589,9 +582,7 @@ public class MoveGenerator {
 		}
 			
 		i = 1;
-		while (onChessboard(beginCol, (beginRow + i)) && freeSquare(board, beginCol, (beginRow + i))) {
-			i++;
-		}
+		while (onChessboard(beginCol, (beginRow + i)) && freeSquare(board, beginCol, (beginRow + i))) { i++; }
 		if (onChessboard(beginCol, (beginRow + i))) {
 			if (board.squares[beginCol][(beginRow + i)].getColor() == oppColor) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol, (beginRow + i)));
@@ -599,9 +590,7 @@ public class MoveGenerator {
 		}
 			
 		i = 1;
-		while (onChessboard(beginCol, (beginRow - i)) && freeSquare(board, beginCol, (beginRow - i))) {
-			i++;
-		}
+		while (onChessboard(beginCol, (beginRow - i)) && freeSquare(board, beginCol, (beginRow - i))) { i++; }
 		if (onChessboard(beginCol, (beginRow - i))) {
 			if (board.squares[beginCol][(beginRow - i)].getColor() == oppColor) {
 				possibleMoves.add(new Move(beginCol, beginRow, beginCol, (beginRow - i)));
@@ -609,13 +598,11 @@ public class MoveGenerator {
 		}
 	}	
 	
-	private static void addBishopCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addBishopCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		PieceColor oppColor = opponentColor(myColor);
 			
 		int i = 1;
-		while (onChessboard((beginCol + i), (beginRow + i)) && freeSquare(board, (beginCol + i), (beginRow + i))) {
-			i++;
-		}
+		while (onChessboard((beginCol + i), (beginRow + i)) && freeSquare(board, (beginCol + i), (beginRow + i))) { i++; }
 		if (onChessboard((beginCol + i), (beginRow + i))) {
 			if (board.squares[(beginCol + i)][(beginRow + i)].getColor() == oppColor) {
 				possibleMoves.add(new Move(beginCol, beginRow, (beginCol + i), (beginRow + i)));
@@ -623,9 +610,7 @@ public class MoveGenerator {
 		}
 			
 		i = 1;
-		while (onChessboard((beginCol - i), (beginRow + i)) && freeSquare(board, (beginCol - i), (beginRow + i))) {
-			i++;
-		}
+		while (onChessboard((beginCol - i), (beginRow + i)) && freeSquare(board, (beginCol - i), (beginRow + i))) { i++; }
 		if (onChessboard((beginCol - i), (beginRow + i))) {
 			if (board.squares[(beginCol - i)][(beginRow + i)].getColor() == oppColor) {
 				possibleMoves.add(new Move(beginCol, beginRow, (beginCol - i), (beginRow + i)));
@@ -633,9 +618,7 @@ public class MoveGenerator {
 		}
 			
 		i = 1;
-		while (onChessboard((beginCol + i), (beginRow - i)) && freeSquare(board, (beginCol + i), (beginRow - i))) {
-			i++;
-		}
+		while (onChessboard((beginCol + i), (beginRow - i)) && freeSquare(board, (beginCol + i), (beginRow - i))) { i++; }
 		if (onChessboard((beginCol + i), (beginRow - i))) {
 			if (board.squares[(beginCol + i)][(beginRow - i)].getColor() == oppColor) {
 				possibleMoves.add(new Move(beginCol, beginRow, (beginCol + i), (beginRow - i)));
@@ -643,9 +626,7 @@ public class MoveGenerator {
 		}
 			
 		i = 1;
-		while (onChessboard((beginCol - i), (beginRow - i)) && freeSquare(board, (beginCol - i), (beginRow - i))) {
-			i++;
-		}
+		while (onChessboard((beginCol - i), (beginRow - i)) && freeSquare(board, (beginCol - i), (beginRow - i))) { i++; }
 		if (onChessboard((beginCol - i), (beginRow - i))) {
 			if (board.squares[(beginCol - i)][(beginRow - i)].getColor() == oppColor) {
 				possibleMoves.add(new Move(beginCol, beginRow, (beginCol - i), (beginRow - i)));
@@ -653,12 +634,12 @@ public class MoveGenerator {
 		}
 	}
 	
-	private static void addQueenCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addQueenCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		addRookCaptureMoves(board, beginCol, beginRow, myColor, possibleMoves);
 		addBishopCaptureMoves(board, beginCol, beginRow, myColor, possibleMoves);
 	}
 	
-	private static void addKnightCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addKnightCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		PieceColor oppColor = opponentColor(myColor);
 		
 		if (onChessboard((beginCol + 2), (beginRow + 1)) && hasColor(board, (beginCol + 2), (beginRow + 1), oppColor)) {
@@ -687,31 +668,31 @@ public class MoveGenerator {
 		}
 	}
 	
-	private static void addPawnCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addPawnCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		PieceColor oppColor = opponentColor(myColor);
 		
 		if (myColor == PieceColor.WHITE) {
-			if (onChessboard((beginCol + 1), (beginRow + 1)) && !freeSquare(board, (beginCol + 1), (beginRow + 1)) && board.squares[(beginCol + 1)][(beginRow + 1)].getColor() == oppColor) {
+			if (onChessboard((beginCol + 1), (beginRow + 1)) && hasColor(board, (beginCol + 1), (beginRow + 1), oppColor)) {
 				if ((beginRow + 1) == 7) {
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow + 1), PieceType.ROOK));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow + 1), PieceType.KNIGHT));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow + 1), PieceType.BISHOP));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow + 1), PieceType.QUEEN));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (7), PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (7), PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (7), PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (7), PieceType.QUEEN));
 				} else {
 					possibleMoves.add(new Move(beginCol, beginRow, (beginCol + 1), (beginRow + 1)));
 				}	
 			}
-			if (onChessboard((beginCol - 1), (beginRow + 1)) && !freeSquare(board, (beginCol - 1), (beginRow + 1)) && board.squares[(beginCol - 1)][(beginRow + 1)].getColor() == oppColor) {
+			if (onChessboard((beginCol - 1), (beginRow + 1)) && hasColor(board, (beginCol - 1), (beginRow + 1), oppColor)) {
 				if ((beginRow + 1) == 7) {
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow + 1), PieceType.ROOK));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow + 1), PieceType.KNIGHT));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow + 1), PieceType.BISHOP));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow + 1), PieceType.QUEEN));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (7), PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (7), PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (7), PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (7), PieceType.QUEEN));
 				} else {
 					possibleMoves.add(new Move(beginCol, beginRow, (beginCol - 1), (beginRow + 1)));
 				}
 			}
-			//Dwa ostatnie rozpatrywane ruchy obejmują bicie en passant
+
 			if (board.getEnPassant() && beginRow == 4 && board.getEnPassantTargetCol() == beginCol + 1) {
 				possibleMoves.add(new EnPassantMove(beginCol, beginRow, (beginCol + 1), (beginRow + 1)));
 			}
@@ -720,27 +701,27 @@ public class MoveGenerator {
 			}
 		} 
 		else {
-			if (onChessboard((beginCol + 1), (beginRow - 1)) && !freeSquare(board, (beginCol + 1), (beginRow - 1)) && board.squares[(beginCol + 1)][(beginRow - 1)].getColor() == oppColor) {
+			if (onChessboard((beginCol + 1), (beginRow - 1)) && hasColor(board, (beginCol + 1), (beginRow + 1), oppColor)) {
 				if ((beginRow - 1) == 0) {
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.ROOK));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.KNIGHT));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.BISHOP));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1), PieceType.QUEEN));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (0), PieceType.QUEEN));
 				} else {
 					possibleMoves.add(new Move(beginCol, beginRow, (beginCol + 1), (beginRow - 1)));
 				}
 			}
-			if (onChessboard((beginCol - 1), (beginRow - 1)) && !freeSquare(board, (beginCol - 1), (beginRow - 1)) && board.squares[(beginCol - 1)][(beginRow - 1)].getColor() == oppColor) {
+			if (onChessboard((beginCol - 1), (beginRow - 1)) && hasColor(board, (beginCol - 1), (beginRow + 1), oppColor)) {
 				if ((beginRow - 1) == 0) {
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.ROOK));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.KNIGHT));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.BISHOP));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow - 1), PieceType.QUEEN));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.ROOK));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.KNIGHT));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.BISHOP));
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (0), PieceType.QUEEN));
 				} else {
 					possibleMoves.add(new Move(beginCol, beginRow, (beginCol - 1), (beginRow - 1)));
 				}
 			}
-			//Dwa ostatnie rozpatrywane ruchy obejmują bicie en passant
+
 			if (board.getEnPassant() && beginRow == 3 && board.getEnPassantTargetCol() == beginCol + 1) {
 				possibleMoves.add(new EnPassantMove(beginCol, beginRow, (beginCol + 1), (beginRow - 1)));
 			}
@@ -750,7 +731,7 @@ public class MoveGenerator {
 		}
 	}
 	
-	private static void addKingCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, ArrayList<Move> possibleMoves) {
+	private static void addKingCaptureMoves(Board board, int beginCol, int beginRow, PieceColor myColor, List<Move> possibleMoves) {
 		PieceColor oppColor = opponentColor(myColor);
 		
 		if (onChessboard(beginCol, (beginRow + 1)) && hasColor(board, beginCol, (beginRow + 1), oppColor)) {
@@ -778,6 +759,5 @@ public class MoveGenerator {
 			possibleMoves.add(new Move(beginCol, beginRow, (beginCol - 1), (beginRow - 1)));
 		}
 	}
-	
 
 }

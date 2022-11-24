@@ -144,29 +144,29 @@ public class BoardUtils {
             System.out.println("");
         }
 
-		if(board.activeColor == PieceColor.WHITE) {
+		if (board.activeColor == PieceColor.WHITE) {
 			System.out.println("Active color: WHITE");
 		} else {
 			System.out.println("Active color: BLACK");
 		}
         
-        if(board.isWhiteKingsideCastling()) {
+        if (board.isWhiteKingsideCastling()) {
             System.out.println("Kingside castling for white king is available");
         }
 
-        if(board.isWhiteQueensideCastling()) {
+        if (board.isWhiteQueensideCastling()) {
             System.out.println("Queenside castling for white king is available");
         }
 
-        if(board.isBlackKingsideCastling()) {
+        if (board.isBlackKingsideCastling()) {
             System.out.println("Kingside castling for black king is available");
         }
 
-        if(board.isBlackQueensideCastling()) {
+        if (board.isBlackQueensideCastling()) {
             System.out.println("Queenside castling for black king is available");
         }
         
-        if(board.getEnPassant()) {
+        if (board.getEnPassant()) {
             System.out.println("no. of en passant target column: " + board.getEnPassantTargetCol());
             System.out.println("no. of en passant target row: " + board.getEnPassantTargetRow());
         }
