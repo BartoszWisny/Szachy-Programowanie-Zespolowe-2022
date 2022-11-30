@@ -5,6 +5,9 @@ import Input from "./Input"
 import TextArea from "./TextArea"
 import {database} from "../FirebaseConfig"
 import {addDoc, collection} from "firebase/firestore"
+import ModalMessageSent from "./ModalMessageSent"
+import ModalMessageError from "./ModalMessageError"
+import emailjs from "@emailjs/browser"
 
 const FeedbackTiles = () => {
   return (
@@ -40,36 +43,70 @@ function FeedbackTile(props) {
     setFeedback(e.target.value)
   }
 
+  const [emailsent, setEmailSent] = useState(false)
+  const [emailerr, setEmailErr] = useState(false)
+  const [firebasesent, setFirebaseSent] = useState(false)
+  const [firebaseerr, setFirebaseErr] = useState(false)
+
+  const handleEmailSubmit = () => {
+    emailjs.send("service_xgy9mk9", "template_axgktrw", {
+      subject: "Feedback",
+      username: username,
+      email: email,
+      message: feedback,
+    }, "cur1mLFSh_8f6S6iY").then(() => {
+      setEmailSent(true)
+      setUsername("")
+      setEmail("")
+      setFeedback("")
+    }).catch(() => {
+      setEmailErr(true)      
+      setUsername("")
+      setEmail("")
+      setFeedback("")
+    })
+  }
+
   const userCollectionRef = collection(database, "feedback")
-  const handleSend = () => {
+  const handleFirebaseSubmit = () => {
     addDoc(userCollectionRef, {
       username: username,
       email: email,
       feedback: feedback
     }).then(() => {
-      if (!alert("Message sent successfully!")) {
-        setUsername("")
-        setEmail("")
-        setFeedback("")
-      }
-    }).catch((error) => {
-      alert(error.message)
+      setFirebaseSent(true)
+      setUsername("")
+      setEmail("")
+      setFeedback("")
+    }).catch(() => {
+      setFirebaseErr(true)      
+      setUsername("")
+      setEmail("")
+      setFeedback("")
     })
   }
 
   return(
-    <div className="feedbacktile">
-      <Input type="text" placeholder="Username" value={username} onChange={handleUsernameChange}/>
-      <Input type="text" placeholder="Email" value={email} onChange={handleEmailChange}/>
-      <TextArea type="feedback" placeholder="Feedback" value={feedback} onChange={handleFeedbackChange}/>
-      <button className="feedbacktile_button" onClick={handleSend}>
-        <FeedbackIcon>
-          <RiIcons.RiSendPlaneFill />
-          <FeedbackTitle>
-            Send your feedback
-          </FeedbackTitle>
-        </FeedbackIcon>
-      </button>
+    <div>
+      <div>
+        <ModalMessageSent emailsent={emailsent} firebasesent={firebasesent}/>
+      </div>
+      <div>
+        <ModalMessageError emailerr={emailerr} firebaseerr={firebaseerr}/>
+      </div>
+      <div className="feedbacktile">
+        <Input type="text" placeholder="Username" value={username} onChange={handleUsernameChange}/>
+        <Input type="text" placeholder="Email" value={email} onChange={handleEmailChange}/>
+        <TextArea type="feedback" placeholder="Feedback" value={feedback} onChange={handleFeedbackChange}/>
+        <button className="feedbacktile_button" onClick={() => {handleEmailSubmit(); if(!emailerr) handleFirebaseSubmit()}}>
+          <FeedbackIcon>
+            <RiIcons.RiSendPlaneFill />
+            <FeedbackTitle>
+              Send your feedback
+            </FeedbackTitle>
+          </FeedbackIcon>
+        </button>
+      </div>
     </div>
   )
 }

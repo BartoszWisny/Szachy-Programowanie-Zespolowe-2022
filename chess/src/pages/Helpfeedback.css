@@ -30,13 +30,20 @@ body {
 
 .helpfeedback {
   background: var(--gray4) var(--background);
-  position: absolute;
+  /* position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  width: 100%; /* delete if size of the components exceeds width of the view */
-  height: 100%;
   background-size: 100%;
+  transition: background 200ms ease-in; */
+  background-size: 100%;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
   transition: background 200ms ease-in;
 }
 
