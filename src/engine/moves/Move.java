@@ -89,4 +89,58 @@ public class Move {
 		System.out.println("Col: " + beginCol + " Row: " + beginRow + " -> Col: " + endCol + " Row: " + endRow);
 	}
 	
+	/**
+	 *  Metoda zwraca String reprezentujący ruch.
+	 *  Najpierw podajemy pierwsze pole, następnie jedna spacja,
+	 *  potem końcowe pole, np. "e5 e1" 
+	 */
+	
+	public String moveString() {
+		
+		String result = "";
+		
+		if(this.beginCol == 0) {
+			result += "a";
+		} else if(this.beginCol == 1) {
+			result += "b";
+		} else if(this.beginCol == 2) {
+			result += "c";
+		} else if(this.beginCol == 3) {
+			result += "d";
+		} else if(this.beginCol == 4) {
+			result += "e";
+		} else if(this.beginCol == 5) {
+			result += "f";
+		} else if(this.beginCol == 6) {
+			result += "g";
+		} else if(this.beginCol == 7) {
+			result += "h";
+		}
+		
+		result += Integer.toString(beginRow+1);
+		result += " ";
+		
+		if(this.endCol == 0) {
+			result += "a";
+		} else if(this.endCol == 1) {
+			result += "b";
+		} else if(this.endCol == 2) {
+			result += "c";
+		} else if(this.endCol == 3) {
+			result += "d";
+		} else if(this.endCol == 4) {
+			result += "e";
+		} else if(this.endCol == 5) {
+			result += "f";
+		} else if(this.endCol == 6) {
+			result += "g";
+		} else if(this.endCol == 7) {
+			result += "h";
+		}
+		
+		result += Integer.toString(endRow+1);
+		
+		return result;
+	}
+	
 }
