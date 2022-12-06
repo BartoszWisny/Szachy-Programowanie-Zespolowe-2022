@@ -6,13 +6,9 @@ import play1vs1offline from "../assets/tiles/play1vs1offline.jpg"
 import playvsourchessai from "../assets/tiles/playvsourchessai.jpg"
 import learnanalyze from "../assets/tiles/learnanalyze.jpg"
 import learnwatch from "../assets/tiles/learnwatch.jpg"
-import minigamesdaily from "../assets/tiles/minigamesdaily.jpg"
-import minigamespuzzles from "../assets/tiles/minigamespuzzles.jpg"
-import leaderboardgames from "../assets/tiles/leaderboardgames.jpg"
-import leaderboardminigames from "../assets/tiles/leaderboardminigames.jpg"
-import helpfeedback from "../assets/tiles/helpfeedback.jpg"
-import helpsuggestion from "../assets/tiles/helpsuggestion.jpg"
-import helpbug from "../assets/tiles/helpbug.jpg"
+import puzzles from "../assets/tiles/puzzles.jpg"
+import leaderboards from "../assets/tiles/leaderboards.jpg"
+import feedback from "../assets/tiles/feedback.jpg"
 import about from "../assets/tiles/about.jpg"
 import {BlurhashCanvas} from "react-blurhash"
 import {LazyLoadImage} from "react-lazy-load-image-component"
@@ -63,54 +59,26 @@ const Tiles = () => {
         description="Learn from the best of the best"
         button="Watch"/>
       <Tile 
-        img={minigamesdaily}
-        hash="M3LXMb~p4Tf6D%MxRjMxRj-;DN-;R:4nIU"
-        path="/minigames/daily"
-        title="Daily challenge"
-        description="Solve today's chess puzzle"
-        button="Play"/>
-      <Tile 
-        img={minigamespuzzles}
+        img={puzzles}
         hash="MbLEWw9Fxvt7D%~qM{x]WBMxnhayf,WCWD"
-        path="/minigames/puzzles"
+        path="/puzzles"
         title="Puzzles"
         description="Try yourself in different positions"
         button="Play"/>
       <Tile 
-        img={leaderboardgames}
+        img={leaderboards}
         hash="M2DI%vD5rs}sQ.v0Mc00NFI;5ss=IoJ.o#"
-        path="/leaderboard/games"
-        title="Leaderboard - games"
-        description="Find out how good you are at online games"
+        path="/leaderboards"
+        title="Leaderboards"
+        description="Find out how good you are at chess"
         button="View"/>
       <Tile 
-        img={leaderboardminigames}
-        hash="MDF6C6~pM{8_DiDNoyD%t8jJ9Ft6xuM{IU"
-        path="/leaderboard/minigames"
-        title="Leaderboard - minigames"
-        description="Check how well you solve the puzzles"
-        button="View"/>
-      <Tile 
-        img={helpfeedback}
+        img={feedback}
         hash="M9DJ0E00.SR4IA~qDjxuMxD%00~WxaE2n$"
-        path="/help/feedback"
+        path="/feedback"
         title="Leave your feedback"
         description="Tell us what you think of our app"
         button="Leave"/>
-      <Tile 
-        img={helpsuggestion}
-        hash="M16a^%9F9u%M^k?bM{xubHbc00RP~qM{0K"
-        path="/help/suggestion"
-        title="Make a suggestion"
-        description="Let us know about your interesting ideas"
-        button="Suggest"/>
-      <Tile 
-        img={helpbug}
-        hash="M23,~;i;3sW@-CjPZ#aJjFkD3YW={Io#F|"
-        path="/help/bug"
-        title="Report a bug"
-        description="Report bugs and we will fix them"
-        button="Report"/>
       <Tile 
         img={about}
         hash="MIC?r]-;t7t7ay~qof%Mt7ayofRjoft7t7"
