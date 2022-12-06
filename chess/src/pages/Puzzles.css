@@ -28,22 +28,15 @@ body {
   margin: 0rem;
 }
 
-.minigamespuzzles {
+.puzzles {
   background: var(--gray4) var(--background);
-  /* position: absolute;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  background-size: 100%;
-  transition: background 200ms ease-in; */
-  background-size: 100%;
-  object-fit: cover;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
   bottom: 0;
   z-index: -1;
+  background-size: 100%;
   transition: background 200ms ease-in;
 }
 
@@ -67,10 +60,10 @@ body {
 }
 
 .board_container {
-  margin-top: 3rem; 
-  margin-bottom: 4rem;
-  width: 40rem;
-  height: 40rem; /* adjust height to the size of the smartphone screen */
+  margin-top: 2.5rem; 
+  margin-bottom: 2.5rem;
+  width: 40rem; /* min(85vw, 85vh); */ /* --> recalculate rem to vw & vh */
+  height: 40rem; /* min(85vw, 85vh); */ /* will help to adjust to the size of the smartphone screen */
   margin-left: auto;
   margin-right: auto;
 }
@@ -207,13 +200,13 @@ body {
 
 .number {
   position: absolute;
-  font-size: 1rem;
+  font-size: /* min(2vw, 2vh); */ 1rem;
   user-select: none;
 }
 
 .letter {
   position: absolute;
-  font-size: 1rem;
+  font-size: /* min(2vw, 2vh); */ 1rem; 
   user-select: none;
 }
 

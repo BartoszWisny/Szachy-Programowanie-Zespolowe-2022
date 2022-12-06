@@ -30,20 +30,13 @@ body {
 
 .play1vs1online {
   background: var(--gray4) var(--background);
-  /* position: absolute;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  background-size: 100%;
-  transition: background 200ms ease-in; */
-  background-size: 100%;
-  object-fit: cover;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
   bottom: 0;
   z-index: -1;
+  background-size: 100%;
   transition: background 200ms ease-in;
 }
 
@@ -67,8 +60,8 @@ body {
 }
 
 .board_container {
-  margin-top: 3rem; 
-  margin-bottom: 4rem;
+  margin-top: 2.5rem; 
+  margin-bottom: 2.5rem;
   width: 40rem;
   height: 40rem; /* adjust height to the size of the smartphone screen */
   margin-left: auto;
@@ -221,7 +214,6 @@ body {
   position: absolute;
   font-size: 2rem;
   margin: 0;
-  position: absolute;
   top: 67%;
   left: 50%;
   transform: translate(-50%, -50%);

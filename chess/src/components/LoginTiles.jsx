@@ -3,7 +3,8 @@ import * as FaIcons from "react-icons/fa"
 import * as MdIcons from "react-icons/md"
 import styled from "styled-components"
 import Input from "./Input"
-import {getAuth, signInWithPopup, /* signInWithEmailAndPassword, FacebookAuthProvider, */ GoogleAuthProvider} from "firebase/auth"
+import { signInWithPopup, FacebookAuthProvider, GoogleAuthProvider } from "firebase/auth"
+import { auth } from "../FirebaseConfig"
 
 const LoginTiles = () => {
   return (
@@ -33,27 +34,30 @@ const LoginTitle = styled.span`
 
 function loginGoogle() {
   const provider = new GoogleAuthProvider();
-  const auth = getAuth();
-
-  signInWithPopup(auth, provider)
-      .then((result) => {
-          
-      }).catch((error) => {
-      
-  });
+  
+  signInWithPopup(auth, provider) // signInWithRedirect
+    .then((result) => {
+      console.log(result); 
+      // Sth like: result.photoUrl.replace("s=96-c", "s=480-c") ...s=96-c --> s=480-c
+    }).catch((error) => {
+      console.log(error); 
+    });
 }
 
-/* function loginFacebook() {
+function loginFacebook() {
   const provider = new FacebookAuthProvider();
-const auth = getAuth();
-signInWithPopup(auth, provider)
-  .then((result) => {
-    
-  })
-  .catch((error) => {
-    
-  });
-} */
+  
+  signInWithPopup(auth, provider) // signInWithRedirect
+    .then((result) => {
+      console.log(result); // GraphAPI access token: EAAPtF26rDYYBAOdyMM0L93uaqZALrfVZClaM9ccMuicftVWQJ0LYWM80vGD57g3jiA75dYhF5mPzI5ZCyYCeUT063IZBzS4HZBLZCRHvXbDRvS42m2RXfoEMSZCbW7SxRcLfuwC1gVbjzUkeqDS2dlDXZBZAtAoCKFczz7uJSAUGZCOfV2zDXZBcwrhIQkiKhtFCYmMzpEFGPi0HgZDZD
+      // https://graph.facebook.com/1241216816608059/picture?width=480&access_token=EAAPtF26rDYYBAOdyMM0L93uaqZALrfVZClaM9ccMuicftVWQJ0LYWM80vGD57g3jiA75dYhF5mPzI5ZCyYCeUT063IZBzS4HZBLZCRHvXbDRvS42m2RXfoEMSZCbW7SxRcLfuwC1gVbjzUkeqDS2dlDXZBZAtAoCKFczz7uJSAUGZCOfV2zDXZBcwrhIQkiKhtFCYmMzpEFGPi0HgZDZD
+      // Scheme: https://graph.facebook.com/USER_ID/picture?width=480&access_token=ACCESS_TOKEN
+      // Or sth like: result.photoUrl + ?width=480&access_token=ACCESS_TOKEN
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
 /* function signOut() {
   const auth = getAuth();
@@ -104,7 +108,7 @@ function LoginTile(props) {
           </LoginTitle>
         </LoginIcon>
       </button>
-      <button className="logintile_button3" /* onClick={loginFacebook} */>
+      <button className="logintile_button3" onClick={loginFacebook}>
         <LoginIcon>
           <FaIcons.FaFacebook />
           <LoginTitle>

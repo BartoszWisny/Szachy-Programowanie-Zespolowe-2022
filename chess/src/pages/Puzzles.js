@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import "./Minigamespuzzles.css"
+import "./Puzzles.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
 import {gameSubject, initGame, resetGame} from "../components/Game"
@@ -27,7 +27,7 @@ const SwitchThemeButton = styled.button`
   top: 0;
 `
 
-function Minigamespuzzles() {
+function Puzzles() {
   const [board, setBoard] = useState([])
   const [isGameOver, setIsGameOver] = useState()
   const [result, setResult] = useState()
@@ -66,7 +66,7 @@ function Minigamespuzzles() {
   }, [])
 
   return (
-    <div className="minigamespuzzles" data-theme={theme}>
+    <div className="puzzles" data-theme={theme}>
       <DndProvider backend={HTML5Backend}>  
         <Helmet>
           <meta charSet="utf-8" />
@@ -78,7 +78,7 @@ function Minigamespuzzles() {
         {loading ? 
           <div>
             <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={100} 
-            speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", width: "100vw", height: "100vh", 
+            speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", backgroundSize: "100%", 
             userSelect: "none"}}/>
             <h2 className="loading" style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)"}}>Loading...</h2>
           </div> :
@@ -96,4 +96,4 @@ function Minigamespuzzles() {
   )
 }
 
-export default Minigamespuzzles
+export default Puzzles

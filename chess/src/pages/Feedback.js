@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import "./Helpfeedback.css"
+import "./Feedback.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
 import FeedbackTiles from "../components/FeedbackTiles"
@@ -23,7 +23,7 @@ const SwitchThemeButton = styled.button`
   top: 0;
 `
 
-function Helpfeedback() {
+function Feedback() {
   const [theme, setTheme] = useLocalStorage("theme" ? "darkmode" : "lightmode")
   
   const switchTheme = () => {
@@ -41,7 +41,7 @@ function Helpfeedback() {
   }, [])
   
   return (
-    <div className="helpfeedback" data-theme={theme}>
+    <div className="feedback" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Leave your feedback</title>
@@ -52,7 +52,7 @@ function Helpfeedback() {
       {loading ? 
         <div>
           <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={100} 
-          speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", width: "100vw", height: "100vh", 
+          speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", backgroundSize: "100%",  
           userSelect: "none"}}/>
           <h2 className="loading" style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)"}}>Loading...</h2>
         </div> :
@@ -64,4 +64,4 @@ function Helpfeedback() {
   )
 }
 
-export default Helpfeedback
+export default Feedback

@@ -52,7 +52,7 @@ video {
   margin-top: 4rem;
   margin-left: 4rem;
   margin-right: 4rem;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
   grid-template-columns: repeat(auto-fit, minmax(12rem, 15rem));
   justify-content: center;
   align-items: center;

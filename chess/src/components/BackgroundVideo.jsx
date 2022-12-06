@@ -9,4 +9,4 @@ const BackgroundVideo = () => {
   );
 }
 
-export default BackgroundVideo;
+export default BackgroundVideo

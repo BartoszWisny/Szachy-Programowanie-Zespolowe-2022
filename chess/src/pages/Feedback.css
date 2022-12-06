@@ -28,22 +28,15 @@ body {
   margin: 0rem;
 }
 
-.helpsuggestion {
+.feedback {
   background: var(--gray4) var(--background);
-  /* position: absolute;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  background-size: 100%;
-  transition: background 200ms ease-in; */
-  background-size: 100%;
-  object-fit: cover;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
   bottom: 0;
   z-index: -1;
+  background-size: 100%;
   transition: background 200ms ease-in;
 }
 
@@ -55,7 +48,7 @@ body {
   --background: url("../assets/backgrounddarkgray.jpg");
 }
 
-.suggestiontiles {
+.feedbacktiles {
   display: grid;
   position: relative;
   margin-top: 5rem;
@@ -69,7 +62,7 @@ body {
   font-size: 1rem;
 }
 
-.suggestiontile {
+.feedbacktile {
   height: 30rem; /* adjust height to the size of the smartphone screen */
   width: 45rem; /* adjust for mobile screen */
   overflow: hidden;
@@ -85,17 +78,17 @@ body {
   user-select: none;
 }
 
-.suggestiontile_title {
+.feedbacktile_title {
   padding: 0rem;
   pointer-events: none;
 }
 
-.suggestiontile_description {
+.feedbacktile_description {
   padding: 0rem;
   pointer-events: none;
 }
 
-.suggestiontile_button {
+.feedbacktile_button {
   padding: 1rem;
   font-family: inherit;
   font-weight: bold;
@@ -109,11 +102,11 @@ body {
   user-select: none;
 }
 
-.suggestiontile:hover {
+.feedbacktile:hover {
   transform: scale(1.04);
 }
 
-.suggestiontile_button:hover {
+.feedbacktile_button:hover {
   background: var(--primary);
   color: white;
 }

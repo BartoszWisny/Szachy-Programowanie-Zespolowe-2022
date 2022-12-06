@@ -78,7 +78,7 @@ function Playvscomputer() {
         {loading ? 
           <div>
             <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={100} 
-            speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", width: "100vw", height: "100vh", 
+            speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", backgroundSize: "100%",  
             userSelect: "none"}}/>
             <h2 className="loading" style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)"}}>Loading...</h2>
           </div> :

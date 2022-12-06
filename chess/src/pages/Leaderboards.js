@@ -1,5 +1,5 @@
 import React from "react"
-import "./Leaderboardgames.css"
+import "./Leaderboards.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
 import useLocalStorage from "use-local-storage"
@@ -21,7 +21,7 @@ const SwitchThemeButton = styled.button`
   top: 0;
 `
 
-function Leaderboardgames() {
+function Leaderboards() {
   const [theme, setTheme] = useLocalStorage("theme" ? "darkmode" : "lightmode")
   
   const switchTheme = () => {
@@ -30,7 +30,7 @@ function Leaderboardgames() {
   }
 
   return (
-    <div className="leaderboardgames" data-theme={theme}>
+    <div className="leaderboards" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
           <title>Leaderboard - games</title>
@@ -45,4 +45,4 @@ function Leaderboardgames() {
   )
 }
 
-export default Leaderboardgames
+export default Leaderboards
