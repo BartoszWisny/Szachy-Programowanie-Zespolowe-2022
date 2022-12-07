@@ -24,7 +24,7 @@ const FeedbackTitle = styled.span`
   margin-left: 1rem;
 `
   
-function FeedbackTile(props) {
+function FeedbackTile() {
   const [username, setUsername] = useState("")
 
   const handleUsernameChange = e => {
@@ -37,10 +37,16 @@ function FeedbackTile(props) {
     setEmail(e.target.value)
   }
 
-  const [feedback, setFeedback] = useState("")
+  const [subject, setSubject] = useState("")
 
-  const handleFeedbackChange = e => {
-    setFeedback(e.target.value)
+  const handleSubjectChange = e => {
+    setSubject(e.target.value)
+  }
+
+  const [message, setMessage] = useState("")
+
+  const handleMessageChange = e => {
+    setMessage(e.target.value)
   }
 
   const [emailsent, setEmailSent] = useState(false)
@@ -50,20 +56,22 @@ function FeedbackTile(props) {
 
   const handleEmailSubmit = () => {
     emailjs.send("service_xgy9mk9", "template_axgktrw", {
-      subject: "Feedback",
       username: username,
       email: email,
-      message: feedback,
+      subject: subject,
+      message: message
     }, "cur1mLFSh_8f6S6iY").then(() => {
       setEmailSent(true)
       setUsername("")
       setEmail("")
-      setFeedback("")
+      setSubject("")
+      setMessage("")
     }).catch(() => {
       setEmailErr(true)      
       setUsername("")
       setEmail("")
-      setFeedback("")
+      setSubject("")
+      setMessage("")
     })
   }
 
@@ -72,17 +80,20 @@ function FeedbackTile(props) {
     addDoc(userCollectionRef, {
       username: username,
       email: email,
-      feedback: feedback
+      subject: subject,
+      message: message
     }).then(() => {
       setFirebaseSent(true)
       setUsername("")
       setEmail("")
-      setFeedback("")
+      setSubject("")
+      setMessage("")
     }).catch(() => {
       setFirebaseErr(true)      
       setUsername("")
       setEmail("")
-      setFeedback("")
+      setSubject("")
+      setMessage("")
     })
   }
 
@@ -97,7 +108,8 @@ function FeedbackTile(props) {
       <div className="feedbacktile">
         <Input type="text" placeholder="Username" value={username} onChange={handleUsernameChange}/>
         <Input type="text" placeholder="Email" value={email} onChange={handleEmailChange}/>
-        <TextArea type="feedback" placeholder="Feedback" value={feedback} onChange={handleFeedbackChange}/>
+        <Input type="text" placeholder="Subject" value={subject} onChange={handleSubjectChange}/>
+        <TextArea type="message" placeholder="Message" value={message} onChange={handleMessageChange}/>
         <button className="feedbacktile_button" onClick={() => {handleEmailSubmit(); if(!emailerr) handleFirebaseSubmit()}}>
           <FeedbackIcon>
             <RiIcons.RiSendPlaneFill />

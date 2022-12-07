@@ -63,7 +63,7 @@ body {
 }
 
 .feedbacktile {
-  height: 30rem; /* adjust height to the size of the smartphone screen */
+  height: 34rem; /* adjust height to the size of the smartphone screen */
   width: 45rem; /* adjust for mobile screen */
   overflow: hidden;
   box-shadow: 0 0 1rem var(--gray6);

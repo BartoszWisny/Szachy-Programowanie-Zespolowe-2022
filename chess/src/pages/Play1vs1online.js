@@ -77,10 +77,9 @@ function Play1vs1online() {
         <SidebarMenu />
         {loading ? 
           <div>
-            <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={100} 
-            speedMultiplier={1} style={{display: "block", margin: "0 auto", paddingTop: "8%", backgroundSize: "100%",  
+            <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={50} 
+            speedMultiplier={1} style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
             userSelect: "none"}}/>
-            <h2 className="loading" style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)"}}>Loading...</h2>
           </div> :
           <div>
             <ModalResult open={isGameOver} result={result} winner={winner}/>
