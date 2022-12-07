@@ -12,7 +12,9 @@ const StyledTextArea = styled.textarea`
   padding: 1rem;
   font-family: inherit;
   font-size: 1rem;
-  margin: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
   border: 0.1rem solid var(--primary);
   color: var(--primary);
   border-radius: var(--radius);

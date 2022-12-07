@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import "./Login.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
@@ -6,6 +6,7 @@ import LoginTiles from "../components/LoginTiles"
 import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
+import {GridLoader} from "react-spinners"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -30,6 +31,15 @@ function Login() {
     setTheme(newTheme)
   }
 
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }, [])
+
   return (
     <div className="login" data-theme={theme}>
       <Helmet>
@@ -39,7 +49,12 @@ function Login() {
           <meta name="description" content="Title" />
       </Helmet>
       <SidebarMenu />
-      <LoginTiles />
+      {loading ? 
+        <div>
+          <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={50} 
+          speedMultiplier={1} style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+          userSelect: "none"}}/>
+        </div> : <LoginTiles /> }
       <SwitchThemeButton onClick={switchTheme}>
         {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
       </SwitchThemeButton>

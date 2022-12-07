@@ -209,14 +209,3 @@ body {
   font-size: /* min(2vw, 2vh); */ 1rem; 
   user-select: none;
 }
-
-.loading {
-  position: absolute;
-  font-size: 2rem;
-  margin: 0;
-  position: absolute;
-  top: 67%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  user-select: none;
-}
