@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import {useNavigate} from "react-router-dom"
-import play1vs1online from "../assets/tiles/play1vs1online.jpeg"
+import play1vs1online from "../assets/tiles/play1vs1online.jpg"
 import playvscomputer from "../assets/tiles/playvscomputer.jpg"
 import play1vs1offline from "../assets/tiles/play1vs1offline.jpg"
 import playvsourchessai from "../assets/tiles/playvsourchessai.jpg"
