@@ -10,9 +10,10 @@
 	</parent>
 	<groupId>prog_zespolowe</groupId>
 	<artifactId>chess_engine_v2</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>chess_engine_v2</name>
-	<description>Silnik szachowy w Javie</description>
+	<version>1.0.0</version>
+	<name>chesslearnandplay</name>
+	<description>Chess - Learn and Play</description>
+	<!-- <packaging>war</packaging> -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -74,6 +75,7 @@
 	</dependencies>
 	
 	<build>
+		<finalName>ChessLearnAndPlay</finalName>
 		<plugins>
 			<plugin>
       		 <groupId>org.springframework.boot</groupId>
@@ -84,9 +86,9 @@
 		                    <goal>repackage</goal>
 		                </goals>
 		                <configuration>
-							<manifest>
+					<manifest>
 		                    	<mainClass>prog_zespolowe.chess_engine_v2.ChessEngineV2Application</mainClass>
-							</manifest>
+					</manifest>
 		                    <outputDirectory>${project.basedir}/docker</outputDirectory>
 		                </configuration>
 		            </execution>
@@ -137,8 +139,8 @@
 			              <goal>npm</goal>
 			          </goals>
 					  <configuration>
-							<arguments>install --legacy-peer-deps</arguments>
-						</configuration>
+						<arguments>install --legacy-peer-deps</arguments>
+					</configuration>
 			      </execution>
 			      <execution>
 			          <id>prod build</id>
