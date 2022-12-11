@@ -47,8 +47,7 @@ security:
     - Cache-Control
     - Id-Token
   allowed-public-apis:
-    - /favicon.ico
     - /session/login
-    - /public/**
+    - /gamePublic/**
   exposed-headers:
     - X-Xsrf-Token

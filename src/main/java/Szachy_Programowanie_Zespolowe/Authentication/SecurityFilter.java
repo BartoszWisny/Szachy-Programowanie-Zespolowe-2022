@@ -25,16 +25,16 @@ import java.io.IOException;
 @Slf4j
 public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
-    SecurityService securityService;
+    public SecurityService securityService;
 
     @Autowired
-    SecurityProperties restSecurityProperties;
+    public SecurityProperties restSecurityProperties;
 
     @Autowired
-    CookieUtils cookieUtils;
+    public CookieUtils cookieUtils;
 
     @Autowired
-    SecurityProperties securityProperties;
+    public SecurityProperties securityProperties;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

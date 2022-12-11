@@ -29,10 +29,10 @@ import java.util.Map;
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
-    ObjectMapper objectMapper;
+    public ObjectMapper objectMapper;
 
     @Autowired
-    SecurityProperties restSecurityProperties;
+    public SecurityProperties restSecurityProperties;
 
     @Autowired
     public SecurityFilter tokenAuthenticationFilter;

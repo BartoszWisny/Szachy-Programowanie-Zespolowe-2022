@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class CookieUtils {
     @Autowired
-    HttpServletRequest httpServletRequest;
+    public HttpServletRequest httpServletRequest;
 
     @Autowired
-    HttpServletResponse httpServletResponse;
+    public HttpServletResponse httpServletResponse;
 
     @Autowired
-    SecurityProperties restSecurityProperties;
+    public SecurityProperties restSecurityProperties;
 
     public Cookie getCookie(String name) {
         return WebUtils.getCookie(httpServletRequest, name);

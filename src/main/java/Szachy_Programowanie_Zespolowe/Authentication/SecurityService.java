@@ -15,13 +15,13 @@ import org.springframework.util.StringUtils;
 @Service
 public class SecurityService {
     @Autowired
-    HttpServletRequest httpServletRequest;
+    public HttpServletRequest httpServletRequest;
 
     @Autowired
-    CookieUtils cookieUtils;
+    public CookieUtils cookieUtils;
 
     @Autowired
-    SecurityProperties securityProperties;
+    public SecurityProperties securityProperties;
 
     public User getUser() {
         User userPrincipal = null;
