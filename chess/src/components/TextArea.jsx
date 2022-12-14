@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 const TextArea = ({type, placeholder, value, onChange}) => {
   return (
-    <StyledTextArea type={type} placeholder={placeholder} value={value} onChange={onChange}/>
+    <StyledTextArea type={type} placeholder={placeholder} value={value} onChange={onChange} required="required"/>
   )
 }
 

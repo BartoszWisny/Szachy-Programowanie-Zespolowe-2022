@@ -53,48 +53,57 @@ function FeedbackTile() {
   const [emailerr, setEmailErr] = useState(false)
   const [firebasesent, setFirebaseSent] = useState(false)
   const [firebaseerr, setFirebaseErr] = useState(false)
+  const [notallfilled, setNotallfilled] = useState(false)
 
   const handleEmailSubmit = () => {
-    emailjs.send("service_xgy9mk9", "template_axgktrw", {
-      username: username,
-      email: email,
-      subject: subject,
-      message: message
-    }, "cur1mLFSh_8f6S6iY").then(() => {
-      setEmailSent(true)
-      setUsername("")
-      setEmail("")
-      setSubject("")
-      setMessage("")
-    }).catch(() => {
-      setEmailErr(true)      
-      setUsername("")
-      setEmail("")
-      setSubject("")
-      setMessage("")
-    })
+    if (username == "" || email == "" || subject == "" || message == "") {
+      alert("Make sure you have filled in all the fields!")
+      setNotallfilled(true)
+    } else {
+      setNotallfilled(false)
+      emailjs.send("service_xgy9mk9", "template_axgktrw", {
+        username: username,
+        email: email,
+        subject: subject,
+        message: message
+      }, "cur1mLFSh_8f6S6iY").then(() => {
+        setEmailSent(true)
+        setUsername("")
+        setEmail("")
+        setSubject("")
+        setMessage("")
+      }).catch(() => {
+        setEmailErr(true)      
+        setUsername("")
+        setEmail("")
+        setSubject("")
+        setMessage("")
+      })
+    }
   }
 
   const userCollectionRef = collection(database, "feedback")
   const handleFirebaseSubmit = () => {
-    addDoc(userCollectionRef, {
-      username: username,
-      email: email,
-      subject: subject,
-      message: message
-    }).then(() => {
-      setFirebaseSent(true)
-      setUsername("")
-      setEmail("")
-      setSubject("")
-      setMessage("")
-    }).catch(() => {
-      setFirebaseErr(true)      
-      setUsername("")
-      setEmail("")
-      setSubject("")
-      setMessage("")
-    })
+    if (username != "" && email != "" && subject != "" && message != "") {
+      addDoc(userCollectionRef, {
+        username: username,
+        email: email,
+        subject: subject,
+        message: message
+      }).then(() => {
+        setFirebaseSent(true)
+        setUsername("")
+        setEmail("")
+        setSubject("")
+        setMessage("")
+      }).catch(() => {
+        setFirebaseErr(true)      
+        setUsername("")
+        setEmail("")
+        setSubject("")
+        setMessage("")
+      })
+    }
   }
 
   return(
@@ -107,10 +116,10 @@ function FeedbackTile() {
       </div>
       <div className="feedbacktile">
         <Input type="text" placeholder="Username" value={username} onChange={handleUsernameChange}/>
-        <Input type="text" placeholder="Email" value={email} onChange={handleEmailChange}/>
+        <Input type="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
         <Input type="text" placeholder="Subject" value={subject} onChange={handleSubjectChange}/>
         <TextArea type="message" placeholder="Message" value={message} onChange={handleMessageChange}/>
-        <button className="feedbacktile_button" onClick={() => {handleEmailSubmit(); if(!emailerr) handleFirebaseSubmit()}}>
+        <button className="feedbacktile_button" type="submit" onClick={() => {handleEmailSubmit(); if(!emailerr) handleFirebaseSubmit()}}>
           <FeedbackIcon>
             <RiIcons.RiSendPlaneFill />
             <FeedbackTitle>

@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 const Input = ({type, placeholder, value, onChange}) => {
   return (
-    <StyledInput type={type} placeholder={placeholder} value={value} onChange={onChange} />
+    <StyledInput type={type} placeholder={placeholder} value={value} onChange={onChange} required="required"/>
   )
 }
 
