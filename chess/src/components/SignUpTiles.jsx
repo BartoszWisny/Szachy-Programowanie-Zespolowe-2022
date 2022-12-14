@@ -65,7 +65,7 @@ function SignUpTile() {
     <div className="signuptile">
       <Input id="firstname" type="text" placeholder="First name" value={firstName} onChange={handleFirstNameChange}/>
       <Input id="lastname" type="text" placeholder="Last name" value={lastName} onChange={handleLastNameChange}/>
-      <Input id="email" type="text" placeholder="Email" value={email} onChange={handleEmailChange}/>
+      <Input id="email" type="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
       <Input id="password" type="password" placeholder="Password" value={password} onChange={handlePasswordChange}/>
       <Input id="confirmpassword" type="password" placeholder="Confirm password" value={confirmPassword} 
       onChange={handleConfirmPasswordChange}/>

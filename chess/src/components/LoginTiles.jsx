@@ -90,7 +90,7 @@ function LoginTile() {
 
   return(
     <div className="logintile">
-      <Input id="email" type="text" placeholder="Email" value={email} onChange={handleEmailChange}/>
+      <Input id="email" type="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
       <Input id="password" type="password" placeholder="Password" value={password} onChange={handlePasswordChange}/>
       <button className="logintile_button1" /* onClick={login} */>
         <LoginIcon>
