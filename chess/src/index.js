@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client"
 import App from "./App"
 import {HashRouter, Routes, Route} from "react-router-dom"
 import Login from "./pages/Login"
+import SignUp from "./pages/SignUp"
 import Play1vs1online from "./pages/Play1vs1online"
 import Playvscomputer from "./pages/Playvscomputer"
 import Play1vs1offline from "./pages/Play1vs1offline"
@@ -20,6 +21,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App/>}/>
       <Route path="/login" element={<Login/>}/>
+      <Route path="/signup" element={<SignUp/>}/>
       <Route path="/play/1vs1online" element={<Play1vs1online/>}/>
       <Route path="/play/vscomputer" element={<Playvscomputer/>}/>
       <Route path="/play/1vs1offline" element={<Play1vs1offline/>}/>

@@ -3,8 +3,9 @@ import * as FaIcons from "react-icons/fa"
 import * as MdIcons from "react-icons/md"
 import styled from "styled-components"
 import Input from "./Input"
-import { signInWithPopup, FacebookAuthProvider, GoogleAuthProvider } from "firebase/auth"
-import { auth } from "../FirebaseConfig"
+import {signInWithPopup, FacebookAuthProvider, GoogleAuthProvider} from "firebase/auth"
+import {auth} from "../FirebaseConfig"
+import {Link} from "react-router-dom"
 
 const LoginTiles = () => {
   return (
@@ -69,10 +70,10 @@ function loginFacebook() {
   });
 } */
   
-function LoginTile(props) {
+function LoginTile() {
   /* const navigate = useNavigate();
-  const route = () => {
-    navigate(props.path);
+  const signInRoute = () => {
+    navigate("/signin");
   }; */
 
   const [email, setEmail] = useState("")
@@ -116,6 +117,8 @@ function LoginTile(props) {
           </LoginTitle>
         </LoginIcon>
       </button>
+      <b className="logintile_signuplink">Don't have an account yet? <Link to="/signup" 
+      style={{color: "var(--primary)"}}>Sign up</Link></b>
     </div>
   )
 }
