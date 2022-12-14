@@ -23,7 +23,7 @@ const FeedbackIcon = styled.span`
 const FeedbackTitle = styled.span`
   margin-left: 1rem;
 `
-  
+
 function FeedbackTile() {
   const [username, setUsername] = useState("")
 

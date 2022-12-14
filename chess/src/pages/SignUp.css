@@ -28,7 +28,7 @@ body {
   margin: 0rem;
 }
 
-.login {
+.signup {
   background: var(--gray4) var(--background);
   position: absolute;
   top: 0;
@@ -48,7 +48,7 @@ body {
   --background: url("../assets/backgrounddarkgray.jpg");
 }
 
-.logintiles {
+.signuptiles {
   display: grid;
   position: relative;
   margin-top: 5rem;
@@ -62,7 +62,7 @@ body {
   font-size: 1rem;
 }
 
-.logintile {
+.signuptile {
   height: 30rem; /* adjust height to the size of the smartphone screen */
   width: 28rem; /* adjust for mobile screen */
   overflow: hidden;
@@ -78,17 +78,17 @@ body {
   user-select: none;
 }
 
-.logintile_title {
+.signuptile_title {
   padding: 0rem;
   pointer-events: none;
 }
 
-.logintile_description {
+.signuptile_description {
   padding: 0rem;
   pointer-events: none;
 }
 
-.logintile_button1 {
+.signuptile_button1 {
   padding: 1rem;
   font-family: inherit;
   font-weight: bold;
@@ -104,57 +104,15 @@ body {
   user-select: none;
 }
 
-.logintile_button2 {
-  padding: 1rem;
-  font-family: inherit;
-  font-weight: bold;
-  font-size: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  margin-top: 1rem;
-  border: 0.1rem solid var(--primary);
-  color: var(--primary);
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: background 200ms ease-in, color 200ms ease-in;
-  user-select: none;
-}
-
-.logintile_button3 {
-  padding: 1rem;
-  font-family: inherit;
-  font-weight: bold;
-  font-size: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  margin-top: 1rem;
-  border: 0.1rem solid var(--primary);
-  color: var(--primary);
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: background 200ms ease-in, color 200ms ease-in;
-  user-select: none;
-}
-
-.logintile:hover {
+.signuptile:hover {
   transform: scale(1.04);
 }
 
-.logintile_button1:hover {
+.signuptile_button1:hover {
   background: var(--primary);
   color: white;
 }
 
-.logintile_button2:hover {
-  background: var(--primary);
-  color: white;
-}
-
-.logintile_button3:hover {
-  background: var(--primary);
-  color: white;
-}
-
-.logintile_signuplink {
+.signuptile_loginlink {
   margin: 1rem;
 }
