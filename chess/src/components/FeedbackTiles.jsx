@@ -53,14 +53,9 @@ function FeedbackTile() {
   const [emailerr, setEmailErr] = useState(false)
   const [firebasesent, setFirebaseSent] = useState(false)
   const [firebaseerr, setFirebaseErr] = useState(false)
-  const [notallfilled, setNotallfilled] = useState(false)
 
   const handleEmailSubmit = () => {
-    if (username == "" || email == "" || subject == "" || message == "") {
-      alert("Make sure you have filled in all the fields!")
-      setNotallfilled(true)
-    } else {
-      setNotallfilled(false)
+    if (username !== "" && email !== "" && subject !== "" && message !== "") {
       emailjs.send("service_xgy9mk9", "template_axgktrw", {
         username: username,
         email: email,
@@ -79,12 +74,14 @@ function FeedbackTile() {
         setSubject("")
         setMessage("")
       })
+    } else {
+      alert("Make sure you have filled in all the fields!")
     }
   }
 
   const userCollectionRef = collection(database, "feedback")
   const handleFirebaseSubmit = () => {
-    if (username != "" && email != "" && subject != "" && message != "") {
+    if (username !== "" && email !== "" && subject !== "" && message !== "") {
       addDoc(userCollectionRef, {
         username: username,
         email: email,
