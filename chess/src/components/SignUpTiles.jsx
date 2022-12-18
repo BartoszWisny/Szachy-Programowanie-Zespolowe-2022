@@ -3,8 +3,8 @@ import * as FaIcons from "react-icons/fa"
 import styled from "styled-components"
 import Input from "./Input"
 import {Link} from "react-router-dom"
-// import { signInWithPopup, FacebookAuthProvider, GoogleAuthProvider } from "firebase/auth"
-// import { auth } from "../FirebaseConfig"
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth"
+import { auth } from "../FirebaseConfig"
 
 const SignUpTiles = () => {
   return (
@@ -21,15 +21,29 @@ const SignUpTitle = styled.span`
   margin-left: 1rem;
 `
 
-/* function signUp() {
-  
-} */
-
 function SignUpTile() {
-  /* const navigate = useNavigate();
-  const route = () => {
-    navigate(props.path);
-  }; */
+  function signUp() {
+    if(password === confirmPassword) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((result) => {
+          const user = result.user;
+
+          updateProfile(user, {displayName: firstName + " " + lastName});
+          sendEmailVerification(user).then((result) => {
+            console.log(result);
+          }).catch((error) => {
+            console.log(error);
+          });
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    else {
+
+    }
+  }
 
   const [firstName, setFirstName] = useState("")
 
@@ -67,9 +81,9 @@ function SignUpTile() {
       <Input id="lastname" type="text" placeholder="Last name" value={lastName} onChange={handleLastNameChange}/>
       <Input id="email" type="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
       <Input id="password" type="password" placeholder="Password" value={password} onChange={handlePasswordChange}/>
-      <Input id="confirmpassword" type="password" placeholder="Confirm password" value={confirmPassword} 
+      <Input id="confirmpassword" type="password" placeholder="Confirm password" value={confirmPassword}
       onChange={handleConfirmPasswordChange}/>
-      <button className="signuptile_button1" /* onClick={login} */>
+      <button className="signuptile_button1"  onClick={signUp} >
         <SignUpIcon>
           <FaIcons.FaUserPlus />
           <SignUpTitle>
@@ -77,7 +91,7 @@ function SignUpTile() {
           </SignUpTitle>
         </SignUpIcon>
       </button>
-      <b className="signuptile_loginlink">Already have an account? <Link to="/login" 
+      <b className="signuptile_loginlink">Already have an account? <Link to="/login"
       style={{color: "var(--primary)"}}>Sign in</Link></b>
     </div>
   )
