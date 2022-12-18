@@ -107,7 +107,7 @@ function loginFacebook() {
     });
 }
 
-function signOut() {
+/* function signOut() {
   const auth = getAuth();
   signOut().then(() => {
       // Sign-out successful.
@@ -115,7 +115,7 @@ function signOut() {
       console.log(error)
       // An error happened.
   });
-}
+} */
 
 function LoginTile() {
   function login() {
