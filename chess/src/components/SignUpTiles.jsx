@@ -21,8 +21,6 @@ const SignUpTitle = styled.span`
   margin-left: 1rem;
 `
 
-
-
 function SignUpTile() {
   function signUp() {
     if(password === confirmPassword) {
@@ -46,10 +44,6 @@ function SignUpTile() {
 
     }
   }
-  /* const navigate = useNavigate();
-  const route = () => {
-    navigate(props.path);
-  }; */
 
   const [firstName, setFirstName] = useState("")
 

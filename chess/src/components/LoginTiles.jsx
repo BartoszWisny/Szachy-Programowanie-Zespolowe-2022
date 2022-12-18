@@ -15,7 +15,8 @@ import {
   GoogleAuthProvider,
   sendEmailVerification
 } from "firebase/auth"
-import { auth } from "../FirebaseConfig"
+import {auth} from "../FirebaseConfig"
+import {Link} from "react-router-dom"
 
 const LoginTiles = () => {
   return (
@@ -174,6 +175,8 @@ function LoginTile() {
           </LoginTitle>
         </LoginIcon>
       </button>
+      <b className="logintile_signuplink">Don't have an account yet? <Link to="/signup" 
+      style={{color: "var(--primary)"}}>Sign up</Link></b>
     </div>
   )
 }
