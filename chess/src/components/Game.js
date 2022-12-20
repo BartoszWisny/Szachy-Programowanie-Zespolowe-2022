@@ -52,6 +52,11 @@ export function getPossibleMoves(from) {
   return squares
 }
 
+export function getLastMove() {
+  let lastMove = chess.history({verbose: true}).slice(-1)
+  return (lastMove.length > 0 ? lastMove[0].to : "")
+}
+
 export function isCheck() {
   return chess.isCheck()
 }
@@ -62,6 +67,11 @@ export function getTurn() {
 
 export function getMove(from, to) {
   return chess.moves({verbose: true}).filter(move => move.from === from && move.to === to)
+}
+
+export function getFen() {
+  let fen = chess.fen().replaceAll("/", "_")
+  return fen
 }
 
 function updateGame(pendingPromotion) {

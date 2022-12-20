@@ -4,8 +4,8 @@ import {move} from "./Game"
 
 const promotionPieces = ['q', 'n', 'r', 'b']
 
-const Promotion = ({promotion: {from, to, color}}) => {
-  return (
+const Promotion = ({promotion: {from, to, color}}) => { /*adjust view to turn and game type*/
+  return ( 
     <div className="chessboard">
       {promotionPieces.map((piece, i) => (
         <div key={i} className="promotionsquare">

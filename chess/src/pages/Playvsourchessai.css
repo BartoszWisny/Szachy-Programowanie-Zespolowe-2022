@@ -88,6 +88,11 @@ body {
   background-size: 100%;
 }
 
+.ismovesquare {
+  background: rgba(255, 255, 0, 1);
+  background-size: 100%;
+}
+
 .chessboardsquare {
   position: relative;
   width: 100%;
