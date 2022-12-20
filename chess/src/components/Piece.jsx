@@ -16,12 +16,13 @@ const Piece = ({piece: {type, color}, position, turn, boardtype}) => {
   return ( /* get starting color of player -> if not player then ref should be null */
     <div>
       <DragPreviewImage className="previewimage" connect={preview} src={image} />
-      <div className="piececontainer" ref={boardtype === "1vs1offline" ? drag : (color === "w" ? drag : null)} 
+      <div className="piececontainer" ref={boardtype === "1vs1offline" ? (turn === color ? drag : null) 
+      : (color === "w" ? drag : null)} 
       style={{opacity: isDragging ? 0 : 1, cursor: "grab"}}>
         <img src={image} alt="chess" className={`piece_${type}`} />
       </div>
-      {isDragging ? getPossibleMoves(position).map((pos) => (
-        <div key={pos[0]}
+      {isDragging ? getPossibleMoves(position).map((pos, i) => (
+        <div key={i}
           style={{
             background: pos[1] ? "rgba(255, 0, 0, 0.7)" : "rgba(0, 255, 0, 0.7)",
             width: "30%",

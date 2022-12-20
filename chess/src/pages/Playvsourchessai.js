@@ -7,6 +7,7 @@ import Chessboard from "../components/Chessboard"
 import {DndProvider} from "react-dnd"
 import {HTML5Backend} from "react-dnd-html5-backend"
 import ModalResult from "../components/ModalResult"
+// import ModalChoosePieces from "../components/ModalChoosePieces"
 import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
@@ -33,6 +34,7 @@ function Playvsourchessai() {
   const [result, setResult] = useState()
   const [turn, setTurn] = useState()
   const [winner, setWinner] = useState()
+  // const [piecesChosen, setPiecesChosen] = useState(false)
 
   useEffect(() => {
     resetGame()
@@ -81,12 +83,16 @@ function Playvsourchessai() {
             speedMultiplier={1} style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
             userSelect: "none"}}/>
           </div> :
+          /* ( piecesChosen ? */
           <div>
             <ModalResult open={isGameOver} result={result} winner={winner}/>
             <div className="board_container">
               <Chessboard className="chessboard" board={board} turn={turn} boardtype={"vsourchessai"}/>
             </div>
-          </div> }
+          </div> /* : 
+          <div>
+            <ModalChoosePieces open={!piecesChosen}/>
+        </div>)*/}
         <SwitchThemeButton onClick={switchTheme}>
           {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
         </SwitchThemeButton>

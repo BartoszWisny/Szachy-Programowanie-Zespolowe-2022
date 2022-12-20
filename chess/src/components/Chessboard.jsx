@@ -1,31 +1,32 @@
-import React, {useEffect, useState} from "react"
+import React, {useCallback, useEffect, useState} from "react"
 import ChessboardSquare from "./ChessboardSquare"
-// import {getFen, handleMove} from "./Game"
-// import {getEngineMove} from "../ChessEngineService"
+import {getFen, handleMove} from "./Game"
 
-const Chessboard = ({board, turn, boardtype}) => {
+const Chessboard = ({/* player, */ isGameOver, board, turn, boardtype}) => {
   const [currentChessboard, setCurrentChessboard] = useState([])
-  // const [ourChessEngineMove, setOurChessEngineMove] = useState("")
+  const [ourChessEngineMove, setOurChessEngineMove] = useState("")
 
-  /* function getEngineMove() {
+  const chessEngineMove = useCallback(async () => {
     const fen = getFen()
-    fetch(`https://chessengine-production-e09c.up.railway.app/api/json_getmove/${fen}/`)
-    .then((response) => response.json()).then((data) => setOurChessEngineMove(data[0]))
+    const url = `https://chessengine-production-e09c.up.railway.app/api/json_getmove/${fen}/`
+    const response = await fetch(url)
+    const data = await response.json()
+    setOurChessEngineMove(data[0])
     const positions = ourChessEngineMove.split(' ')
     handleMove(positions[0], positions[1])
-  } */
+  }, [ourChessEngineMove])
+
+  useEffect(() => { // what about pawn promotion???
+    if (boardtype === "vsourchessai" && turn === "b") {
+      chessEngineMove()
+    }
+  }, [turn, boardtype, ourChessEngineMove, chessEngineMove])
 
   useEffect(() => {
     if (boardtype === "1vs1offline") {
       setCurrentChessboard(turn === "w" ? board.flat() : board.flat().reverse())
     } else {
       setCurrentChessboard(board.flat())
-      /* if (turn === "b") {
-        getEngineMove()
-        getEngineMove()
-        const positions = ourChessEngineMove.split(' ')
-        handleMove(positions[0], positions[1])
-      } */
     }
   }, [board, turn, boardtype])
 
@@ -48,7 +49,7 @@ const Chessboard = ({board, turn, boardtype}) => {
   }
 
   return (
-    <div className="chessboard" /*ref={getEngineMove}*/>
+    <div className="chessboard" style={{pointerEvents: isGameOver ? "none" : "null"}}>
       {currentChessboard.map((piece, i) => (
         <div key={i} className="square">
           <ChessboardSquare piece={piece} dark={isDark(i)} position={getPosition(i)} turn={turn} boardtype={boardtype}/>
