@@ -6,7 +6,6 @@ import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
 import {GridLoader} from "react-spinners"
-import { getMove } from "../ChessEngineService"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -40,15 +39,6 @@ function About() {
     }, 2000)
   }, [])
 
-  const fen = "rnbqkbnr_pppppppp_8_8_8_8_PPPPPPPP_RNBQKBNR w KQkq - 0 1"
-
-  /* getMove(fen) = () => {
-    getMove(fen)
-      .then(move => {
-        console.log(move)
-      });
-  } */
-
   return (
     <div className="about" data-theme={theme}>
       <Helmet>
@@ -64,8 +54,7 @@ function About() {
           speedMultiplier={1} style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
           userSelect: "none"}}/>
         </div> : null}
-      { console.log(getMove(fen))  /* console.log(getMove(fen)) */ /* client({method: 'GET', path: `/api/getMove/${fen}`}).done(response => {
-			console.log(response); }) */ }
+      {/* { console.log(getMove(fen)) } */}
       <SwitchThemeButton onClick={switchTheme}>
         {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
       </SwitchThemeButton>

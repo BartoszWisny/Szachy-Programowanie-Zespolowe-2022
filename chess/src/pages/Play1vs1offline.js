@@ -38,11 +38,11 @@ function Play1vs1offline() {
     resetGame()
     initGame()
     const subscribe = gameSubject.subscribe((game) => {
-      setBoard(game.board);
+      setBoard(game.board)
       setIsGameOver(game.isGameOver)
       setResult(game.result)
       setTimeout(function() {
-        setTurn(game.turn);
+        setTurn(game.turn)
       }, 1000)
       setWinner(game.winner)
     })
@@ -84,7 +84,7 @@ function Play1vs1offline() {
             <div>
               <ModalResult open={isGameOver} result={result} winner={winner}/>
               <div className="board_container">
-                <Chessboard className="chessboard" board={board} turn={turn}/>
+                <Chessboard className="chessboard" board={board} turn={turn} boardtype={"1vs1offline"}/>
               </div>
             </div> }
           <SwitchThemeButton onClick={switchTheme}>
