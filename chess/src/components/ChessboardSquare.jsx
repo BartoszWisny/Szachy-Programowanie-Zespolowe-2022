@@ -4,23 +4,23 @@ import Piece from "./Piece"
 import {useDrop} from "react-dnd"
 import {handleMove, gameSubject, isCheck, getTurn, getMove, getLastMove} from "./Game"
 import Promotion from "./Promotion"
-import move from "../assets/sounds/move.mp3"
-import capture from "../assets/sounds/capture.mp3"
-import silence from "../assets/sounds/silence.mp3"
+import moveSound from "../assets/sounds/move.mp3"
+import captureSound from "../assets/sounds/capture.mp3"
+import silenceSound from "../assets/sounds/silence.mp3"
 
 const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype}) => {
   const [promotion, setPromotion] = useState(null)
 
   function playMoveSound() {
-    new Audio(move).play()
+    new Audio(moveSound).play()
   }
 
   function playCaptureSound() {
-    new Audio(capture).play()
+    new Audio(captureSound).play()
   }
 
   function playSilenceSound() {
-    new Audio(silence).play()
+    new Audio(silenceSound).play()
   }
 
   const [, drop] = useDrop({
@@ -49,9 +49,10 @@ const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype}
       <Square playerPieces={playerPieces} dark={dark} position={position} isMove={position === getLastMove()} check={isCheck() 
         && piece ? (piece.type === "k" && piece.color === getTurn() ? true : false) : false} turn={turn} 
         boardtype={boardtype}>
-        {promotion ? <Promotion promotion={promotion} /> 
-        : piece ? (<Piece playerPieces={playerPieces} piece={piece} position={position} turn={turn} boardtype={boardtype}/>)
-        : null}
+        {promotion && boardtype === "1vs1offline" ? <Promotion promotion={promotion} /> /* to be done for other types of boards */
+        : (promotion && boardtype === "vsourchessai" && playerPieces === turn ? <Promotion promotion={promotion} />  
+        : (piece ? (<Piece playerPieces={playerPieces} piece={piece} position={position} turn={turn} boardtype={boardtype}/>)
+        : null))}
       </Square>
     </div>
   )

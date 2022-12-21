@@ -1,20 +1,21 @@
 import React, {useCallback, useEffect, useState} from "react"
 import ChessboardSquare from "./ChessboardSquare"
-import {getFen, handleMove} from "./Game"
-// import move from "../assets/sounds/move.mp3"
-// import capture from "../assets/sounds/capture.mp3"
+import {getFen, move, getLastMoveCaptured} from "./Game"
+import moveSound from "../assets/sounds/move.mp3"
+import captureSound from "../assets/sounds/capture.mp3"
 
 const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
   const [currentChessboard, setCurrentChessboard] = useState([])
   const [ourChessEngineMove, setOurChessEngineMove] = useState("")
+  const [sound, setSound] = useState(false)
 
-  /* function playMoveSound() {
-    new Audio(move).play()
+  function playMoveSound() {
+    new Audio(moveSound).play()
   }
 
   function playCaptureSound() {
-    new Audio(capture).play()
-  } */
+    new Audio(captureSound).play()
+  }
 
   const chessEngineMove = useCallback(async () => {
     const fen = getFen()
@@ -23,17 +24,28 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
     const data = await response.json()
     setOurChessEngineMove(data[0])
     const positions = ourChessEngineMove.split(' ')
-    handleMove(positions[0], positions[1])
-  }, [ourChessEngineMove])
+    setSound(!sound)
 
-  useEffect(() => { // what about pawn promotion???
-    if (boardtype === "vsourchessai" && turn === (playerPieces === "w" ? "b" : "w")) {
-      chessEngineMove()
-      /* if (ourChessEngineMove !== "") { 
-        playMoveSound()
-      } */ // to be adjusted --> playCaptureSound()
+    if (positions.length === 2) {
+      move(positions[0], positions[1])
+    } else if (positions.length === 3) {
+      move(positions[0], positions[1], positions[2])
     }
-  }, [playerPieces, turn, boardtype, ourChessEngineMove, chessEngineMove])
+
+    if (ourChessEngineMove !== "" && sound === true) { 
+      if (getLastMoveCaptured()) {
+        playCaptureSound()
+      } else {
+        playMoveSound()
+      }
+    }
+  }, [ourChessEngineMove, sound])
+
+  useEffect(() => {
+    if (boardtype === "vsourchessai" && turn === (playerPieces === "w" ? "b" : "w") && !isGameOver) {
+      chessEngineMove()
+    }
+  }, [playerPieces, isGameOver, turn, boardtype, ourChessEngineMove, chessEngineMove])
 
   useEffect(() => {
     if (boardtype === "1vs1offline") {
