@@ -7,7 +7,6 @@ import Chessboard from "../components/Chessboard"
 import {DndProvider} from "react-dnd"
 import {HTML5Backend} from "react-dnd-html5-backend"
 import ModalResult from "../components/ModalResult"
-// import ModalChoosePieces from "../components/ModalChoosePieces"
 import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
@@ -34,7 +33,7 @@ function Playvsourchessai() {
   const [result, setResult] = useState()
   const [turn, setTurn] = useState()
   const [winner, setWinner] = useState()
-  // const [piecesChosen, setPiecesChosen] = useState(false)
+  const [playerPieces, setPlayerPieces] = useState("")
 
   useEffect(() => {
     resetGame()
@@ -43,9 +42,7 @@ function Playvsourchessai() {
       setBoard(game.board);
       setIsGameOver(game.isGameOver)
       setResult(game.result)
-      setTimeout(function() {
-        setTurn(game.turn);
-      }, 1000)
+      setTurn(game.turn)
       setWinner(game.winner)
     })
     return () => subscribe.unsubscribe()
@@ -67,6 +64,9 @@ function Playvsourchessai() {
     }, 2000)
   }, [])
 
+  const imagewhite = require(`../assets/chessboard/k_w.png`)
+  const imageblack = require(`../assets/chessboard/k_b.png`)
+
   return (
     <div className="playvsourchessai" data-theme={theme}>
       <DndProvider backend={HTML5Backend}>
@@ -83,16 +83,32 @@ function Playvsourchessai() {
             speedMultiplier={1} style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
             userSelect: "none"}}/>
           </div> :
-          /* ( piecesChosen ? */
           <div>
-            <ModalResult open={isGameOver} result={result} winner={winner}/>
-            <div className="board_container">
-              <Chessboard className="chessboard" board={board} turn={turn} boardtype={"vsourchessai"}/>
-            </div>
-          </div> /* : 
-          <div>
-            <ModalChoosePieces open={!piecesChosen}/>
-        </div>)*/}
+            {playerPieces === "" && (
+            <div className="overlaychoosepieces">
+              <div className="modalchoosepieces_container">
+                <div className="modalchoosepieces_content">
+                  <h1 className="modalchoosepieces_title">CHOOSE PIECES</h1>
+                  <button className="modalchoosepieces_button1" onClick={() => setPlayerPieces("w")}>
+                    <img src={imagewhite} alt="chess" />
+                    <h2>WHITE</h2>
+                  </button>
+                  <button className="modalchoosepieces_button2" onClick={() => setPlayerPieces("b")}>
+                    <img src={imageblack} alt="chess" />
+                    <h2>BLACK</h2>
+                  </button>
+                </div>
+              </div>
+            </div> )}
+            {playerPieces !== "" && (
+            <div>
+              <ModalResult open={isGameOver} result={result} winner={winner}/>
+              <div className="board_container">
+                <Chessboard className="chessboard" playerPieces={playerPieces} isGameOver={isGameOver} board={board} 
+                turn={turn} boardtype={"vsourchessai"}/>
+              </div>
+            </div>)}
+          </div> }
         <SwitchThemeButton onClick={switchTheme}>
           {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
         </SwitchThemeButton>

@@ -8,7 +8,7 @@ import move from "../assets/sounds/move.mp3"
 import capture from "../assets/sounds/capture.mp3"
 import silence from "../assets/sounds/silence.mp3"
 
-const ChessboardSquare = ({piece, dark, position, turn, boardtype}) => {
+const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype}) => {
   const [promotion, setPromotion] = useState(null)
 
   function playMoveSound() {
@@ -44,12 +44,13 @@ const ChessboardSquare = ({piece, dark, position, turn, boardtype}) => {
   }, [position])
   
   return (
-    <div className="chessboardsquare" ref={boardtype === "1vs1offline" ? drop : (turn === "w" ? drop : null)}>
-      <Square dark={dark} position={position} isMove={position === getLastMove()} check={isCheck() 
+    <div className="chessboardsquare" ref={boardtype === "1vs1offline" ? drop : (boardtype === "vsourchessai" ? 
+      (playerPieces === turn ? drop : null) : (turn === "w" ? drop : null))}>
+      <Square playerPieces={playerPieces} dark={dark} position={position} isMove={position === getLastMove()} check={isCheck() 
         && piece ? (piece.type === "k" && piece.color === getTurn() ? true : false) : false} turn={turn} 
         boardtype={boardtype}>
         {promotion ? <Promotion promotion={promotion} /> 
-        : piece ? (<Piece piece={piece} position={position} turn={turn} boardtype={boardtype}/>)
+        : piece ? (<Piece playerPieces={playerPieces} piece={piece} position={position} turn={turn} boardtype={boardtype}/>)
         : null}
       </Square>
     </div>

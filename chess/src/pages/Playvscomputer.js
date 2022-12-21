@@ -41,9 +41,7 @@ function Playvscomputer() {
       setBoard(game.board);
       setIsGameOver(game.isGameOver)
       setResult(game.result)
-      setTimeout(function() {
-        setTurn(game.turn);
-      }, 1000)
+      setTurn(game.turn)
       setWinner(game.winner)
     })
     return () => subscribe.unsubscribe()
