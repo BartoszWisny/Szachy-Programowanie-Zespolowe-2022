@@ -1,5 +1,6 @@
 import React from "react"
 import {useDrag, DragPreviewImage} from "react-dnd"
+// import { Preview } from "react-dnd-preview"
 import {getPossibleMoves} from "./Game"
 
 const Piece = ({playerPieces, piece: {type, color}, position, turn, boardtype}) => {  
@@ -15,7 +16,7 @@ const Piece = ({playerPieces, piece: {type, color}, position, turn, boardtype}) 
 
   return (
     <div>
-      <DragPreviewImage className="previewimage" connect={preview} src={image} />
+      <DragPreviewImage className="previewimage" connect={preview} src={image}/>
       <div className="piececontainer" ref={boardtype === "1vs1offline" ? (turn === color ? drag : null) 
       : (boardtype === "vsourchessai" ? (playerPieces === turn ? drag : null) : (color === "w" ? drag : null))} 
       style={{opacity: isDragging ? 0 : 1, cursor: "grab"}}>
