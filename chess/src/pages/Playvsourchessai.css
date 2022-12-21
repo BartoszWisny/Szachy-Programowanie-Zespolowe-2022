@@ -224,3 +224,80 @@ body {
   transform: translate(-50%, -50%);
   user-select: none;
 }
+
+.overlaychoosepieces {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 1.5rem;
+  font-size: 1rem;
+}
+
+.modalchoosepieces_container {
+  position: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 12.5rem;
+  height: 17.5rem;
+  width: 21rem;
+  overflow: hidden;
+  box-shadow: 0 0 1rem var(--gray6);
+  border-radius: var(--radius);
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 200ms ease-in;
+  background-color: rgba(255, 255, 255, 0.85);
+  z-index: 1;
+  user-select: none;
+}
+
+.modalchoosepieces_title {
+  margin-top: 2rem;
+  padding: 0rem;
+  user-select: none;
+}
+  
+.modalchoosepieces_container:hover {
+  transform: scale(1.04);
+}
+
+.modalchoosepieces_button1 {
+  padding: 1rem;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1rem;
+  border: 0.1rem solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  user-select: none;
+}
+  
+.modalchoosepieces_button2 {
+  padding: 1rem;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1rem;
+  border: 0.1rem solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  user-select: none;
+}
+  
+.modalchoosepieces_button1:hover {
+  background: var(--primary);
+  color: white;
+}
+  
+.modalchoosepieces_button2:hover {
+  background: var(--primary);
+  color: white;
+}

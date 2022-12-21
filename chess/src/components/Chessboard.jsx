@@ -1,10 +1,20 @@
 import React, {useCallback, useEffect, useState} from "react"
 import ChessboardSquare from "./ChessboardSquare"
 import {getFen, handleMove} from "./Game"
+// import move from "../assets/sounds/move.mp3"
+// import capture from "../assets/sounds/capture.mp3"
 
-const Chessboard = ({/* player, */ isGameOver, board, turn, boardtype}) => {
+const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
   const [currentChessboard, setCurrentChessboard] = useState([])
   const [ourChessEngineMove, setOurChessEngineMove] = useState("")
+
+  /* function playMoveSound() {
+    new Audio(move).play()
+  }
+
+  function playCaptureSound() {
+    new Audio(capture).play()
+  } */
 
   const chessEngineMove = useCallback(async () => {
     const fen = getFen()
@@ -17,23 +27,31 @@ const Chessboard = ({/* player, */ isGameOver, board, turn, boardtype}) => {
   }, [ourChessEngineMove])
 
   useEffect(() => { // what about pawn promotion???
-    if (boardtype === "vsourchessai" && turn === "b") {
+    if (boardtype === "vsourchessai" && turn === (playerPieces === "w" ? "b" : "w")) {
       chessEngineMove()
+      /* if (ourChessEngineMove !== "") { 
+        playMoveSound()
+      } */ // to be adjusted --> playCaptureSound()
     }
-  }, [turn, boardtype, ourChessEngineMove, chessEngineMove])
+  }, [playerPieces, turn, boardtype, ourChessEngineMove, chessEngineMove])
 
   useEffect(() => {
     if (boardtype === "1vs1offline") {
       setCurrentChessboard(turn === "w" ? board.flat() : board.flat().reverse())
+    } else if (boardtype === "vsourchessai") {
+      setCurrentChessboard(playerPieces === "w" ? board.flat() : board.flat().reverse())
     } else {
       setCurrentChessboard(board.flat())
     }
-  }, [board, turn, boardtype])
+  }, [playerPieces, board, turn, boardtype])
 
   function getXYPosition(i) {
-    const x = boardtype === "1vs1offline" ? (turn === "w" ? i % 8 : Math.abs(i % 8 - 7)) : i % 8
+    const x = boardtype === "1vs1offline" ? (turn === "w" ? i % 8 : Math.abs(i % 8 - 7)) 
+              : (boardtype === "vsourchessai" ? (playerPieces === "w" ? i % 8 : Math.abs(i % 8 - 7)) 
+              : i % 8)
     const y = boardtype === "1vs1offline" ? (turn === "w" ? Math.abs(Math.floor(i / 8) - 7) : Math.floor(i / 8)) 
-              : Math.abs(Math.floor(i / 8) - 7)
+              : (boardtype === "vsourchessai" ? (playerPieces === "w" ? Math.abs(Math.floor(i / 8) - 7) : Math.floor(i / 8)) 
+              : Math.abs(Math.floor(i / 8) - 7))
     return {x, y}
   }
 
@@ -52,7 +70,8 @@ const Chessboard = ({/* player, */ isGameOver, board, turn, boardtype}) => {
     <div className="chessboard" style={{pointerEvents: isGameOver ? "none" : "null"}}>
       {currentChessboard.map((piece, i) => (
         <div key={i} className="square">
-          <ChessboardSquare piece={piece} dark={isDark(i)} position={getPosition(i)} turn={turn} boardtype={boardtype}/>
+          <ChessboardSquare playerPieces={playerPieces} piece={piece} dark={isDark(i)} position={getPosition(i)}
+          turn={turn} boardtype={boardtype}/>
         </div>
       ))}
     </div>
