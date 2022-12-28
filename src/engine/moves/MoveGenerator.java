@@ -146,7 +146,7 @@ public class MoveGenerator {
 	/**
 	 * Checks if given square is attacked by pieces of given color
 	 */
-	private static boolean isSquareAttacked(Board board, PieceColor color,  int col, int row) {
+	public static boolean isSquareAttacked(Board board, PieceColor color,  int col, int row) {
 		List<Move> attackingMoves = getAttackingMoves(board, color);
 		
 		for (Move m : attackingMoves) {

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Engine {
     public static EngineEval findBestMove(Board board, int depth) {
-        System.out.println(alphaBeta(board, ConstValues.LOSING_SCORE, ConstValues.WINNING_SCORE, depth));
+        //System.out.println(alphaBeta(board, ConstValues.LOSING_SCORE, ConstValues.WINNING_SCORE, depth));
 //         return negatedMinMax(board, depth);
         return alphaBetaMax(board, ConstValues.LOSING_SCORE, ConstValues.WINNING_SCORE, depth);
     }

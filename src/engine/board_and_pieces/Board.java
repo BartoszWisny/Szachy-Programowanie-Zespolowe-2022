@@ -16,7 +16,14 @@ public class Board {
 	private boolean enPassant;
 	private int enPassantTargetCol;
 	private int enPassantTargetRow;
+	
+	private int whiteKingCol;
+	private int whiteKingRow;
+	private int blackKingCol;
+	private int blackKingRow;
 
+	private boolean isWhiteKingAttacked;
+	private boolean isBlackKingAttacked;
 
 	public Board() {
 		this.squares = new Piece[ConstValues.BOARD_ROWS][ConstValues.BOARD_COLS];
@@ -101,5 +108,53 @@ public class Board {
 	
 	public void setEnPassantTargetRow(int i) {
 		this.enPassantTargetRow = i;
+	}
+
+	public int getWhiteKingCol() {
+		return whiteKingCol;
+	}
+
+	public void setWhiteKingCol(int whiteKingCol) {
+		this.whiteKingCol = whiteKingCol;
+	}
+
+	public int getWhiteKingRow() {
+		return whiteKingRow;
+	}
+
+	public void setWhiteKingRow(int whiteKingRow) {
+		this.whiteKingRow = whiteKingRow;
+	}
+
+	public int getBlackKingCol() {
+		return blackKingCol;
+	}
+
+	public void setBlackKingCol(int blackKingCol) {
+		this.blackKingCol = blackKingCol;
+	}
+
+	public int getBlackKingRow() {
+		return blackKingRow;
+	}
+
+	public void setBlackKingRow(int blackKingRow) {
+		this.blackKingRow = blackKingRow;
+	}
+
+	public boolean isWhiteKingAttacked() {
+		return isWhiteKingAttacked;
+	}
+
+	public void setWhiteKingAttacked(boolean isWhiteKingAttacked) {
+		this.isWhiteKingAttacked = isWhiteKingAttacked;
+	}
+
+	public boolean isBlackKingAttacked() {
+		return isBlackKingAttacked;
+	}
+
+	public void setBlackKingAttacked(boolean isBlackKingAttacked) {
+		this.isBlackKingAttacked = isBlackKingAttacked;
 	}
 }

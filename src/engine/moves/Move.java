@@ -21,6 +21,14 @@ public class Move {
 	private int savedEnPassantTargetCol;
 	private int savedEnPassantTargetRow;
 	
+	private int savedWhiteKingCol;
+	private int savedWhiteKingRow;
+	private int savedBlackKingCol;
+	private int savedBlackKingRow;
+	
+	private boolean savedIsWhiteKingAttacked;
+	private boolean savedIsBlackKingAttacked;
+	
 	public boolean isSavedWhiteKingsideCastling() {
 		return savedWhiteKingsideCastling;
 	}
@@ -141,6 +149,54 @@ public class Move {
 		result += Integer.toString(endRow+1);
 		
 		return result;
+	}
+
+	public int getSavedWhiteKingCol() {
+		return savedWhiteKingCol;
+	}
+
+	public void setSavedWhiteKingCol(int savedWhiteKingCol) {
+		this.savedWhiteKingCol = savedWhiteKingCol;
+	}
+
+	public int getSavedWhiteKingRow() {
+		return savedWhiteKingRow;
+	}
+
+	public void setSavedWhiteKingRow(int savedWhiteKingRow) {
+		this.savedWhiteKingRow = savedWhiteKingRow;
+	}
+
+	public int getSavedBlackKingCol() {
+		return savedBlackKingCol;
+	}
+
+	public void setSavedBlackKingCol(int savedBlackKingCol) {
+		this.savedBlackKingCol = savedBlackKingCol;
+	}
+
+	public int getSavedBlackKingRow() {
+		return savedBlackKingRow;
+	}
+
+	public void setSavedBlackKingRow(int savedBlackKingRow) {
+		this.savedBlackKingRow = savedBlackKingRow;
+	}
+
+	public boolean isSavedWhiteKingAttacked() {
+		return savedIsWhiteKingAttacked;
+	}
+
+	public void setSavedWhiteKingAttacked(boolean savedIsWhiteKingAttacked) {
+		this.savedIsWhiteKingAttacked = savedIsWhiteKingAttacked;
+	}
+
+	public boolean isSavedBlackKingAttacked() {
+		return savedIsBlackKingAttacked;
+	}
+
+	public void setSavedBlackKingAttacked(boolean savedIsBlackKingAttacked) {
+		this.savedIsBlackKingAttacked = savedIsBlackKingAttacked;
 	}
 	
 }

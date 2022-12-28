@@ -7,6 +7,7 @@ import engine.board_and_pieces.PieceType;
 import engine.moves.CastlingMove;
 import engine.moves.EnPassantMove;
 import engine.moves.Move;
+import engine.moves.MoveGenerator;
 import engine.moves.PromotionMove;
 
 public class MoveHandler {
@@ -18,10 +19,19 @@ public class MoveHandler {
         move.setSavedEnPassant(currBoard.getEnPassant());
         move.setSavedEnPassantTargetCol(currBoard.getEnPassantTargetCol());
         move.setSavedEnPassantTargetRow(currBoard.getEnPassantTargetRow());
+        
         move.setSavedWhiteKingsideCastling(currBoard.isWhiteKingsideCastling());
         move.setSavedWhiteQueensideCastling(currBoard.isWhiteQueensideCastling());
         move.setSavedBlackKingsideCastling(currBoard.isBlackKingsideCastling());
         move.setSavedBlackQueensideCastling(currBoard.isBlackQueensideCastling());
+        
+        move.setSavedWhiteKingCol(currBoard.getWhiteKingCol());
+        move.setSavedWhiteKingRow(currBoard.getWhiteKingRow());
+        move.setSavedBlackKingCol(currBoard.getBlackKingCol());
+        move.setSavedBlackKingRow(currBoard.getBlackKingRow());
+        
+        move.setSavedWhiteKingAttacked(currBoard.isWhiteKingAttacked());
+        move.setSavedBlackKingAttacked(currBoard.isBlackKingAttacked());
 
         if (move instanceof PromotionMove) {
             updatedBoard.squares[move.beginCol][move.beginRow] = null;
@@ -92,13 +102,23 @@ public class MoveHandler {
             updatedBoard.setBlackKingsideCastling(false);
         }
 
+        updatedBoard.setWhiteKingCol(currBoard.getWhiteKingCol());
+        updatedBoard.setWhiteKingRow(currBoard.getWhiteKingRow());
+        updatedBoard.setBlackKingCol(currBoard.getBlackKingCol());
+        updatedBoard.setBlackKingRow(currBoard.getBlackKingRow());
 
         if (movedPiece.getType() == PieceType.KING && movedPiece.getColor() == PieceColor.WHITE) {
             updatedBoard.setWhiteKingsideCastling(false);
             updatedBoard.setWhiteQueensideCastling(false);
+            
+            updatedBoard.setWhiteKingCol(move.endCol);
+            updatedBoard.setWhiteKingRow(move.endRow);
         } else if(movedPiece.getType() == PieceType.KING && movedPiece.getColor() == PieceColor.BLACK) {
             updatedBoard.setBlackKingsideCastling(false);
             updatedBoard.setBlackQueensideCastling(false);
+            
+            updatedBoard.setBlackKingCol(move.endCol);
+            updatedBoard.setBlackKingRow(move.endRow);
         }
 
         if (movedPiece.getType() == PieceType.PAWN && movedPiece.getColor() == PieceColor.WHITE && move.endRow - move.beginRow == 2) {
@@ -119,6 +139,9 @@ public class MoveHandler {
             updatedBoard.activeColor = PieceColor.WHITE;
         }
 
+        updatedBoard.setWhiteKingAttacked(MoveGenerator.isSquareAttacked(updatedBoard, PieceColor.BLACK, updatedBoard.getWhiteKingCol(), updatedBoard.getWhiteKingRow()));
+        updatedBoard.setBlackKingAttacked(MoveGenerator.isSquareAttacked(updatedBoard, PieceColor.WHITE, updatedBoard.getBlackKingCol(), updatedBoard.getBlackKingRow()));
+        
         return updatedBoard;
     }
 
@@ -134,6 +157,14 @@ public class MoveHandler {
         updatedBoard.setEnPassant(move.isSavedEnPassant());
         updatedBoard.setEnPassantTargetCol(move.getSavedEnPassantTargetCol());
         updatedBoard.setEnPassantTargetRow(move.getSavedEnPassantTargetRow());
+        
+        updatedBoard.setWhiteKingCol(move.getSavedWhiteKingCol());
+        updatedBoard.setWhiteKingRow(move.getSavedWhiteKingRow());
+        updatedBoard.setBlackKingCol(move.getSavedBlackKingCol());
+        updatedBoard.setBlackKingRow(move.getSavedBlackKingRow());
+        
+        updatedBoard.setWhiteKingAttacked(move.isSavedWhiteKingAttacked());
+        updatedBoard.setBlackKingAttacked(move.isSavedBlackKingAttacked());
 
         if (move instanceof PromotionMove) {
             PieceColor pawnColor = updatedBoard.squares[move.endCol][move.endRow].getColor();
@@ -174,6 +205,12 @@ public class MoveHandler {
             Piece movedPiece = updatedBoard.squares[move.endCol][move.endRow];
             updatedBoard.squares[move.endCol][move.endRow] = move.takenPiece;
             updatedBoard.squares[move.beginCol][move.beginRow] = movedPiece;
+        }
+        
+        if (updatedBoard.activeColor == PieceColor.WHITE) {
+            updatedBoard.activeColor = PieceColor.BLACK;
+        } else {
+            updatedBoard.activeColor = PieceColor.WHITE;
         }
 
         return updatedBoard;
