@@ -157,6 +157,7 @@ public class MoveGenerator {
 		return false;
 	}
 
+
 	/**
 	 * returns an opposite color to the one we provided
 	 */
@@ -356,20 +357,20 @@ public class MoveGenerator {
 			}
 			if (onChessboard((beginCol + 1), (beginRow + 1)) && !freeSquare(board, (beginCol + 1), (beginRow + 1)) && board.squares[(beginCol + 1)][(beginRow + 1)].getColor() == oppColor) {
 				if ((beginRow + 1) == 7) {
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow + 1), PieceType.QUEEN));
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow + 1), PieceType.ROOK));
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow + 1), PieceType.KNIGHT));
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow + 1), PieceType.BISHOP));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol + 1), (beginRow + 1), PieceType.QUEEN));
 				} else {
 					possibleMoves.add(new Move(beginCol, beginRow, (beginCol + 1), (beginRow + 1)));
 				}	
 			}
 			if (onChessboard((beginCol - 1), (beginRow + 1)) && !freeSquare(board, (beginCol - 1), (beginRow + 1)) && board.squares[(beginCol - 1)][(beginRow + 1)].getColor() == oppColor) {
 				if ((beginRow + 1) == 7) {
+					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow + 1), PieceType.QUEEN));
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow + 1), PieceType.ROOK));
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow + 1), PieceType.KNIGHT));
 					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow + 1), PieceType.BISHOP));
-					possibleMoves.add(new PromotionMove(beginCol, beginRow, (beginCol - 1), (beginRow + 1), PieceType.QUEEN));
 				} else {
 					possibleMoves.add(new Move(beginCol, beginRow, (beginCol - 1), (beginRow + 1)));
 				}

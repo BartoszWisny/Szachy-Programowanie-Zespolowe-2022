@@ -13,11 +13,13 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+
 public class Engine {
     public static EngineEval findBestMove(Board board, int depth) {
-        //System.out.println(alphaBeta(board, ConstValues.LOSING_SCORE, ConstValues.WINNING_SCORE, depth));
-//         return negatedMinMax(board, depth);
-        return alphaBetaMax(board, ConstValues.LOSING_SCORE, ConstValues.WINNING_SCORE, depth);
+//        return negatedMinMax(board, depth);
+//        return alphaBetaMax(board, ConstValues.LOSING_SCORE, ConstValues.WINNING_SCORE, depth);
+        return alphaBeta(board, ConstValues.LOSING_SCORE, ConstValues.WINNING_SCORE, depth);
+
     }
 
 
@@ -32,7 +34,7 @@ public class Engine {
 
         Move outMove = null;
         int max = Integer.MIN_VALUE;
-        int score ;
+        int score;
 
         EngineEval tmpResult;
         List<Move> moves = MoveGenerator.getPossibleMoves(board);
@@ -55,22 +57,34 @@ public class Engine {
      * Cooperates with @quiesce
      * (NOT Working) - problems with quiesce.
      */
-    private static int alphaBeta(Board board, int alpha, int beta, int depth) {
+    private static EngineEval alphaBeta(Board board, int alpha, int beta, int depth) {
         if (depth ==  0) {
-//            return Evaluator.evaluate(board); // Working
-             return quiesce(board, alpha, beta); // NOT Working
+            return new EngineEval(null, Evaluator.evaluate(board)); // Working
+//            return new EngineEval(null, quiesce(board, alpha, beta)); // NOT Working
         }
         int score;
-
+        int bestScore = Integer.MIN_VALUE;
+        Move outMove = null;
         List<Move> moves = MoveGenerator.getPossibleMoves(board);
-        for (Move move : moves) {
-            score = -alphaBeta(MoveHandler.makeMove(board, move), -beta, -alpha, (depth - 1));
-
-            if (score >= beta) { return beta; }
-            if (score > alpha) { alpha = score; }
+        if (moves.size() == 0) {
+            if (board.isBlackKingAttacked()) return new EngineEval(null, ConstValues.LOSING_SCORE);
+            if (board.isWhiteKingAttacked()) return new EngineEval(null, ConstValues.WINNING_SCORE);
+            return new EngineEval(null, 0);
         }
 
-        return alpha;
+        orderMoves(board, moves);
+        for (Move move : moves) {
+            score = -alphaBeta(MoveHandler.makeMove(board, move), -beta, -alpha, (depth - 1)).positionEval();
+
+            if (score >= beta) { return new EngineEval(move, beta); }
+            if (score > bestScore) {
+                bestScore = score;
+                outMove = move;
+                if (score > alpha) { alpha = score; }
+            }
+        }
+
+        return new EngineEval(outMove, bestScore);
     }
 
     /** Quiesce search - upgrade for alpha beta pruning, NOT WORKING */
@@ -107,7 +121,7 @@ public class Engine {
         }
 
         if (move instanceof PromotionMove) {
-            moveScore += ((PromotionMove) move).getNewPieceType().getTypeValue();
+            moveScore += ((PromotionMove) move).getNewPieceType().getTypeValue() - PieceType.PAWN.getTypeValue();
         }
 
         return moveScore;
@@ -120,11 +134,20 @@ public class Engine {
      * Cooperates with: {@link engine.beta_chess_engine.Engine#alphaBetaMin(Board, int, int, int)}
      */
     private static EngineEval alphaBetaMax(Board board, int alpha, int beta, int depth) {
-        if (depth == 0) return new EngineEval(null, Evaluator.evaluate(board));
+        if (depth == 0)
+            return new EngineEval(null, Evaluator.evaluate(board));
 
         int score;
         Move outMove = null;
+
         List<Move> moves = MoveGenerator.getPossibleMoves(board);
+        if (moves.size() == 0) {
+            if (board.isBlackKingAttacked()) return new EngineEval(null, ConstValues.WINNING_SCORE);
+            if (board.isWhiteKingAttacked()) return new EngineEval(null, ConstValues.LOSING_SCORE);
+            return new EngineEval(null, 0);
+        }
+
+//        orderMoves(board, moves);
         for (Move move : moves) {
             score = alphaBetaMin(MoveHandler.makeMove(board, move), alpha, beta, (depth - 1)).positionEval();
             if (score >= beta) return new EngineEval(move, beta);
@@ -137,11 +160,20 @@ public class Engine {
     }
 
     private static EngineEval alphaBetaMin(Board board, int alpha, int beta, int depth) {
-        if (depth == 0) return new EngineEval(null, -Evaluator.evaluate(board));
+        if (depth == 0)
+            return new EngineEval(null, -Evaluator.evaluate(board));
 
         int score;
         Move outMove = null;
+
         List<Move> moves = MoveGenerator.getPossibleMoves(board);
+        if (moves.size() == 0) {
+            if (board.isBlackKingAttacked()) return new EngineEval(null, ConstValues.WINNING_SCORE);
+            if (board.isWhiteKingAttacked()) return new EngineEval(null, ConstValues.LOSING_SCORE);
+            return new EngineEval(null, 0);
+        }
+
+//        orderMoves(board, moves);
         for (Move move : moves) {
             score = alphaBetaMax(MoveHandler.makeMove(board, move), alpha, beta, (depth - 1)).positionEval();
             if (score <= alpha) return new EngineEval(move, alpha);

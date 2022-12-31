@@ -9,7 +9,6 @@ import engine.moves.MoveGenerator;
 
 
 public class BoardUtils {
-
     public static Board createFromFEN(String FEN) {
         Board board = new Board();
 
@@ -181,7 +180,8 @@ public class BoardUtils {
         return board;
     }
 
-    public static void boardSetup(Board board) {
+    public static Board boardSetup() {
+        Board board = new Board();
         for (int i = 0; i <= (ConstValues.BOARD_COLS - 1); i++) {
             board.squares[i][1] = new Piece(PieceType.PAWN, PieceColor.WHITE);
             board.squares[i][6] = new Piece(PieceType.PAWN, PieceColor.BLACK);
@@ -204,6 +204,16 @@ public class BoardUtils {
         board.squares[5][7] = new Piece(PieceType.BISHOP, PieceColor.BLACK);
         board.squares[6][7] = new Piece(PieceType.KNIGHT, PieceColor.BLACK);
         board.squares[7][7] = new Piece(PieceType.ROOK, PieceColor.BLACK);
+
+        board.setBlackKingsideCastling(true);
+        board.setWhiteKingsideCastling(true);
+        board.setBlackQueensideCastling(true);
+        board.setWhiteQueensideCastling(true);
+        board.setBlackKingAttacked(false);
+        board.setWhiteKingAttacked(false);
+        board.activeColor = PieceColor.WHITE;
+
+        return board;
     }
 
     

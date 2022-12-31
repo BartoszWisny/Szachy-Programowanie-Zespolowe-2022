@@ -9,7 +9,8 @@ public class Move {
 	
 	public int endCol;
 	public int endRow;
-	
+
+	public Piece movingPiece;
 	public Piece takenPiece;
 	
 	private boolean savedWhiteKingsideCastling;
@@ -90,6 +91,7 @@ public class Move {
 		this.beginRow = beginRow;
 		this.endCol = endCol;
 		this.endRow = endRow;
+		this.movingPiece = null;
 		this.takenPiece = null;
 	}
 	
@@ -102,9 +104,7 @@ public class Move {
 	 *  Najpierw podajemy pierwsze pole, następnie jedna spacja,
 	 *  potem końcowe pole, np. "e5 e1" 
 	 */
-	
 	public String moveString() {
-		
 		String result = "";
 		
 		if(this.beginCol == 0) {

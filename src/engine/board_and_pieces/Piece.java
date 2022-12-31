@@ -10,8 +10,7 @@ public class Piece {
 		this.type = type;
 		this.color = color;
 
-		this.value = type.getTypeValue() *
-					 color.getColorValue();
+		this.value = type.getTypeValue() *  color.getColorValue();
 	}
 
 	/**

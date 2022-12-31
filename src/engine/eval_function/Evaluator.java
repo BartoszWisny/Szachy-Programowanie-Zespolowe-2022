@@ -14,7 +14,7 @@ public class Evaluator {
         for (int row = 0; row < ConstValues.BOARD_ROWS; row ++) {
             for (int column = 0; column < ConstValues.BOARD_COLS; column++) {
 
-                currentPiece = board.squares[row][column];
+                currentPiece = board.squares[column][row];
                 if (!(currentPiece == null)) {
                     evaluation += calcTotalPieceValue(currentPiece, row, column);
                 }
@@ -31,7 +31,7 @@ public class Evaluator {
 
 
     private static int positionImpact(Piece piece, int row, int column) {
-        if (piece.getColor() == PieceColor.BLACK) {
+        if (piece.getColor() == PieceColor.WHITE) {
             row = (ConstValues.BOARD_ROWS - 1) - row;
         }
 

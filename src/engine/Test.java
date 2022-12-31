@@ -1,53 +1,16 @@
 package engine;
 
+import engine.beta_chess_engine.Engine;
 import engine.board_and_pieces.Board;
 import engine.board_and_pieces.PieceColor;
 import engine.board_and_pieces.PieceType;
+import engine.eval_function.Evaluator;
 import engine.moves.Move;
 import engine.moves.MoveGenerator;
+import engine.utils.BoardUtils;
 
 public class Test {
-	
-	public static PieceColor opponentColor(PieceColor color) {
-		if(color == PieceColor.WHITE) {
-			return PieceColor.BLACK;
-		} else {
-			return PieceColor.WHITE;
-		}
-	}
-
-	public static Move[] MadeMoves = new Move[10];
-
-	public static int CountMoves(Board board, int depth, PieceColor color) {
-
-		int sum = 0;
-		MoveGenerator mg = new MoveGenerator(board);
-
-		if(depth == 0) {
-
-			return 1;
-
-		} else {
-
-			Move[] moves = mg.getPossibleMoves(color);
-
-			for(Move m : moves) {
-				MadeMoves[depth] = m;
-				board.makeMove(m);
-				sum += CountMoves(board, depth-1, opponentColor(color));
-				board.undoMove(m);
-			}
-
-			return sum;
-		}
-	}
-
-	static void evalFunTests() {
-
-	}
-
 	public static void main(String args[]) {
-		
 		//https://www.chessprogramming.org/Perft_Results
 
 		//Result 1.1 (position 2) = 48 OK       Result 1.2 (position 2) = 2039 OK 
@@ -78,12 +41,7 @@ public class Test {
 		//board.printBoardGraphic();
 		
 		//System.out.println(totalMoves);
-
-		System.out.println(PieceType.PAWN.getTypeValue());
-		
+		Board board = BoardUtils.boardSetup();
+		System.out.println(Evaluator.evaluate(board));
 	}
-
-
-
-	
 }
