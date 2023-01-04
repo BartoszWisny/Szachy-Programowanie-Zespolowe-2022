@@ -93,7 +93,9 @@ body {
   font-family: inherit;
   font-weight: bold;
   font-size: 1rem;
-  margin: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
   border: 0.1rem solid var(--primary);
   color: var(--primary);
   border-radius: var(--radius);
@@ -154,5 +156,13 @@ body {
 }
 
 .logintile_signuplink {
-  margin: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.MuiAlert-root {
+  height: 3rem;
+  width: 28rem;
+  bottom: 0rem;
+  position: absolute;
 }

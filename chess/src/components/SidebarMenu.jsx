@@ -8,6 +8,8 @@ import * as BiIcons from "react-icons/bi"
 import {SidebarData} from "./SidebarData"
 import SubMenu from "./SubMenu"
 import {useNavigate} from "react-router-dom"
+import {NotificationContainer} from "react-notifications";
+import 'react-notifications/lib/notifications.css';
 
 const Nav = styled.div`
   background-color: var(--primary);
@@ -111,6 +113,7 @@ const SidebarMenu = () => {
           })}
         </SidebarWrap>
       </SidebarNav>
+      <NotificationContainer/>
     </div>
   )
 }
