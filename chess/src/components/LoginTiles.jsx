@@ -19,7 +19,7 @@ import {auth} from "../FirebaseConfig"
 import {Link} from "react-router-dom"
 import { useNavigate } from 'react-router-dom'
 import ModalFacebookLinkAccount from "./ModalFacebookLinkAccount";
-import NotificationManager from 'react-notifications';
+import {NotificationManager} from 'react-notifications';
 
 const LoginTiles = () => {
   return (
