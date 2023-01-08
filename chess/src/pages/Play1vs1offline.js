@@ -86,6 +86,7 @@ function Play1vs1offline() {
               <ModalResult open={isGameOver} result={result} winner={winner}/>
               <div className="board_container">
                 <Chessboard className="chessboard" isGameOver={isGameOver} board={board} turn={turn} boardtype={"1vs1offline"}/>
+                <div className="board_padding"/>
               </div>
             </div> }
           <SwitchThemeButton onClick={switchTheme}>

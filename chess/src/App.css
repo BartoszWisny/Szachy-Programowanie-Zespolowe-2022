@@ -49,11 +49,11 @@ video {
 .tiles {
   display: grid;
   position: relative;
-  margin-top: 4rem;
+  margin-top: min(4rem, 8vh);
   margin-left: 4rem;
   margin-right: 4rem;
-  margin-bottom: 3rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(90vw, 12rem), 15rem));
+  margin-bottom: min(3rem, 8vh);
+  grid-template-columns: repeat(auto-fit, minmax(min(90vw, 15rem), 15rem));
   justify-content: center;
   align-items: center;
   gap: 1.5rem 1.5rem;
@@ -62,7 +62,7 @@ video {
 .tile {
   position: relative;
   height: 18rem;
-  width: 15rem;
+  width: min(90vw, 15rem);
   overflow: hidden;
   box-shadow: 0 0 1rem var(--gray1);
   border-radius: var(--radius);
