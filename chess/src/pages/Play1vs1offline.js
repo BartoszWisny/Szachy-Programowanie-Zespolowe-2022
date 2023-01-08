@@ -6,8 +6,6 @@ import {gameSubject, initGame, resetGame} from "../components/Game"
 import Chessboard from "../components/Chessboard"
 import {DndProvider} from "react-dnd"
 import {HTML5Backend} from "react-dnd-html5-backend"
-// import {MultiBackend} from "react-dnd-multi-backend"
-// import {HTML5toTouch} from "rdndmb-html5-to-touch"
 import ModalResult from "../components/ModalResult"
 import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
@@ -69,7 +67,7 @@ function Play1vs1offline() {
 
   return (
     <div className="play1vs1offline" data-theme={theme}>
-       <DndProvider backend={HTML5Backend} /*backend={MultiBackend} options={HTML5toTouch}*/>
+       <DndProvider backend={HTML5Backend}>
           <Helmet>
             <meta charSet="utf-8" />
               <title>Play 1 vs 1 (offline)</title>

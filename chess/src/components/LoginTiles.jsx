@@ -183,7 +183,7 @@ function LoginTile() {
         </LoginIcon>
       </button>
       <b className="logintile_signuplink">Don't have an account yet? <Link to="/signup"
-                                                                           style={{color: "var(--primary)"}}>Sign up</Link></b></div>
+      style={{color: "var(--primary)"}}>Sign up</Link></b></div>
   )
 }
 
