@@ -84,6 +84,7 @@ function Playvscomputer() {
             <ModalResult open={isGameOver} result={result} winner={winner}/>
             <div className="board_container">
               <Chessboard className="chessboard" board={board} turn={turn} boardtype={"vscomputer"}/>
+              <div className="board_padding"/>
             </div>
           </div> }
         <SwitchThemeButton onClick={switchTheme}>

@@ -74,10 +74,16 @@ body {
 .board_container {
   margin-top: 2.5rem; 
   margin-bottom: 2.5rem;
-  width: 40rem; /* min(85vw, 85vh); */ /* --> recalculate rem to vw & vh */
-  height: 40rem; /* min(85vw, 85vh); */ /* will help to adjust to the size of the smartphone screen */
+  max-width: min(90vw, 90vh);
+  max-height: min(90vw, 90vh);
+  width: 40rem;
+  height: 40rem;
   margin-left: auto;
   margin-right: auto;
+}
+
+.board_padding {
+  padding-bottom: min(2rem, 6vh);
 }
 
 .square {

@@ -107,6 +107,7 @@ function Playvsourchessai() {
               <div className="board_container">
                 <Chessboard className="chessboard" playerPieces={playerPieces} isGameOver={isGameOver} board={board} 
                 turn={turn} boardtype={"vsourchessai"}/>
+                <div className="board_padding"/>
               </div>
             </div>)}
           </div> }
