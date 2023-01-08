@@ -28,15 +28,27 @@ body {
   margin: 0rem;
 }
 
-.puzzles {
+.img {
   background: var(--gray4) var(--background);
+  background-size: 100%;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: background 200ms ease-in;
+}
+
+.puzzles {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: -1;
-  background-size: 100%;
   transition: background 200ms ease-in;
 }
 
