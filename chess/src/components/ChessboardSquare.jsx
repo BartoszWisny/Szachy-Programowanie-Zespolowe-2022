@@ -8,19 +8,25 @@ import moveSound from "../assets/sounds/move.mp3"
 import captureSound from "../assets/sounds/capture.mp3"
 import silenceSound from "../assets/sounds/silence.mp3"
 
-const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype}) => {
+const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype, changePositionClicked}) => {
   const [promotion, setPromotion] = useState(null)
 
   function playMoveSound() {
-    new Audio(moveSound).play()
+    new Audio(moveSound).play().then(() => {
+    }).catch(error => {
+    })
   }
 
   function playCaptureSound() {
-    new Audio(captureSound).play()
+    new Audio(captureSound).play().then(() => {
+    }).catch(error => {
+    })
   }
 
   function playSilenceSound() {
-    new Audio(silenceSound).play()
+    new Audio(silenceSound).play().then(() => {
+    }).catch(error => {
+    })
   }
 
   const [, drop] = useDrop({
@@ -29,6 +35,7 @@ const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype}
       const [fromPosition, type, color] = item.id.split('_')
       const move = getMove(fromPosition, position)
       const captured = move.map((i) => (i.captured))
+      console.log(captured)
       move.length !== 0 && type && color === turn ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
       handleMove(fromPosition, position)
     }
@@ -42,16 +49,21 @@ const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype}
     )
     return () => subscribe.unsubscribe()
   }, [position])
+
+  function isTouchDevice() {
+    return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0))
+  }
   
   return (
-    <div className="chessboardsquare" ref={boardtype === "1vs1offline" ? drop : (boardtype === "vsourchessai" ? 
-      (playerPieces === turn ? drop : null) : (turn === "w" ? drop : null))}>
+    <div className="chessboardsquare" ref={isTouchDevice() ? null : (boardtype === "1vs1offline" ? drop 
+    : (boardtype === "vsourchessai" ? (playerPieces === turn ? drop : null) : (turn === "w" ? drop : null)))} 
+    onClick={() => changePositionClicked(position)}>
       <Square playerPieces={playerPieces} dark={dark} position={position} isMove={position === getLastMove()} check={isCheck() 
         && piece ? (piece.type === "k" && piece.color === getTurn() ? true : false) : false} turn={turn} 
         boardtype={boardtype}>
         {promotion && boardtype === "1vs1offline" ? <Promotion promotion={promotion} /> /* to be done for other types of boards */
         : (promotion && boardtype === "vsourchessai" && playerPieces === turn ? <Promotion promotion={promotion} />  
-        : (piece ? (<Piece playerPieces={playerPieces} piece={piece} position={position} turn={turn} boardtype={boardtype}/>)
+        : (piece ? (<Piece playerPieces={playerPieces} piece={piece} position={position} turn={turn} boardtype={boardtype} />)
         : null))}
       </Square>
     </div>

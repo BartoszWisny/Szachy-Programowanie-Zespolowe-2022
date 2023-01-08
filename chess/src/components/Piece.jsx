@@ -1,6 +1,5 @@
-import React from "react"
+import React, {useState, useEffect, useRef} from "react"
 import {useDrag, DragPreviewImage} from "react-dnd"
-// import { Preview } from "react-dnd-preview"
 import {getPossibleMoves} from "./Game"
 
 const Piece = ({playerPieces, piece: {type, color}, position, turn, boardtype}) => {  
@@ -12,17 +11,46 @@ const Piece = ({playerPieces, piece: {type, color}, position, turn, boardtype}) 
     })
   })
 
+  const useOutsideClick = (callback) => {
+    const ref = useRef()
+    useEffect(() => {
+      const handleClick = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+          callback()
+        }
+      }  
+      document.addEventListener('click', handleClick)
+      return () => {
+        document.removeEventListener('click', handleClick)
+      }
+    }, [ref, callback])
+    return ref
+  }
+  const [clicked, setClicked] = useState(false)
+  const handleClickOutside = () => {
+    setClicked(false)
+  }
+  const ref = useOutsideClick(handleClickOutside)
+  const handleClick = () => {
+    setClicked(true)
+  }
+
+  function isTouchDevice() {
+    return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0))
+  }
+
   const image = require(`../assets/chessboard/${type}_${color}.png`)
 
   return (
-    <div>
+    <div ref={isTouchDevice() ? ref : drag}>
       <DragPreviewImage className="previewimage" connect={preview} src={image}/>
-      <div className="piececontainer" ref={boardtype === "1vs1offline" ? (turn === color ? drag : null) 
-      : (boardtype === "vsourchessai" ? (playerPieces === turn ? drag : null) : (color === "w" ? drag : null))} 
-      style={{opacity: isDragging ? 0 : 1, cursor: "grab"}}>
+      <div className="piececontainer" ref={isTouchDevice() ? (boardtype === "1vs1offline" ? (turn === color ? ref : handleClickOutside) 
+      : (boardtype === "vsourchessai" ? (playerPieces === turn ? ref : handleClickOutside) : (color === "w" ? ref : handleClickOutside))) 
+      : (boardtype === "1vs1offline" ? (turn === color ? drag : handleClickOutside) : (boardtype === "vsourchessai" ? (playerPieces === turn ? drag : handleClickOutside) 
+      : (color === "w" ? drag : handleClickOutside)))} style={{opacity: isDragging ? 0 : 1, cursor: "grab"}} onClick={handleClick}>
         <img src={image} alt="chess" className={`piece_${type}`} />
       </div>
-      {isDragging ? getPossibleMoves(position).map((pos, i) => (
+      {(isDragging && !isTouchDevice()) || (clicked && isTouchDevice()) ? getPossibleMoves(position).map((pos, i) => (
         <div key={i}
           style={{
             background: pos[1] ? "rgba(255, 0, 0, 0.7)" : "rgba(0, 255, 0, 0.7)",

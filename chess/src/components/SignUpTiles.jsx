@@ -5,6 +5,8 @@ import Input from "./Input"
 import {Link} from "react-router-dom"
 import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth"
 import { auth } from "../FirebaseConfig"
+import { useNavigate } from 'react-router-dom'
+import {NotificationManager} from "react-notifications";
 
 const SignUpTiles = () => {
   return (
@@ -22,27 +24,55 @@ const SignUpTitle = styled.span`
 `
 
 function SignUpTile() {
-  function signUp() {
-    if(password === confirmPassword) {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((result) => {
-          const user = result.user;
+  const navigate = useNavigate();
 
-          updateProfile(user, {displayName: firstName + " " + lastName});
-          sendEmailVerification(user).then((result) => {
-            console.log(result);
-          }).catch((error) => {
-            console.log(error);
-          });
-          console.log(result);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  function signUp() {
+    if(validateEmail(email)) {
+      if(firstName === "" || lastName === "") {
+        NotificationManager.error('First name or last name cannot be empty.', 'Error:', 5000, () => {});
+      }
+      else {
+        if(password === confirmPassword) {
+          if(password.length >= 6) {
+            createUserWithEmailAndPassword(auth, email, password)
+              .then((result) => {
+                const user = result.user;
+
+                updateProfile(user, {displayName: firstName + " " + lastName});
+                sendEmailVerification(user).then((result) => {
+                  console.log(result);
+                }).catch((error) => {
+                  console.log(error);
+                });
+
+                console.log(result);
+                navigate("/");
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+          else {
+            NotificationManager.error('Password should have at least 6 characters.', 'Error:', 5000, () => {});
+          }
+        }
+        else {
+          NotificationManager.error('Passwords are not the same.', 'Error:', 5000, () => {});
+        }
+      }
     }
     else {
-
+      NotificationManager.error('Invalid email address.', 'Error:', 5000, () => {});
     }
+
   }
 
   const [firstName, setFirstName] = useState("")

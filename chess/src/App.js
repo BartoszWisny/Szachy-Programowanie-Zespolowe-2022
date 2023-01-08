@@ -12,8 +12,8 @@ import useLocalStorage from "use-local-storage"
 const PlayChessThemeButton = styled.button`
   background-color: var(--primary);
   color: var(--secondary);
-  opacity: 0.98; 
-  position: absolute; 
+  opacity: 0.98;
+  position: absolute;
   right: 2.6rem;
   font-size: 1.6rem;
   height: 2.2rem;

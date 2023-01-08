@@ -1,8 +1,9 @@
-import React, {useCallback, useEffect, useState} from "react"
+import React, {useCallback, useEffect, useState, useRef} from "react"
 import ChessboardSquare from "./ChessboardSquare"
-import {getFen, move, getLastMoveCaptured} from "./Game"
+import {getFen, move, getLastMoveCaptured, handleMove, getMove} from "./Game"
 import moveSound from "../assets/sounds/move.mp3"
 import captureSound from "../assets/sounds/capture.mp3"
+import silenceSound from "../assets/sounds/silence.mp3"
 
 const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
   const [currentChessboard, setCurrentChessboard] = useState([])
@@ -10,11 +11,27 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
   const [sound, setSound] = useState(false)
 
   function playMoveSound() {
-    new Audio(moveSound).play()
+    /* let sound = new Audio(moveSound)
+    sound.play() */
+    new Audio(moveSound).play().then(() => {
+    }).catch(error => {
+    })
   }
 
   function playCaptureSound() {
-    new Audio(captureSound).play()
+    /* let sound = new Audio(captureSound)
+    sound.play() */
+    new Audio(captureSound).play().then(() => {
+    }).catch(error => {
+    })
+  }
+
+  function playSilenceSound() {
+    /* let sound = new Audio(silenceSound)
+    sound.play() */
+    new Audio(silenceSound).play().then(() => {
+    }).catch(error => {
+    })
   }
 
   const chessEngineMove = useCallback(async () => {
@@ -78,12 +95,29 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
     return `${letter}${y + 1}`
   }
 
+  const [positionClicked, setPositionClicked] = useState(null)
+  const previousPositionClicked = useRef();
+
+  useEffect(() => {
+    previousPositionClicked.current = positionClicked;
+  }, [positionClicked])
+
+  function handleClicked(positionClicked) {
+    setPositionClicked(positionClicked)
+    if (previousPositionClicked.current != null && positionClicked != null) {
+      const move = getMove(previousPositionClicked.current, positionClicked)
+      const captured = move.map((i) => (i.captured))
+      move.length !== 0 ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
+      handleMove(previousPositionClicked.current, positionClicked)
+    }
+  }
+
   return (
     <div className="chessboard" style={{pointerEvents: isGameOver ? "none" : "null"}}>
       {currentChessboard.map((piece, i) => (
         <div key={i} className="square">
           <ChessboardSquare playerPieces={playerPieces} piece={piece} dark={isDark(i)} position={getPosition(i)}
-          turn={turn} boardtype={boardtype}/>
+          turn={turn} boardtype={boardtype} changePositionClicked={positionClicked => handleClicked(positionClicked)}/>
         </div>
       ))}
     </div>
