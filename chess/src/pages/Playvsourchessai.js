@@ -77,6 +77,7 @@ function Playvsourchessai() {
             <meta name="description" content="Title" />
         </Helmet>
         <SidebarMenu />
+        <div className="img" data-theme={theme}/>
         {loading ? 
           <div>
             <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={50} 

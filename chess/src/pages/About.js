@@ -48,13 +48,13 @@ function About() {
           <meta name="description" content="Title" />
       </Helmet>
       <SidebarMenu />
+      <div className="img" data-theme={theme}/>
       {loading ? 
         <div>
           <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={50} 
           speedMultiplier={1} style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
           userSelect: "none"}}/>
         </div> : null}
-      {/* { console.log(getMove(fen)) } */}
       <SwitchThemeButton onClick={switchTheme}>
         {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
       </SwitchThemeButton>

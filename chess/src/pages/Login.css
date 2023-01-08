@@ -28,20 +28,33 @@ body {
   margin: 0rem;
 }
 
-.login {
+.img {
   background: var(--gray4) var(--background);
-  position: absolute;
-  top: 0;
+  background-size: 100%;
+  object-fit: cover;
+  position: fixed;
   left: 0;
   right: 0;
+  top: 0;
   bottom: 0;
   z-index: -1;
-  background-size: 100%;
+  pointer-events: none;
+  transition: background 200ms ease-in;
+}
+
+.login {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
   transition: background 200ms ease-in;
 }
 
 [data-theme="lightmode"] {
   --background: url("../assets/backgroundgray.jpg");
+  transition: background 200ms ease-in;
 }
 
 [data-theme="darkmode"] {
@@ -51,20 +64,21 @@ body {
 .logintiles {
   display: grid;
   position: relative;
-  margin-top: 5rem;
+  margin-top: min(5rem, 6vh);
   margin-left: 4rem;
   margin-right: 4rem;
-  margin-bottom: 4rem;
-  grid-template-columns: repeat(auto-fit, minmax(22rem, 28rem));
+  margin-bottom: min(4rem, 6vh);
+  grid-template-columns: repeat(auto-fit, minmax(min(90vw, 28rem)));
   justify-content: center;
   align-items: center;
   gap: 1.5rem 1.5rem;
   font-size: 1rem;
+  padding-bottom: 2.5rem;
 }
 
 .logintile {
-  height: 30rem; /* adjust height to the size of the smartphone screen */
-  width: 28rem; /* adjust for mobile screen */
+  height: 30rem;
+  width: min(90vw, 28rem);
   overflow: hidden;
   box-shadow: 0 0 1rem var(--gray6);
   border-radius: var(--radius);
