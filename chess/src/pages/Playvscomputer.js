@@ -33,6 +33,7 @@ function Playvscomputer() {
   const [result, setResult] = useState()
   const [turn, setTurn] = useState()
   const [winner, setWinner] = useState()
+  const [playerPieces, setPlayerPieces] = useState("")
 
   useEffect(() => {
     resetGame()
@@ -63,6 +64,9 @@ function Playvscomputer() {
     }, 2000)
   }, [])
 
+  const imagewhite = require(`../assets/chessboard/k_w.png`)
+  const imageblack = require(`../assets/chessboard/k_b.png`)
+
   return (
     <div className="playvscomputer" data-theme={theme}>
       <DndProvider backend={HTML5Backend}>
@@ -81,13 +85,33 @@ function Playvscomputer() {
             userSelect: "none"}}/>
           </div> :
           <div>
+            {playerPieces === "" && (
+            <div className="overlaychoosepieces">
+              <div className="modalchoosepieces_container">
+                <div className="modalchoosepieces_content">
+                  <h1 className="modalchoosepieces_title">CHOOSE PIECES</h1>
+                  <button className="modalchoosepieces_button1" onClick={() => setPlayerPieces("w")}>
+                    <img src={imagewhite} alt="chess" />
+                    <h2>WHITE</h2>
+                  </button>
+                  <button className="modalchoosepieces_button2" onClick={() => setPlayerPieces("b")}>
+                    <img src={imageblack} alt="chess" />
+                    <h2>BLACK</h2>
+                  </button>
+                </div>
+              </div>
+            </div> )}
+            {playerPieces !== "" && (
             <div>
-              <ModalResult open={isGameOver} result={result} winner={winner}/>
-            </div>
-            <div className="board_container">
-              <Chessboard className="chessboard" board={board} turn={turn} boardtype={"vscomputer"}/>
-              <div className="board_padding"/>
-            </div>
+              <div>
+                <ModalResult open={isGameOver} result={result} winner={winner}/>
+              </div>
+              <div className="board_container">
+                <Chessboard className="chessboard" playerPieces={playerPieces} isGameOver={isGameOver} board={board} 
+                turn={turn} boardtype={"vscomputer"}/>
+                <div className="board_padding"/>
+              </div>
+            </div>)}
           </div> }
         <SwitchThemeButton onClick={switchTheme}>
           {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
