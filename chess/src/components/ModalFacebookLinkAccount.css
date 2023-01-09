@@ -34,9 +34,9 @@
   position: absolute;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 12.5rem;
-  height: 14rem;
-  width: 25rem;
+  margin-top: 7rem;
+  height: min(13rem, 41.6vw);
+  width: min(25rem, 80vw);
   overflow: hidden;
   box-shadow: 0 0 1rem var(--gray6);
   border-radius: var(--radius);
@@ -51,12 +51,12 @@
 }
 
 .modalfacebooklinkaccount_title {
-  margin-top: 1.5rem;
+  margin-top: min(1rem, 3.2vw);
   padding: 0rem;
   user-select: none;
   font-family: inherit;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: min(1rem, 3.2vw);
   color: var(--primary);
   border-radius: var(--radius);
   cursor: default;
@@ -68,26 +68,12 @@
 }
 
 .modalfacebooklinkaccount_button1 {
-  padding: 1rem;
+  padding: min(1rem, 3.2vw);
   font-family: inherit;
   font-weight: bold;
-  font-size: 1rem;
-  margin: 1rem;
-  border: 0.1rem solid var(--primary);
-  color: var(--primary);
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: background 200ms ease-in, color 200ms ease-in;
-  user-select: none;
-}
-  
-.modalfacebooklinkaccount_button2 {
-  padding: 1rem;
-  font-family: inherit;
-  font-weight: bold;
-  font-size: 1rem;
-  margin: 1rem;
-  border: 0.1rem solid var(--primary);
+  font-size: min(1rem, 3.2vw);
+  margin: min(1rem, 3.2vw);
+  border: min(0.1rem, 0.3vw) solid var(--primary);
   color: var(--primary);
   border-radius: var(--radius);
   cursor: pointer;
@@ -96,11 +82,6 @@
 }
   
 .modalfacebooklinkaccount_button1:hover {
-  background: var(--primary);
-  color: white;
-}
-  
-.modalfacebooklinkaccount_button2:hover {
   background: var(--primary);
   color: white;
 }
