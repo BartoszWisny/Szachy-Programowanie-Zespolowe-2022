@@ -104,14 +104,9 @@ function FeedbackTile() {
   }
 
   return(
-    <div>
-      <div>
-        <ModalMessageSent emailsent={emailsent} firebasesent={firebasesent}/>
-      </div>
-      <div>
-        <ModalMessageError emailerr={emailerr} firebaseerr={firebaseerr}/>
-      </div>
       <div className="feedbacktile">
+        <ModalMessageSent emailsent={emailsent} firebasesent={firebasesent}/>
+        <ModalMessageError emailerr={emailerr} firebaseerr={firebaseerr}/>
         <Input type="text" placeholder="Username" value={username} onChange={handleUsernameChange}/>
         <Input type="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
         <Input type="text" placeholder="Subject" value={subject} onChange={handleSubjectChange}/>
@@ -124,7 +119,6 @@ function FeedbackTile() {
             </FeedbackTitle>
           </FeedbackIcon>
         </button>
-      </div>
     </div>
   )
 }

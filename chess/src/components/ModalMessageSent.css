@@ -19,9 +19,9 @@
   position: fixed;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 3.25rem;
-  height: 23.5rem;
-  width: 32rem;
+  margin-top: 5rem;
+  height: min(23.5rem, min(58.75vh, 72vw));
+  width: min(32rem, 80vw);
   overflow: hidden;
   box-shadow: 0 0 1rem var(--gray6);
   border-radius: var(--radius);
@@ -39,10 +39,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 15rem;
+  height: min(15rem, min(37.5vh, 51.05vw));
   width: 100%;
   object-fit: cover;
-  margin-bottom: 1rem;
+  margin-bottom: min(1rem, min(2.75vw, 2.75vh));
   pointer-events: none;
 }
 
@@ -50,15 +50,15 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 15rem;
+  height: min(15rem, min(37.5vh, 51.05vw));
   width: 100%;
   object-fit: cover;
-  margin-bottom: 1rem;
+  margin-bottom: min(1rem, min(2.5vw, 2.5vh));
   pointer-events: none;
 }
 
 .modalmessagesent_title {
-  margin-top: 15.5rem;
+  margin-top: min(15.5rem, min(38.75vh, 52.75vw));
   padding: 0rem;
   user-select: none;
 }
@@ -68,12 +68,12 @@
 }
 
 .modalmessagesent_button1 {
-  padding: 1rem;
+  padding: min(1rem, min(2.5vw, 2.5vh));
   font-family: inherit;
   font-weight: bold;
-  font-size: 1rem;
-  margin: 1rem;
-  border: 0.1rem solid var(--primary);
+  font-size: min(1rem, min(2.5vw, 2.5vh));
+  margin: min(1rem, min(2.5vw, 2.5vh));
+  border: min(0.1rem, min(0.25vw, 0.25vh)) solid var(--primary);
   color: var(--primary);
   border-radius: var(--radius);
   cursor: pointer;
@@ -82,12 +82,12 @@
 }
   
 .modalmessagesent_button2 {
-  padding: 1rem;
+  padding: min(1rem, min(2.5vw, 2.5vh));
   font-family: inherit;
   font-weight: bold;
-  font-size: 1rem;
-  margin: 1rem;
-  border: 0.1rem solid var(--primary);
+  font-size: min(1rem, min(2.5vw, 2.5vh));
+  margin: min(1rem, min(2.5vw, 2.5vh));
+  border: min(0.1rem, min(0.25vw, 0.25vh)) solid var(--primary);
   color: var(--primary);
   border-radius: var(--radius);
   cursor: pointer;

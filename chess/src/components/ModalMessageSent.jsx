@@ -38,7 +38,7 @@ const ModalMessageSent = ({emailsent, firebasesent}) => {
         hash={modalmessagesenthash} 
         punch={1} />)}
         <div className="modalmessagesent_content">
-          <h1 className="modalmessagesent_title">MESSAGE SENT SUCCESSFULLY</h1>
+          <h1 className="modalmessagesent_title" style={{fontSize: "min(2rem, min(5vw, 5vh))"}}>MESSAGE SENT SUCCESSFULLY</h1>
           <button className="modalmessagesent_button1" onClick={refreshPage}>Return to this page</button>
           <button className="modalmessagesent_button2" onClick={homeRoute}>Return to homepage</button>
         </div>
