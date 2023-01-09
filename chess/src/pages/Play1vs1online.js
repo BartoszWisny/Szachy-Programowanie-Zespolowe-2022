@@ -81,7 +81,9 @@ function Play1vs1online() {
             userSelect: "none"}}/>
           </div> :
           <div>
-            <ModalResult open={isGameOver} result={result} winner={winner}/>
+            <div>
+              <ModalResult open={isGameOver} result={result} winner={winner}/>
+            </div>
             <div className="board_container">
               <Chessboard className="chessboard" board={board} turn={turn} boardtype={"1vs1online"}/>
               <div className="board_padding"/>

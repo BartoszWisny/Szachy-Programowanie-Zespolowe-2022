@@ -11,24 +11,18 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
   const [sound, setSound] = useState(false)
 
   function playMoveSound() {
-    /* let sound = new Audio(moveSound)
-    sound.play() */
     new Audio(moveSound).play().then(() => {
     }).catch(error => {
     })
   }
 
   function playCaptureSound() {
-    /* let sound = new Audio(captureSound)
-    sound.play() */
     new Audio(captureSound).play().then(() => {
     }).catch(error => {
     })
   }
 
   function playSilenceSound() {
-    /* let sound = new Audio(silenceSound)
-    sound.play() */
     new Audio(silenceSound).play().then(() => {
     }).catch(error => {
     })

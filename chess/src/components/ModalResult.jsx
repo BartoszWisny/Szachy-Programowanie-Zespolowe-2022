@@ -4,7 +4,6 @@ import modalresultwinblack from "../assets/modalresultwinblack.jpg"
 import modalresultwinwhite from "../assets/modalresultwinwhite.jpg"
 import "./ModalResult.css"
 import {useNavigate} from "react-router-dom"
-// import {resetGame} from "./Game"
 import {BlurhashCanvas} from "react-blurhash"
 import {LazyLoadImage} from "react-lazy-load-image-component"
 
@@ -43,9 +42,9 @@ const ModalResult = ({open, result, winner}) => {
         hash={winner === "w" ? modalresultwinwhitehash : (winner === "b" ? modalresultwinblackhash : modalresultdrawhash)} 
         punch={1} />)}
         <div className="modalresult_content">
-          <h1 className="modalresult_title">GAME OVER</h1>
-          <p className="modalresult_result">{result}</p>
-          <button className="modalresult_button1" onClick={/*resetGame*/ refreshPage}>Play again</button>
+          <h1 className="modalresult_title" style={{fontSize: "min(2rem, min(4.5vw, 4.5vh))"}}>GAME OVER</h1>
+          <p className="modalresult_result" style={{fontSize: "min(1rem, min(2.25vw, 2.25vh))"}}>{result}</p>
+          <button className="modalresult_button1" onClick={refreshPage}>Play again</button>
           <button className="modalresult_button2" onClick={homeRoute}>Return to homepage</button>
         </div>
       </div>

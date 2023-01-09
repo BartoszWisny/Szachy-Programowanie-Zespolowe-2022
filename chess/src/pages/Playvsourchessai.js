@@ -103,7 +103,9 @@ function Playvsourchessai() {
             </div> )}
             {playerPieces !== "" && (
             <div>
-              <ModalResult open={isGameOver} result={result} winner={winner}/>
+              <div>
+                <ModalResult open={isGameOver} result={result} winner={winner}/>
+              </div>
               <div className="board_container">
                 <Chessboard className="chessboard" playerPieces={playerPieces} isGameOver={isGameOver} board={board} 
                 turn={turn} boardtype={"vsourchessai"}/>

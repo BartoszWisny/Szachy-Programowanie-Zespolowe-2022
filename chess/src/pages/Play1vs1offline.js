@@ -83,8 +83,10 @@ function Play1vs1offline() {
               userSelect: "none"}}/>
             </div> :
             <div>
-              <ModalResult open={isGameOver} result={result} winner={winner}/>
               <div className="board_container">
+                <div>
+                  <ModalResult open={isGameOver} result={result} winner={winner}/>
+                </div>
                 <Chessboard className="chessboard" isGameOver={isGameOver} board={board} turn={turn} boardtype={"1vs1offline"}/>
                 <div className="board_padding"/>
               </div>
