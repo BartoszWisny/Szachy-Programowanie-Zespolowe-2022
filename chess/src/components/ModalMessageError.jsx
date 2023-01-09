@@ -38,7 +38,7 @@ const ModalMessageError = ({emailerr, firebaseerr}) => {
         hash={modalmessageerrorhash} 
         punch={1} />)}
         <div className="modalmessageerror_content">
-          <h1 className="modalmessageerror_title" style={{fontSize: "min(2rem, min(5vw, 5vh))"}}>MESSAGE NOT SENT</h1>
+          <h1 className="modalmessageerror_title" style={{fontSize: "min(2rem, 5vw)"}}>MESSAGE NOT SENT</h1>
           <button className="modalmessageerror_button1" onClick={refreshPage}>Return to this page</button>
           <button className="modalmessageerror_button2" onClick={homeRoute}>Return to homepage</button>
         </div>

@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import "./ModalFacebookLinkAccount.css"
 import {useNavigate} from "react-router-dom"
-import Input from "./Input";
+import ModalInput from "./ModalInput";
 import {getAuth, linkWithCredential, signInWithEmailAndPassword} from "firebase/auth";
 import {NotificationManager} from "react-notifications";
 
@@ -35,9 +35,10 @@ const ModalFacebookLinkAccount = ({open, email, credential}) => {
   return (open ?
     <div className="overlayfacebooklinkaccount">
       <div className="modalfacebooklinkaccount_container">
-        <p className="modalfacebooklinkaccount_title">Provided email is linked to an existing account. Login to link your facebook account:</p>
-        <Input id="password" type="password" placeholder="Password" value={password} onChange={handlePasswordChange}/>
-        <button className="modalfacebooklinkaccount_button2" onClick={loginAndLink}>Login and link account</button>
+        <p className="modalfacebooklinkaccount_title" style={{fontSize: "min(1rem, 3.2vw)"}}>
+        Provided email is linked to an existing account. Login to link your facebook account:</p>
+        <ModalInput id="password" type="password" placeholder="Password" value={password} onChange={handlePasswordChange}/>
+        <button className="modalfacebooklinkaccount_button1" onClick={loginAndLink}>Login and link account</button>
       </div>
     </div>
     : null
