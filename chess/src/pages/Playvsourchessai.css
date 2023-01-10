@@ -256,9 +256,9 @@ body {
   position: fixed;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 12.5rem;
-  height: 17.5rem;
-  width: 21rem;
+  margin-top: min(10rem, 8vh);
+  height: min(15rem, min(77.5vw, 75vh));
+  width: min(20rem, min(90vw, 100vh));
   overflow: hidden;
   box-shadow: 0 0 1rem var(--gray6);
   border-radius: var(--radius);
@@ -273,7 +273,7 @@ body {
 }
 
 .modalchoosepieces_title {
-  margin-top: 2rem;
+  margin-top: min(1rem, min(5vw, 5vh));
   padding: 0rem;
   user-select: none;
 }
@@ -283,12 +283,12 @@ body {
 }
 
 .modalchoosepieces_button1 {
-  padding: 1rem;
+  padding: min(1rem, min(5vw, 5vh));
   font-family: inherit;
   font-weight: bold;
-  font-size: 1rem;
-  margin: 1rem;
-  border: 0.1rem solid var(--primary);
+  font-size: min(1rem, min(5vw, 5vh));
+  margin: min(1rem, min(5vw, 5vh));
+  border: min(0.1rem, min(0.5vw, 0.5vh)) solid var(--primary);
   color: var(--primary);
   border-radius: var(--radius);
   cursor: pointer;
@@ -297,12 +297,12 @@ body {
 }
   
 .modalchoosepieces_button2 {
-  padding: 1rem;
+  padding: min(1rem, min(5vw, 5vh));
   font-family: inherit;
   font-weight: bold;
-  font-size: 1rem;
-  margin: 1rem;
-  border: 0.1rem solid var(--primary);
+  font-size: min(1rem, min(5vw, 5vh));
+  margin: min(1rem, min(5vw, 5vh));
+  border: min(0.1rem, min(0.5vw, 0.5vh)) solid var(--primary);
   color: var(--primary);
   border-radius: var(--radius);
   cursor: pointer;

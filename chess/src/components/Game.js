@@ -1,9 +1,7 @@
 import {Chess} from "chess.js"
 import {BehaviorSubject} from "rxjs"
 
-let positionPromotion = 'rnb2bnr/pppPkppp/8/4p3/7q/8/PPPP1PPP/RNBQKBNR w KQ - 1 5'
-
-const chess = new Chess(positionPromotion)
+const chess = new Chess()
 export const gameSubject = new BehaviorSubject({
   board: chess.board()
 })
@@ -82,6 +80,10 @@ export function getEngineFen() {
 }
 
 export function getStockfishFen() {
+  return chess.fen()
+}
+
+export function getChessDBFen() {
   return chess.fen()
 }
 
