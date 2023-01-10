@@ -89,14 +89,14 @@ function Playvsourchessai() {
             <div className="overlaychoosepieces">
               <div className="modalchoosepieces_container">
                 <div className="modalchoosepieces_content">
-                  <h1 className="modalchoosepieces_title">CHOOSE PIECES</h1>
+                  <h1 className="modalchoosepieces_title" style={{fontSize: "min(2rem, min(10vw, 10vh))"}}>CHOOSE PIECES</h1>
                   <button className="modalchoosepieces_button1" onClick={() => setPlayerPieces("w")}>
-                    <img src={imagewhite} alt="chess" />
-                    <h2>WHITE</h2>
+                    <img src={imagewhite} alt="chess" style={{maxHeight: "min(5rem, min(25vw, 25vh))"}}/>
+                    <h2 style={{fontSize: "min(1.5rem, min(7.5vw, 7.5vh))"}}>WHITE</h2>
                   </button>
                   <button className="modalchoosepieces_button2" onClick={() => setPlayerPieces("b")}>
-                    <img src={imageblack} alt="chess" />
-                    <h2>BLACK</h2>
+                    <img src={imageblack} alt="chess" style={{maxHeight: "min(5rem, min(25vw, 25vh))"}}/>
+                    <h2 style={{fontSize: "min(1.5rem, min(7.5vw, 7.5vh))"}}>BLACK</h2>
                   </button>
                 </div>
               </div>

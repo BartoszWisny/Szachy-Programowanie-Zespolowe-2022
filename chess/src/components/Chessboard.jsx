@@ -1,15 +1,17 @@
 import React, {useCallback, useEffect, useState, useRef, useMemo} from "react"
 import ChessboardSquare from "./ChessboardSquare"
-import {getEngineFen, move, getLastMoveCaptured, handleMove, getMove, getStockfishFen} from "./Game"
+import {getEngineFen, move, getLastMoveCaptured, handleMove, getMove, getStockfishFen, getChessDBFen} from "./Game"
 import Stockfish from "../components/Stockfish"
 import moveSound from "../assets/sounds/move.mp3"
 import captureSound from "../assets/sounds/capture.mp3"
 import silenceSound from "../assets/sounds/silence.mp3"
 
-const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
+const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, stockfishLevel}) => {
   const [currentChessboard, setCurrentChessboard] = useState([])
   const [ourChessEngineMove, setOurChessEngineMove] = useState("")
   const [stockfishMove, setStockfishMove] = useState("")
+  const [chessDBMove, setChessDBMove] = useState("")
+  const [engineSource, setEngineSource] = useState("")
   const [sound, setSound] = useState(false)
 
   function playMoveSound() {
@@ -58,11 +60,15 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
     return new Stockfish()
   }, [])
   
-  stockfish.setSkillLevel(20) /* to be set using slider */
+  if (stockfishLevel) {
+    stockfish.setSkillLevel(stockfishLevel)
+  }
+  
   stockfish.setMoveTime(500)
 
   const stockfishEngineMove = useCallback(() => {
-    const getMove = setInterval(() => {        
+    const getMove = setInterval(() => {
+      setEngineSource("stockfish")  
       const bestMove = stockfish.getBestMove()
         
       if (!bestMove && !stockfish.isThinking) {
@@ -83,6 +89,37 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
     }, 1000)
   }, [stockfish, stockfishMove])
 
+  const chessDBEngineMove = useCallback(async () => {
+    const fen = getChessDBFen()
+    const url = `https://www.chessdb.cn/cdb.php?action=querybest&board=${fen}&json=1`
+    const response = await fetch(url)
+    const data = await response.json()
+    
+    if (data.status === "ok") {
+      setEngineSource("chessdb")
+      setChessDBMove(data.move)
+      const positions = data.move.match("^([a-h][1-8])([a-h][1-8])([qrbn])?")
+      setSound(!sound)
+
+      if (positions.length === 3) {
+        move(positions[1], positions[2])
+      } else if (positions.length === 4) {
+        move(positions[1], positions[2], positions[3])
+      }
+
+      if (chessDBMove !== "" && sound === true) { 
+        if (getLastMoveCaptured()) {
+          playCaptureSound()
+        } else {
+          playMoveSound()
+        }
+      }
+    } else if (data.status === "nobestmove") {
+      setEngineSource("stockfish")
+      stockfishEngineMove()
+    }
+  }, [chessDBMove, sound, stockfishEngineMove])
+
   useEffect(() => {
     if (boardtype === "vsourchessai" && turn === (playerPieces === "w" ? "b" : "w") && !isGameOver) {
       chessEngineMove()
@@ -90,10 +127,16 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
   }, [playerPieces, isGameOver, turn, boardtype, ourChessEngineMove, chessEngineMove])
 
   useEffect(() => {
-    if (boardtype === "vscomputer" && turn === (playerPieces === "w" ? "b" : "w") && !isGameOver) {
+    if (boardtype === "vscomputer" && turn === (playerPieces === "w" ? "b" : "w") && engine === "stockfish" && !isGameOver) {
       stockfishEngineMove()
     }
-  }, [playerPieces, isGameOver, turn, boardtype, stockfishMove, stockfishEngineMove])
+  }, [playerPieces, isGameOver, turn, boardtype, engine, stockfishMove, stockfishEngineMove])
+
+  useEffect(() => {
+    if (boardtype === "vscomputer" && turn === (playerPieces === "w" ? "b" : "w") && engine === "chessdb" && !isGameOver) {
+      chessDBEngineMove()
+    }
+  }, [playerPieces, isGameOver, turn, boardtype, engine, chessDBMove, chessDBEngineMove])
 
   useEffect(() => {
     if (boardtype === "1vs1offline") {
@@ -109,12 +152,12 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype}) => {
         }
       }
 
-      setSound(true)
+      setSound(true && getStockfishFen() !== "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" && engineSource === "stockfish")
       setCurrentChessboard(playerPieces === "w" ? board.flat() : board.flat().reverse())
     } else {
       setCurrentChessboard(board.flat())
     }
-  }, [playerPieces, board, turn, boardtype, sound])
+  }, [playerPieces, board, turn, boardtype, sound, engineSource])
 
   function getXYPosition(i) {
     const x = boardtype === "1vs1offline" ? (turn === "w" ? i % 8 : Math.abs(i % 8 - 7)) 
