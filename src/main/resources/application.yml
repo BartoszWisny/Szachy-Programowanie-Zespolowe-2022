@@ -49,5 +49,6 @@ security:
   allowed-public-apis:
     - /session/login
     - /gamePublic/**
+    - /leaderboardPublic/**
   exposed-headers:
     - X-Xsrf-Token
