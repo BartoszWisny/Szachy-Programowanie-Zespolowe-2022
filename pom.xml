@@ -96,6 +96,16 @@
   </dependencies>
 
   <build>
+  
+  <resources>
+    <resource>
+    	<directory>src/main/resources</directory>
+        <includes>
+            <include>src/main/resources/private_key.json</include>
+        </includes>
+    </resource>
+</resources>
+  
     <pluginManagement>
       <plugins>
         <plugin>
@@ -147,6 +157,23 @@
                   <target>11</target>
               </configuration>
           </plugin>
+          
+          		<plugin>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+    <version>2.7.5</version>
+    <configuration>
+        <mainClass>Szachy_Programowanie_Zespolowe.SzachyProgramowanieZespolowe</mainClass>
+    </configuration>
+    <executions>
+        <execution>
+            <goals>
+                <goal>repackage</goal>
+            </goals>
+        </execution>
+    </executions>
+            </plugin>
+            
       </plugins>
   </build>
 </project>

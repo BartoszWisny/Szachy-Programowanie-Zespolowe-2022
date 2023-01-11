@@ -10,13 +10,15 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Configuration
 public class FirebaseInitialize {
     @Bean
     public void initialize() throws IOException {
         try {
-            FileInputStream serviceAccount = new FileInputStream("private_key.json");
+            //FileInputStream serviceAccount = new FileInputStream("private_key.json");
+        	InputStream serviceAccount = this.getClass().getClassLoader().getResourceAsStream("private_key.json");
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
