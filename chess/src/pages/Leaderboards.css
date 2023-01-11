@@ -47,10 +47,11 @@ body {
   background-color: var(--gray_transp);
   z-index: -2;
   position: relative;
-  margin-left: 27vw;
-  margin-right: 27vw;
-  margin-top: 8vh;
-  font-size: 1.8vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4rem;
+  max-width: min(100vw, 100vh);
+  font-size: min(4vw, 4vh);
   text-align: center;
   justify-content: center;
   align-items: center;
