@@ -49,13 +49,14 @@ const DropdownLink = styled(Link)`
   }
 `
 
-const SubMenu = ({item}) => {
+const SubMenu = (props) => {
+  const {item, handleClick} = props
   const [subnav, setSubnav] = useState(false)
   const showSubnav = () => setSubnav(!subnav)
     
   return (
     <div>
-      <SidebarLink to={item.path} onClick={item.subNav && showSubnav}>
+      <SidebarLink to={item.path} onClick={handleClick === null ? (item.subNav && showSubnav) : handleClick}>
         <div>
           {item.icon}
           <SidebarLabel>
