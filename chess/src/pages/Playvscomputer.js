@@ -73,9 +73,6 @@ function Playvscomputer() {
   const imageblack = require(`../assets/chessboard/k_b.png`)
   const stockfish = require(`../assets/stockfish.png`)
   const chessdb = require(`../assets/chessdb.png`)
-
-  const marks = [ { value: 0, label: "0" }, { value: 5, label: "5" }, { value: 10, label: "10" }, { value: 15, label: "15" }, 
-                { value: 20, label: "20" }, ]
   
   const handleSliderChange = (event, level) => {
     setStockfishLevel(level)
@@ -99,35 +96,36 @@ function Playvscomputer() {
             userSelect: "none"}}/>
           </div> :
           <div>
-          {engine === "" && ( /* set style for mobile devices */
+          {engine === "" && (
             <div className="overlaychooseengine">
               <div className="modalchooseengine_container">
                 <div className="modalchooseengine_content">
-                  <h1 className="modalchooseengine_title" style={{fontSize: "min(2rem, min(10vw, 10vh))"}}>CHOOSE ENGINE</h1>
-                  <button className="modalchooseengine_button1" style={{height: "min(10rem, min(50vw, 50vh))",
-                  width: "min(8.5rem, min(42.5vw, 42.5vh))"}} onClick={() => {setEngine("stockfish")}}>
-                    <img src={stockfish} alt="chess" style={{maxHeight: "min(5rem, min(25vw, 25vh))"}}/>
-                    <h2 style={{fontSize: "min(1.5rem, min(7.5vw, 7.5vh))"}}>Stockfish</h2>
+                  <h1 className="modalchooseengine_title" style={{fontSize: "min(2rem, min(8.2vw, 9.1vh))"}}>CHOOSE ENGINE</h1>
+                  <button className="modalchooseengine_button1" onClick={() => {setEngine("stockfish")}}>
+                    <img src={stockfish} alt="chess" style={{maxHeight: "min(5rem, min(20.45vw, 22.7vh))"}}/>
+                    <h2 style={{fontSize: "min(1.5rem, min(6.15vw, 6.8vh))"}}>Stockfish</h2>
                   </button>
-                  <button className="modalchooseengine_button2" style={{height: "min(10rem, min(50vw, 50vh))", 
-                  width: "min(8.5rem, min(42.5vw, 42.5vh))"}} onClick={() => setEngine("chessdb")}>
-                    <img src={chessdb} alt="chess" style={{maxHeight: "min(5rem, min(25vw, 25vh))"}}/>
-                    <h2 style={{fontSize: "min(0.8rem, min(4vw, 4vh))"}}>ChessDB</h2>
-                    <h2 style={{fontSize: "min(0.8rem, min(4vw, 4vh))"}}>& Stockfish</h2>
+                  <button className="modalchooseengine_button2" onClick={() => setEngine("chessdb")}>
+                    <img src={chessdb} alt="chess" style={{maxHeight: "min(5rem, min(20.45vw, 22.7vh))"}}/>
+                    <h2 style={{fontSize: "min(0.8rem, min(3.25vw, 3.6vh))"}}>ChessDB</h2>
+                    <h2 style={{fontSize: "min(0.8rem, min(3.25vw, 3.6vh))"}}>& Stockfish</h2>
                   </button>
                 </div>
               </div>
             </div> )}
-            {engine !== "" && !stockfishLevelChosen && ( /* set style for mobile devices */
+            {engine !== "" && !stockfishLevelChosen && (
               <div className="overlaychoosestockfishlevel">
                 <div className="modalchoosestockfishlevel_container">
                   <div className="modalchoosestockfishlevel_content">
-                    <h2 style={{marginTop: "min(1rem, min(5vw, 5vh))", marginBottom: "min(1rem, min(5vw, 5vh))", 
-                    fontSize: "min(1.5rem, min(7.5vw, 7.5vh))"}}>Set Stockfish skill level:</h2>
-                    <Box sx={{marginLeft: "min(1.5rem, min(7.5vw, 7.5vh))", width: "min(19rem, min(81vw, 90vh))"}}>
-                      <Slider className="modalchoosestockfishlevel_slider" aria-label="Default" defaultValue={10} valueLabelDisplay="auto" 
-                      value={stockfishLevel} step={1} marks={marks} min={0} max={20} onChange={handleSliderChange}/>
-                    </Box>
+                    <h2 style={{marginTop: "min(1rem, min(4.1vw, 4.55vh))", marginBottom: "min(3rem, min(12.25vw, 13.65vh))", 
+                    fontSize: "min(1.5rem, min(6.15vw, 6.8vh))"}}>Set Stockfish skill level:</h2>
+                    <div  className="modalchoosestockfishlevel_slider">
+                      <Box style={{marginLeft: "min(1.5rem, min(6.15vw, 6.8vh))", marginBottom: "min(1rem, min(4.1vw, 4.55vh))",
+                      height: "min(1.5rem, min(6.15vw, 6.8vh))", width: "min(19rem, min(77.7vw, 86.35vh))"}}>
+                        <Slider aria-label="Default" defaultValue={10} valueLabelDisplay="on" value={stockfishLevel} step={1} 
+                        min={0} max={20} onChange={handleSliderChange}/>
+                      </Box>
+                    </div>
                     <button className="modalchoosestockfishlevel_button1" onClick={() => setStockfishLevelChosen(true)}>Play vs computer</button>
                   </div>
                 </div>
