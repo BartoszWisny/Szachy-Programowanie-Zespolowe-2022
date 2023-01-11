@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, useCallback} from "react"
 import "./Puzzles.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
-import {gameSubject, initGame, resetGame} from "../components/Game"
+import {gameSubject, initGame, resetGame, setGame, getTurn} from "../components/Game"
 import Chessboard from "../components/Chessboard"
 import {DndProvider} from "react-dnd"
 import {HTML5Backend} from "react-dnd-html5-backend"
-import ModalResult from "../components/ModalResult"
+// import ModalResult from "../components/ModalResult"
 import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
 import {GridLoader} from "react-spinners"
+import {Chess} from "chess.js"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -29,22 +30,23 @@ const SwitchThemeButton = styled.button`
 
 function Puzzles() {
   const [board, setBoard] = useState([])
-  const [isGameOver, setIsGameOver] = useState()
-  const [result, setResult] = useState()
+  // const [isGameOver, setIsGameOver] = useState()
+  // const [result, setResult] = useState()
   const [turn, setTurn] = useState()
-  const [winner, setWinner] = useState()
+  const [playerPieces, setPlayerPieces] = useState("")
+  const [puzzleMoves, setPuzzleMoves] = useState("")
+  const [puzzleTitle, setPuzzleTitle] = useState("")
+  // const [winner, setWinner] = useState()
 
   useEffect(() => {
     resetGame()
     initGame()
     const subscribe = gameSubject.subscribe((game) => {
       setBoard(game.board);
-      setIsGameOver(game.isGameOver)
-      setResult(game.result)
-      setTimeout(function() {
-        setTurn(game.turn);
-      }, 1000)
-      setWinner(game.winner)
+      // setIsGameOver(game.isGameOver)
+      // setResult(game.result)
+      setTurn(game.turn)
+      // setWinner(game.winner)
     })
     return () => subscribe.unsubscribe()
   }, [])
@@ -65,6 +67,29 @@ function Puzzles() {
     }, 2000)
   }, [])
 
+  const getPuzzles = useCallback(async () => {
+    const url = `https://api.chess.com/pub/puzzle/random`
+    const response = await fetch(url)
+    const data = await response.json()
+    console.log(data)
+    setGame(data.fen)
+    console.log(getTurn())
+    setTurn(getTurn())
+    setPlayerPieces(getTurn())
+    setPuzzleTitle(data.title)
+    console.log(data.title)
+    console.log(data.pgn)
+    const tempChess = new Chess()
+    tempChess.loadPgn(data.pgn, { sloppy: true })
+    const moves = tempChess.history()
+    setPuzzleMoves(moves)
+    console.log(moves)
+  }, [])
+
+  useEffect(() => {
+    getPuzzles()
+  }, [getPuzzles])
+
   return (
     <div className="puzzles" data-theme={theme}>
       <DndProvider backend={HTML5Backend}>  
@@ -83,9 +108,12 @@ function Puzzles() {
             userSelect: "none"}}/>
           </div> :
           <div>
-            <ModalResult open={isGameOver} result={result} winner={winner}/>
+            <h1 style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)", 
+            fontSize: "min(2rem, min(4.25vw, 4.25vh))"}}>{puzzleTitle}</h1>
+            {/* <ModalResult open={isGameOver} result={result} winner={winner}/> */}
             <div className="board_container">
-              <Chessboard className="chessboard" board={board} turn={turn}/>
+              <Chessboard className="chessboard" playerPieces={playerPieces} board={board} turn={turn} boardtype={"puzzles"}
+              puzzleMoves={puzzleMoves}/>
               <div className="board_padding"/>
             </div>
           </div> }

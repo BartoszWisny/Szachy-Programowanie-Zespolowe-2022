@@ -45,8 +45,9 @@ const Piece = ({playerPieces, piece: {type, color}, position, turn, boardtype}) 
     <div ref={isTouchDevice() ? ref : drag}>
       <DragPreviewImage className="previewimage" connect={preview} src={image}/>
       <div className="piececontainer" ref={isTouchDevice() ? (boardtype === "1vs1offline" ? (turn === color ? ref : handleClickOutside) 
-      : (boardtype === "vsourchessai" || boardtype === "vscomputer" ? (playerPieces === turn ? ref : handleClickOutside) : (color === "w" ? ref : handleClickOutside))) 
-      : (boardtype === "1vs1offline" ? (turn === color ? drag : handleClickOutside) : (boardtype === "vsourchessai" || boardtype === "vscomputer" ? (playerPieces === turn ? drag : handleClickOutside) 
+      : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" ? (playerPieces === turn ? ref : handleClickOutside) 
+      : (color === "w" ? ref : handleClickOutside))) : (boardtype === "1vs1offline" ? (turn === color ? drag : handleClickOutside) 
+      : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" ? (playerPieces === turn ? drag : handleClickOutside) 
       : (color === "w" ? drag : handleClickOutside)))} style={{opacity: isDragging ? 0 : 1, cursor: "grab"}} onClick={handleClick}>
         <img src={image} alt="chess" className={`piece_${type}`} />
       </div>
@@ -59,17 +60,17 @@ const Piece = ({playerPieces, piece: {type, color}, position, turn, boardtype}) 
             position: "absolute", 
             left: ((pos[0].charCodeAt(0) - position.charCodeAt(0)) * 100 + 35 * 
                   (boardtype === "1vs1offline" ? (turn === "w" ? 1 : -1) 
-                  : (boardtype === "vsourchessai" || boardtype === "vscomputer" ? (playerPieces === "w" ? 1 : -1)
+                  : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" ? (playerPieces === "w" ? 1 : -1)
                   : 1))) * 
                   (boardtype === "1vs1offline" ? (turn === "w" ? 1 : -1) 
-                  : (boardtype === "vsourchessai" || boardtype === "vscomputer" ? (playerPieces === "w" ? 1 : -1)
+                  : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" ? (playerPieces === "w" ? 1 : -1)
                   : 1)) + "%", 
             top: ((position.charCodeAt(1) - pos[0].charCodeAt(1)) * 100 + 35 * 
                  (boardtype === "1vs1offline" ? (turn === "w" ? 1 : -1) 
-                 : (boardtype === "vsourchessai" || boardtype === "vscomputer" ? (playerPieces === "w" ? 1 : -1)
+                 : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" ? (playerPieces === "w" ? 1 : -1)
                  : 1))) * 
                  (boardtype === "1vs1offline" ? (turn === "w" ? 1 : -1) 
-                 : (boardtype === "vsourchessai" || boardtype === "vscomputer" ? (playerPieces === "w" ? 1 : -1)
+                 : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" ? (playerPieces === "w" ? 1 : -1)
                  : 1)) + "%",
             borderRadius: "15px",
             zIndex: 1,

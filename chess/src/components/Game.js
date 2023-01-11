@@ -2,6 +2,7 @@ import {Chess} from "chess.js"
 import {BehaviorSubject} from "rxjs"
 
 const chess = new Chess()
+
 export const gameSubject = new BehaviorSubject({
   board: chess.board()
 })
@@ -12,6 +13,11 @@ export function initGame() {
 
 export function resetGame() {
   chess.reset()
+  updateGame()
+}
+
+export function setGame(fen) {
+  chess.load(fen)
   updateGame()
 }
 
@@ -44,6 +50,11 @@ export function move(from, to, promotion) {
   if (isLegal) {
     updateGame()
   }
+}
+
+export function moveAN(move) {
+  chess.move(move, { sloppy: true })
+  updateGame()
 }
 
 export function getPossibleMoves(from) {

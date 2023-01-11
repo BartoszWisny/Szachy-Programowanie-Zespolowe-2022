@@ -36,16 +36,6 @@ const LoginTitle = styled.span`
   margin-left: 1rem;
 `
 
-/* function signOut() {
-  const auth = getAuth();
-  signOut().then(() => {
-      // Sign-out successful.
-  }).catch((error) => {
-      console.log(error)
-      // An error happened.
-  });
-} */
-
 function LoginTile() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -57,6 +47,7 @@ function LoginTile() {
     signInWithPopup(auth, provider) // signInWithRedirect
       .then((result) => {
         console.log(result);
+        localStorage.setItem("logged_in", "true")
         navigate("/");
       }).catch((error) => {
       console.log(error);
@@ -81,6 +72,7 @@ function LoginTile() {
           });
         }
         console.log(result);
+        localStorage.setItem("logged_in", "true")
         navigate("/");
         // GraphAPI access token: EAAPtF26rDYYBAO8JlwxKXjUvGuvENvY3lrIuip7mPPJnDCO7CETZCJ07zwrFXV5CZA7BdmYMJm9pNZCqxY1ddH4tIGcwQM6t9zc0ZCitdMfAP884wKUPV4PEHquoEJiiasNZBW6kUESJy54ZB0FLa4hdWSF07VNpwx6j62oTKokgBgJiOPkmHBEIRAZCYHFQeiyRzWvUJ9TzdZBnKaPK7ONoOUya3U67PhuU52Eq063SNGgAZCxHuzzkO
         // https://graph.facebook.com/1241216816608059/picture?width=480&access_token=EAAPtF26rDYYBAO8JlwxKXjUvGuvENvY3lrIuip7mPPJnDCO7CETZCJ07zwrFXV5CZA7BdmYMJm9pNZCqxY1ddH4tIGcwQM6t9zc0ZCitdMfAP884wKUPV4PEHquoEJiiasNZBW6kUESJy54ZB0FLa4hdWSF07VNpwx6j62oTKokgBgJiOPkmHBEIRAZCYHFQeiyRzWvUJ9TzdZBnKaPK7ONoOUya3U67PhuU52Eq063SNGgAZCxHuzzkO
@@ -107,6 +99,7 @@ function LoginTile() {
               signInWithPopup(auth, provider).then((result) => {
                 linkWithCredential(auth.currentUser, credential).then((result) => {
                   console.log(result);
+                  localStorage.setItem("logged_in", "true")
                   navigate("/");
                 }).catch((error) => {
                   console.log(error);
@@ -127,6 +120,7 @@ function LoginTile() {
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result);
+        localStorage.setItem("logged_in", "true")
         navigate("/");
       })
       .catch((error) => {

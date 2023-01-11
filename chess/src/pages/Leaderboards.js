@@ -36,9 +36,9 @@ function Leaderboards() {
   const [loading, setLoading] = useState(false)
 
 // const data = [
-//     { username: "Player1", wins: 21, draws: 7, defeats: 2, points: 290},
-//     { username: "Player2", wins: 19, draws: 8, defeats: 4, points: 265},
-//     { username: "Player3", wins: 18, draws: 9, defeats: 4, points: 254},
+//     { username: "Player1", wins: 21, draws: 7, defeats: 2, points: 290},
+//     { username: "Player2", wins: 19, draws: 8, defeats: 4, points: 265},
+//     { username: "Player3", wins: 18, draws: 9, defeats: 4, points: 254},
 //     { username: "Player4", wins: 17, draws: 9, defeats: 9, points: 203},
 //     { username: "Player5", wins: 6, draws: 11, defeats: 10, points: 102},
 //     { username: "Player6", wins: 6, draws: 3, defeats: 1, points: 92},
