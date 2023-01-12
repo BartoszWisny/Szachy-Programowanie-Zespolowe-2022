@@ -180,7 +180,7 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
     } else {
       setCurrentChessboard(board.flat())
     }
-  }, [playerPieces, board, turn, boardtype, sound, engineSource])
+  }, [playerPieces, board, turn, boardtype, puzzleFen, sound, engineSource])
 
   function getXYPosition(i) {
     const x = boardtype === "1vs1offline" ? (turn === "w" ? i % 8 : Math.abs(i % 8 - 7)) 
