@@ -35,6 +35,7 @@ function Puzzles() {
   const [turn, setTurn] = useState()
   const [playerPieces, setPlayerPieces] = useState("")
   const [puzzleMoves, setPuzzleMoves] = useState("")
+  const [puzzleFen, setPuzzleFen] = useState("")
   const [puzzleTitle, setPuzzleTitle] = useState("")
   // const [winner, setWinner] = useState()
 
@@ -73,6 +74,7 @@ function Puzzles() {
     const data = await response.json()
     console.log(data)
     setGame(data.fen)
+    setPuzzleFen(data.fen)
     console.log(getTurn())
     setTurn(getTurn())
     setPlayerPieces(getTurn())
@@ -113,11 +115,11 @@ function Puzzles() {
             {/* <ModalResult open={isGameOver} result={result} winner={winner}/> */}
             <div className="board_container">
               <Chessboard className="chessboard" playerPieces={playerPieces} board={board} turn={turn} boardtype={"puzzles"}
-              puzzleMoves={puzzleMoves}/>
+              puzzleMoves={puzzleMoves} puzzleFen={puzzleFen}/>
               <div className="board_padding"/>
             </div>
           </div> }
-        <SwitchThemeButton onClick={switchTheme}>
+        <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
           {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
         </SwitchThemeButton>
       </DndProvider>

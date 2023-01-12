@@ -89,7 +89,7 @@ function Play1vs1online() {
               <div className="board_padding"/>
             </div>
           </div> }
-        <SwitchThemeButton onClick={switchTheme}>
+        <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
           {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
         </SwitchThemeButton>
       </DndProvider>

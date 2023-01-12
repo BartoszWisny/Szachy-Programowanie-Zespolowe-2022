@@ -57,7 +57,7 @@ function Feedback() {
           userSelect: "none"}}/>
         </div> :
         <FeedbackTiles /> }
-      <SwitchThemeButton onClick={switchTheme}>
+      <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
         {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
       </SwitchThemeButton>
     </div>

@@ -55,7 +55,7 @@ function Learnwatch() {
           speedMultiplier={1} style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
           userSelect: "none"}}/>
         </div> : null }
-      <SwitchThemeButton onClick={switchTheme}>
+      <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
         {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
       </SwitchThemeButton>
     </div>

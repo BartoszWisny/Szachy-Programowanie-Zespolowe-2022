@@ -207,12 +207,47 @@ body {
   background: var(--primary);
 }
 
-.promotionpiece {
+.promotionpiece_r {
   display: block;
+  max-width: 52.8%;
+  width: auto;
+  height: auto;
+  cursor: grab;
   margin-left: auto;
   margin-right: auto;
-  cursor: pointer;
-  z-index: 3;
+  pointer-events: none;
+}
+
+.promotionpiece_n {
+  display: block;
+  max-width: 58.85%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.promotionpiece_b {
+  display: block;
+  max-width: 52.25%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.promotionpiece_q {
+  display: block;
+  max-width: 59.4%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
   pointer-events: none;
 }
 

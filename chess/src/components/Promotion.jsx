@@ -4,7 +4,7 @@ import {move} from "./Game"
 
 const promotionPieces = ['q', 'n', 'r', 'b']
 
-const Promotion = ({promotion: {from, to, color}}) => { /*adjust view to turn and game type*/
+const Promotion = ({promotion: {from, to, color}}) => {
   return ( 
     <div className="chessboard">
       {promotionPieces.map((piece, i) => (
@@ -12,7 +12,7 @@ const Promotion = ({promotion: {from, to, color}}) => { /*adjust view to turn an
           <Square>
             <div className="promotioncontainer" onClick={() => move(from, to, piece)}>
               <img src={require(`../assets/chessboard/${piece}_${color}.png`)} 
-              alt="chess" className="promotionpiece" />
+              alt="chess" className={`promotionpiece_${piece}`}/>
             </div>
           </Square>
         </div>
