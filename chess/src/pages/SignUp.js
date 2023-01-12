@@ -44,7 +44,7 @@ function Login() {
     <div className="login" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
-          <title>Login</title>
+          <title>Sign up</title>
           <link rel="canonical" href="http://mysite.com/example" />
           <meta name="description" content="Title" />
       </Helmet>

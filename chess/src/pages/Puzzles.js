@@ -83,9 +83,16 @@ function Puzzles() {
     console.log(data.pgn)
     const tempChess = new Chess()
     tempChess.loadPgn(data.pgn, { sloppy: true })
-    const moves = tempChess.history()
+    const moves = tempChess.history({ verbose: true })
     setPuzzleMoves(moves)
     console.log(moves)
+    /* setGame("rnb2bnr/pppPkppp/8/4p3/7q/8/PPPP1PPP/RNBQKBNR w KQ - 1 5")
+    setPuzzleFen("rnb2bnr/pppPkppp/8/4p3/7q/8/PPPP1PPP/RNBQKBNR w KQ - 1 5")
+    setTurn(getTurn())
+    setPlayerPieces(getTurn())
+    setPuzzleTitle("test")
+    const moves = [{from: 'd7', to: 'c8', promotion: 'q'} ]
+    setPuzzleMoves(moves) */
   }, [])
 
   useEffect(() => {
@@ -110,10 +117,11 @@ function Puzzles() {
             userSelect: "none"}}/>
           </div> :
           <div>
-            <h1 style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)", 
-            fontSize: "min(2rem, min(4.25vw, 4.25vh))"}}>{puzzleTitle}</h1>
+            <h2 style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)", 
+            fontSize: "min(1.5rem, min(3.2vw, 3.2vh))", marginLeft: "min(2rem, min(4.25vw, 4.25vh))", 
+            marginTop: "min(1rem, min(2.1vw, 2.1vh))"}}>{puzzleTitle} ➜ {playerPieces === "w" ? "white" : "black"} to move</h2>
             {/* <ModalResult open={isGameOver} result={result} winner={winner}/> */}
-            <div className="board_container">
+            <div className="board_container_puzzle">
               <Chessboard className="chessboard" playerPieces={playerPieces} board={board} turn={turn} boardtype={"puzzles"}
               puzzleMoves={puzzleMoves} puzzleFen={puzzleFen}/>
               <div className="board_padding"/>

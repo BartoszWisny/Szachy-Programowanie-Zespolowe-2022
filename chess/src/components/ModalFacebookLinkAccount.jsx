@@ -2,8 +2,8 @@ import React, {useState} from "react"
 import "./ModalFacebookLinkAccount.css"
 import {useNavigate} from "react-router-dom"
 import ModalInput from "./ModalInput";
-import {getAuth, linkWithCredential, signInWithEmailAndPassword} from "firebase/auth";
-import {NotificationManager} from "react-notifications";
+import {getAuth, linkWithCredential, signInWithEmailAndPassword} from "firebase/auth"
+import {NotificationManager} from "react-notifications"
 
 const ModalFacebookLinkAccount = ({open, email, credential}) => {
   const [password, setPassword] = useState("")
@@ -12,23 +12,23 @@ const ModalFacebookLinkAccount = ({open, email, credential}) => {
     setPassword(e.target.value)
   }
   
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   function loginAndLink() {
-    const auth = getAuth();
+    const auth = getAuth()
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
-        console.log(result);
+        console.log(result)
         linkWithCredential(auth.currentUser, credential).then((result) => {
-          console.log(result);
+          console.log(result)
         }).catch((error) => {
-          console.log(error);
+          // console.log(error)
         });
-        navigate("/");
+        navigate("/")
       })
       .catch((error) => {
-        console.log(error);
-        NotificationManager.error('Incorrect password.', 'Error:', 5000, () => {});
+        // console.log(error)
+        NotificationManager.error('Incorrect password.', 'Error:', 5000, () => {})
       });
   }
 

@@ -71,8 +71,8 @@ body {
   user-select: none;
 }
 
-.board_container {
-  margin-top: 2.5rem; 
+.board_container_puzzle {
+  margin-top: min(1rem, min(2.1vw, 2.1vh)); 
   margin-bottom: 2.5rem;
   max-width: min(90vw, 90vh);
   max-height: min(90vw, 90vh);
@@ -253,12 +253,12 @@ body {
 
 .number {
   position: absolute;
-  font-size: /* min(2vw, 2vh); */ 1rem;
+  font-size: 1rem;
   user-select: none;
 }
 
 .letter {
   position: absolute;
-  font-size: /* min(2vw, 2vh); */ 1rem; 
+  font-size: 1rem; 
   user-select: none;
 }
