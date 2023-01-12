@@ -1,7 +1,8 @@
 import React, {useCallback, useEffect, useState, useRef, useMemo} from "react"
 import ChessboardSquare from "./ChessboardSquare"
-import {getEngineFen, move, getLastMoveCaptured, handleMove, getMove, getStockfishFen, getChessDBFen, moveAN} from "./Game"
+import {getEngineFen, move, getLastMoveCaptured, handleMove, getMove, getStockfishFen, getChessDBFen, moveAN, getPiece} from "./Game"
 import Stockfish from "../components/Stockfish"
+import {NotificationManager} from "react-notifications"
 import moveSound from "../assets/sounds/move.mp3"
 import captureSound from "../assets/sounds/capture.mp3"
 import silenceSound from "../assets/sounds/silence.mp3"
@@ -141,7 +142,7 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
 
   useEffect(() => {
     if (boardtype === "puzzles" && turn === (playerPieces === "w" ? "b" : "w")) {
-      if (puzzleMoveCounter <= puzzleMoves.length - 1) {
+      if (puzzleMoveCounter < puzzleMoves.length) {
         setTimeout(function() {
           moveAN(puzzleMoves[puzzleMoveCounter])
           setPuzzleMoveCounter(puzzleMoveCounter + 1)
@@ -206,10 +207,10 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
   }
 
   const [positionClicked, setPositionClicked] = useState(null)
-  const previousPositionClicked = useRef();
+  const previousPositionClicked = useRef()
 
   useEffect(() => {
-    previousPositionClicked.current = positionClicked;
+    previousPositionClicked.current = positionClicked
   }, [positionClicked])
 
   function handleClicked(positionClicked) {
@@ -217,8 +218,26 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
     if (previousPositionClicked.current != null && positionClicked != null) {
       const move = getMove(previousPositionClicked.current, positionClicked)
       const captured = move.map((i) => (i.captured))
-      move.length !== 0 ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
-      handleMove(previousPositionClicked.current, positionClicked)
+      if (boardtype !== "puzzles") {
+        move.length !== 0 ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
+        handleMove(previousPositionClicked.current, positionClicked)
+      } else {
+        if (puzzleMoveCounter < puzzleMoves.length) {
+          if (puzzleMoves[puzzleMoveCounter].from === previousPositionClicked.current && puzzleMoves[puzzleMoveCounter].to === positionClicked 
+          && typeof puzzleMoves[puzzleMoveCounter].promotion === "undefined") {
+            move.length !== 0 ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
+            handleMove(previousPositionClicked.current, positionClicked)
+            NotificationManager.success("Correct move!", '', 3000, () => {})
+          } else if (puzzleMoves[puzzleMoveCounter].from === previousPositionClicked.current && puzzleMoves[puzzleMoveCounter].to === positionClicked) {
+            move.length !== 0 ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
+            handleMove(previousPositionClicked.current, positionClicked)
+          } else if ((puzzleMoves[puzzleMoveCounter].from !== previousPositionClicked.current || puzzleMoves[puzzleMoveCounter].to !== positionClicked) 
+          && (previousPositionClicked.current !== positionClicked) && getPiece(previousPositionClicked.current).color === playerPieces
+          && getPiece(positionClicked).color !== playerPieces) {
+            NotificationManager.error("Wrong move! Try again.", '', 3000, () => {})
+          }
+        }
+      }
     }
   }
 
@@ -227,7 +246,10 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
       {currentChessboard.map((piece, i) => (
         <div key={i} className="square">
           <ChessboardSquare playerPieces={playerPieces} piece={piece} dark={isDark(i)} position={getPosition(i)}
-          turn={turn} boardtype={boardtype} changePositionClicked={positionClicked => handleClicked(positionClicked)}/>
+          turn={turn} boardtype={boardtype} changePositionClicked={positionClicked => handleClicked(positionClicked)}
+          highlightPuzzle={boardtype === "puzzles" ? (puzzleMoveCounter < puzzleMoves.length ? puzzleMoves[puzzleMoveCounter].from 
+          : null) : null} puzzleMove={boardtype === "puzzles" ? (puzzleMoveCounter < puzzleMoves.length ? 
+          puzzleMoves[puzzleMoveCounter] : null) : null}/>
         </div>
       ))}
     </div>

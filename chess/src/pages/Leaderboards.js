@@ -60,7 +60,7 @@ function Leaderboards() {
     <div className="leaderboards" data-theme={theme}>
       <Helmet>
         <meta charSet="utf-8" />
-          <title>Leaderboard - games</title>
+          <title>Leaderboards</title>
           <link rel="canonical" href="http://mysite.com/example" />
           <meta name="description" content="Title" />
       </Helmet>

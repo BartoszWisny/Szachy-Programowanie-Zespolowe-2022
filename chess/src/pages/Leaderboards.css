@@ -11,7 +11,7 @@
   --gray6: #4f546c;
   --gray7: #2a324b;
   --gray8: #161d34;
-  --gray_transp: /*#e1e5eebb;*/ #ffffffd9;
+  --white: #ffffffd9;
   --second_transp: #ffd494bb;
   --radius: 0.4rem;
   --background: url("../assets/backgroundgray.jpg");
@@ -44,14 +44,14 @@ body {
 }
 
 .score_table {
-  background-color: var(--gray_transp);
+  background-color: var(--white);
   z-index: -2;
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 4rem;
-  max-width: min(100vw, 100vh);
-  font-size: min(4vw, 4vh);
+  margin-top: min(4rem, 6vh);
+  width: min(50rem, min(90vw, 100vh));
+  font-size: min(3rem, min(3.6vw, 3.6vh));
   text-align: center;
   justify-content: center;
   align-items: center;
@@ -67,7 +67,7 @@ body {
 .score_table_columns {
   border-collapse: separate;
   margin: auto;
-  border-spacing: 3vmin 3vmin /*2vw 3vh*/;
+  border-spacing: 3vmin 3vmin;
 }
 
 .score_table_header {

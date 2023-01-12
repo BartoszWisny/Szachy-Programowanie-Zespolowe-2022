@@ -4,11 +4,12 @@ import Piece from "./Piece"
 import {useDrop} from "react-dnd"
 import {handleMove, gameSubject, isCheck, getTurn, getMove, getLastMove} from "./Game"
 import Promotion from "./Promotion"
+import {NotificationManager} from "react-notifications"
 import moveSound from "../assets/sounds/move.mp3"
 import captureSound from "../assets/sounds/capture.mp3"
 import silenceSound from "../assets/sounds/silence.mp3"
 
-const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype, changePositionClicked}) => {
+const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype, changePositionClicked, highlightPuzzle, puzzleMove}) => {
   const [promotion, setPromotion] = useState(null)
 
   function playMoveSound() {
@@ -35,8 +36,25 @@ const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype,
       const [fromPosition, type, color] = item.id.split('_')
       const move = getMove(fromPosition, position)
       const captured = move.map((i) => (i.captured))
-      move.length !== 0 && type && color === turn ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
-      handleMove(fromPosition, position)
+
+      if (boardtype !== "puzzles") {
+        move.length !== 0 && type && color === turn ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
+        handleMove(fromPosition, position)
+      } else {
+        if (puzzleMove !== null) {
+          if (puzzleMove.from === fromPosition && puzzleMove.to === position && typeof puzzleMove.promotion === "undefined") {
+            move.length !== 0 && type && color === turn ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
+            handleMove(fromPosition, position)
+            NotificationManager.success("Correct move!", '', 3000, () => {})
+          } else if (puzzleMove.from === fromPosition && puzzleMove.to === position) {
+            move.length !== 0 && type && color === turn ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
+            handleMove(fromPosition, position)
+          } else if ((puzzleMove.from !== fromPosition || puzzleMove.to !== position) && fromPosition !== position 
+          && color === playerPieces) {
+            NotificationManager.error("Wrong move! Try again.", '', 3000, () => {})
+          }
+        }
+      }
     }
   })
 
@@ -47,7 +65,7 @@ const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype,
       : setPromotion(null)
     )
     return () => subscribe.unsubscribe()
-  }, [position])
+  }, [position, boardtype])
 
   function isTouchDevice() {
     return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0))
@@ -62,8 +80,8 @@ const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype,
         boardtype={boardtype}>
         {promotion && boardtype === "1vs1offline" ? <Promotion promotion={promotion} /> /* to be done for other types of boards */
         : (promotion && (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles") 
-        && playerPieces === turn ? <Promotion promotion={promotion} /> 
-        : (piece ? (<Piece playerPieces={playerPieces} piece={piece} position={position} turn={turn} boardtype={boardtype} />)
+        && playerPieces === turn ? <Promotion promotion={promotion} boardtype={boardtype} puzzleMove={puzzleMove}/> 
+        : (piece ? (<Piece playerPieces={playerPieces} piece={piece} position={position} turn={turn} boardtype={boardtype} />) 
         : null))}
       </Square>
     </div>

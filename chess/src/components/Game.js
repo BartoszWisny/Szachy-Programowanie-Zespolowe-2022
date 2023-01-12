@@ -1,5 +1,8 @@
 import {Chess} from "chess.js"
 import {BehaviorSubject} from "rxjs"
+import {NotificationManager} from "react-notifications"
+
+// let promotion = "rnb2bnr/pppPkppp/8/4p3/7q/8/PPPP1PPP/RNBQKBNR w KQ - 1 5"
 
 const chess = new Chess()
 
@@ -34,11 +37,9 @@ export function handleMove(from, to) {
   if (!pendingPromotion) {
     move(from, to)
   }
-
-  move(from, to)
 }
 
-export function move(from, to, promotion) {
+export function move(from, to, promotion, boardtype, puzzleMove) {
   const temporaryMove = {from, to}
 
   if (promotion) {
@@ -48,13 +49,39 @@ export function move(from, to, promotion) {
   const isLegal = chess.move(temporaryMove)
 
   if (isLegal) {
-    updateGame()
+    if (typeof boardtype === "undefined") {
+      updateGame()
+    } else {
+      if (puzzleMove.from === from && puzzleMove.to === to) {
+        if (typeof puzzleMove.promotion === "undefined") {
+          updateGame()
+          NotificationManager.success("Correct move!", '', 3000, () => {})
+        } else if (promotion !== null) {
+          if (puzzleMove.promotion === promotion) {
+            updateGame()
+            NotificationManager.success("Correct move!", '', 3000, () => {})
+          } else {
+            NotificationManager.error("Wrong move! Try again.", '', 3000, () => {})
+            chess.undo()
+            updateGame()
+          }
+        }
+      } else {
+        NotificationManager.error("Wrong move! Try again.", '', 3000, () => {})
+        chess.undo()
+        updateGame()
+      }
+    }
   }
 }
 
 export function moveAN(move) {
   chess.move(move, { sloppy: true })
   updateGame()
+}
+
+export function getPiece(square) {
+  return chess.get(square)
 }
 
 export function getPossibleMoves(from) {
