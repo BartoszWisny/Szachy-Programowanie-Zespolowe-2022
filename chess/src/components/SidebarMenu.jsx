@@ -8,13 +8,14 @@ import * as BiIcons from "react-icons/bi"
 import {SidebarData} from "./SidebarData"
 import SubMenu from "./SubMenu"
 import {useNavigate} from "react-router-dom"
-import {NotificationContainer} from "react-notifications";
-import 'react-notifications/lib/notifications.css';
-import { getAuth, signOut } from "firebase/auth";
-import * as TbIcons from "react-icons/tb";
+import {NotificationContainer} from "react-notifications"
+import 'react-notifications/lib/notifications.css'
+import { getAuth, signOut } from "firebase/auth"
+import * as TbIcons from "react-icons/tb"
 import ReactAudioPlayer from "react-audio-player"
 import chesstheme from "../assets/sounds/chesstheme.mp3"
-import useLocalStorage from "use-local-storage";
+import useLocalStorage from "use-local-storage"
+import { useLocation } from "react-router-dom"
 
 const PlayChessThemeButton = styled.button`
   background-color: var(--primary);
@@ -71,8 +72,8 @@ const AccountMenu = styled.nav`
   background-color: var(--primary);
   opacity: 0.98;
   margin-top: 2.2rem;
-  width: 16rem;
-  height: 3.8vh;
+  width: 10rem;
+  height: 2.2rem;
   display: flex;
   justify-content: flex-start;
   position: fixed;
@@ -144,7 +145,6 @@ const SidebarMenu = () => {
     setPlay(newPlay)
   }
 
-
   const signOutButton = () => {
     const auth = getAuth();
     signOut(auth).then(() => {
@@ -152,10 +152,12 @@ const SidebarMenu = () => {
       navigate("/");
       window.location.reload(false);
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       // An error happened.
     });
   }
+
+  const location = useLocation()
 
   return (
     <div className="sidebar_menu">
@@ -166,10 +168,10 @@ const SidebarMenu = () => {
         <HomeButton onClick={homeRoute}>
           <AiIcons.AiFillHome/>
         </HomeButton>
-        <PlayChessThemeButton onClick={changePlayChessTheme}>
+        {location.pathname === "/" ? <PlayChessThemeButton onClick={changePlayChessTheme}>
           {play ? (<TbIcons.TbMusic />) : (<TbIcons.TbMusicOff />)}
           {play ? (<ReactAudioPlayer src={chesstheme} autoPlay loop volume={0.5} />) : null}
-        </PlayChessThemeButton>
+        </PlayChessThemeButton> : null}
         {isAuthenticated() ?
           <LoginButton onClick={showAccountSidebar}>
             <BiIcons.BiUser/>
@@ -193,8 +195,8 @@ const SidebarMenu = () => {
       <AccountMenu accountSidebar={accountSidebar} className="sidebar_nav">
         <AccountMenuWrap className="sidebar_wrap">
           <SubMenu item={{
-            title: "Log out",
-            icon: <BiIcons.BiLogOut/>}} handleClick={signOutButton}/>
+            title: "Logout",
+            icon: <BiIcons.BiLogOut size={"1.2rem"}/>}} handleClick={signOutButton}/>
         </AccountMenuWrap>
       </AccountMenu>
       <NotificationContainer/>

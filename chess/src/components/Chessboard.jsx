@@ -6,7 +6,7 @@ import moveSound from "../assets/sounds/move.mp3"
 import captureSound from "../assets/sounds/capture.mp3"
 import silenceSound from "../assets/sounds/silence.mp3"
 
-const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, stockfishLevel, puzzleMoves}) => {
+const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, stockfishLevel, puzzleMoves, puzzleFen}) => {
   const [currentChessboard, setCurrentChessboard] = useState([])
   const [ourChessEngineMove, setOurChessEngineMove] = useState("")
   const [stockfishMove, setStockfishMove] = useState("")
@@ -175,7 +175,7 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
         }
       }
 
-      setSound(true)
+      setSound(true && getStockfishFen() !== puzzleFen)
       setCurrentChessboard(playerPieces === "w" ? board.flat() : board.flat().reverse())
     } else {
       setCurrentChessboard(board.flat())
