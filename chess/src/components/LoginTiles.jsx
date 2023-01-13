@@ -56,9 +56,9 @@ function LoginTile() {
         localStorage.setItem("logged_in", "true")
         navigate("/");
       }).catch((error) => {
-      console.log(error);
-      NotificationManager.error('Google login failed.', 'Error:', 5000, () => {});
-    });
+        // console.log(error);
+        NotificationManager.error('Google login failed.', 'Error:', 5000, () => {});
+      });
   }
 
   function loginFacebook() {
@@ -74,7 +74,7 @@ function LoginTile() {
           sendEmailVerification(user).then((result) => {
             console.log(result);
           }).catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
         }
         console.log(result);
@@ -86,7 +86,7 @@ function LoginTile() {
         // Or sth like: result.photoUrl + ?width=480&access_token=ACCESS_TOKEN
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
 
         if(error.code === 'auth/account-exists-with-different-credential') {
           const credential = OAuthProvider.credentialFromError(error);
@@ -108,13 +108,13 @@ function LoginTile() {
                   localStorage.setItem("logged_in", "true")
                   navigate("/");
                 }).catch((error) => {
-                  console.log(error);
+                  // console.log(error);
                   NotificationManager.error('Facebook login failed.', 'Error:', 5000, () => {});
                 });
               });
             }
           }).catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
         }
         else {
@@ -132,8 +132,7 @@ function LoginTile() {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
-
+        // console.log(error);
         NotificationManager.error('Invalid email or password.', 'Error:', 5000, () => {});
       });
   }

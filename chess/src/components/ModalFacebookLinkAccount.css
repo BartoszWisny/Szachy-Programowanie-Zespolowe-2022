@@ -35,7 +35,7 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 7rem;
-  height: min(16rem, 41.6vw);
+  height: min(15rem, 48vw);
   width: min(25rem, 80vw);
   overflow: hidden;
   box-shadow: 0 0 1rem var(--gray6);
@@ -51,7 +51,7 @@
 }
 
 .modalfacebooklinkaccount_title {
-  margin-top: min(0.5rem, 3.2vw);
+  margin-top: min(0.5rem, 1.6vw);
   padding: 0rem;
   user-select: none;
   font-family: inherit;
