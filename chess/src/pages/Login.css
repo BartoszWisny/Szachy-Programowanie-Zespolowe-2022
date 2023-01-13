@@ -171,6 +171,11 @@ body {
 
 .logintile_signuplink {
   margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.logintile_resetlink {
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
 
