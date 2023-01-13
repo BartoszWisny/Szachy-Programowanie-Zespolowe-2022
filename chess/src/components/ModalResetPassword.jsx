@@ -10,11 +10,12 @@ import styled from "styled-components";
 const NavIcon = styled(Link)`
   color: var(--primary);
   opacity: 0.98;
-  margin-top: 0.4rem;
-  margin-right: 0.6rem;
+  margin-top: min(0.4rem, 1.3vw);
+  margin-right: min(0.4rem, 1.3vw);
   margin-left: auto;
-  font-size: 1.4rem;
-  height: 2.2rem;
+  font-size: min(2rem, 6.4vw);
+  height: min(2rem, 6.4vw);
+  width: min(2rem, 6.4vw);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -52,7 +53,7 @@ const ModalResetPassword = ({open, stateChanger}) => {
         <p className="modalresetpassword_title" style={{fontSize: "min(1rem, 3.2vw)"}}>
         Provide the email address linked to your account:</p>
         <ModalInput id="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
-        <button className="modalresetpassword_button1" onClick={sendResetEmail}>Send password change email.</button>
+        <button className="modalresetpassword_button1" onClick={sendResetEmail}>Send password change email</button>
       </div>
     </div>
     : null

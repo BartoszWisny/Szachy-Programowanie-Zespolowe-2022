@@ -11,10 +11,11 @@ const NavIcon = styled(Link)`
   color: var(--primary);
   opacity: 0.98;
   margin-top: 0.4rem;
-  margin-right: 0.6rem;
+  margin-right: 0.4rem;
   margin-left: auto;
-  font-size: 1.4rem;
-  height: 2.2rem;
+  font-size: min(2rem, 6.4vw);
+  height: min(2rem, 6.4vw);
+  width: min(2rem, 6.4vw);
   display: flex;
   justify-content: flex-start;
   align-items: center;

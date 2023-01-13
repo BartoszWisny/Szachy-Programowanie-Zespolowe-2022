@@ -57,7 +57,10 @@ function SignUpTile() {
                 navigate("/");
               })
               .catch((error) => {
-                console.log(error);
+                if (error.code === 'auth/email-already-in-use') {
+                  NotificationManager.error('Account using this email already exists.', 'Error:', 5000, () => {});
+                }
+                // console.log(error);
               });
           }
           else {
