@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.overlaypuzzles {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 1.5rem;
+  font-size: 1rem;
+}
+
+.modalpuzzles_container {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: min(7.5rem, min(16.875vw, 16.875vh));
+  height: min(25rem, min(56.25vw, 56.25vh));
+  width: min(25rem, min(56.25vw, 56.25vh));
+  overflow: hidden;
+  box-shadow: 0 0 1rem var(--gray6);
+  border-radius: var(--radius);
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 200ms ease-in;
+  background-color: rgba(255, 255, 255, 0.85);
+  z-index: 1;
+  user-select: none;
+}
+
+.modalpuzzles_blurhash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: min(15rem, min(33.75vw, 33.75vh));
+  width: 100%;
+  object-fit: cover;
+  margin-bottom: min(1rem, min(2.25vw, 2.25vh));
+  pointer-events: none;
+}
+
+.modalpuzzles_image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: min(15rem, min(33.75vw, 33.75vh));
+  width: 100%;
+  object-fit: cover;
+  margin-bottom: min(1rem, min(2.25vw, 2.25vh));
+  pointer-events: none;
+}
+
+.modalpuzzles_title {
+  margin-top: min(15.5rem, min(34.875vw, 34.875vh));
+  padding: 0rem;
+  user-select: none;
+}
+
+.modalpuzzles_result {
+  padding: 0rem;
+  user-select: none;
+}
+  
+.modalpuzzles_container:hover {
+  transform: scale(1.04);
+}
+
+.modalpuzzles_button1 {
+  padding: min(1rem, min(2.25vw, 2.25vh));
+  font-family: inherit;
+  font-weight: bold;
+  font-size: min(1rem, min(2.25vw, 2.25vh));
+  margin: min(1rem, min(2.25vw, 2.25vh));
+  border: min(0.1rem, min(0.225vw, 0.225vh)) solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  user-select: none;
+}
+  
+.modalpuzzles_button2 {
+  padding: min(1rem, min(2.25vw, 2.25vh));
+  font-family: inherit;
+  font-weight: bold;
+  font-size: min(1rem, min(2.25vw, 2.25vh));
+  margin: min(1rem, min(2.25vw, 2.25vh));
+  border: min(0.1rem, min(0.225vw, 0.225vh)) solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  user-select: none;
+}
+  
+.modalpuzzles_button1:hover {
+  background: var(--primary);
+  color: white;
+}
+  
+.modalpuzzles_button2:hover {
+  background: var(--primary);
+  color: white;
+}

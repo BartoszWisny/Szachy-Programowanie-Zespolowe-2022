@@ -39,7 +39,7 @@ function Playvsourchessai() {
     resetGame()
     initGame()
     const subscribe = gameSubject.subscribe((game) => {
-      setBoard(game.board);
+      setBoard(game.board)
       setIsGameOver(game.isGameOver)
       setResult(game.result)
       setTurn(game.turn)

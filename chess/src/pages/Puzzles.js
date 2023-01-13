@@ -6,12 +6,14 @@ import {gameSubject, initGame, resetGame, setGame, getTurn} from "../components/
 import Chessboard from "../components/Chessboard"
 import {DndProvider} from "react-dnd"
 import {HTML5Backend} from "react-dnd-html5-backend"
-// import ModalResult from "../components/ModalResult"
 import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
 import {GridLoader} from "react-spinners"
 import {Chess} from "chess.js"
+import * as HiIcons from "react-icons/hi"
+import * as BsIcons from "react-icons/bs"
+import ModalPuzzles from "../components/ModalPuzzles"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -28,26 +30,57 @@ const SwitchThemeButton = styled.button`
   top: 0;
 `
 
+const HintButton = styled.button`
+  position: absolute;
+  background-color: ${({theme}) => (theme === "lightmode" ? "var(--primary)" : "var(--secondary)")};
+  color: ${({theme}) => (theme === "lightmode" ? "var(--secondary)" : "var(--primary)")};
+  opacity: 0.98;
+  bottom: min(2.5rem, min(5.3vw, 5.3vh)); 
+  right: min(6rem, min(12.7vw, 12.7vh));
+  font-size: min(3rem, min(6.35vw, 6.35vh));
+  height: min(3rem, min(6.35vw, 6.35vh));
+  width: min(3rem, min(6.35vw, 6.35vh));
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  border: 0;
+  border-radius: min(0.4rem, min(0.85vw, 0.85vh));
+`
+
+const SolutionButton = styled.button`
+  position: absolute;
+  background-color: ${({theme}) => (theme === "lightmode" ? "var(--primary)" : "var(--secondary)")};
+  color: ${({theme}) => (theme === "lightmode" ? "var(--secondary)" : "var(--primary)")};
+  opacity: 0.98;
+  bottom: min(2.5rem, min(5.3vw, 5.3vh)); 
+  right: min(2.5rem, min(5.3vw, 5.3vh)); 
+  font-size: min(3rem, min(6.35vw, 6.35vh));
+  height: min(3rem, min(6.35vw, 6.35vh));
+  width: min(3rem, min(6.35vw, 6.35vh));
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  border: 0;
+  border-radius: min(0.4rem, min(0.85vw, 0.85vh));
+`
+
 function Puzzles() {
   const [board, setBoard] = useState([])
-  // const [isGameOver, setIsGameOver] = useState()
-  // const [result, setResult] = useState()
   const [turn, setTurn] = useState()
   const [playerPieces, setPlayerPieces] = useState("")
   const [puzzleMoves, setPuzzleMoves] = useState("")
   const [puzzleFen, setPuzzleFen] = useState("")
   const [puzzleTitle, setPuzzleTitle] = useState("")
-  // const [winner, setWinner] = useState()
+  const [solved, setSolved] = useState(false)
 
   useEffect(() => {
     resetGame()
     initGame()
     const subscribe = gameSubject.subscribe((game) => {
-      setBoard(game.board);
-      // setIsGameOver(game.isGameOver)
-      // setResult(game.result)
+      setBoard(game.board)
       setTurn(game.turn)
-      // setWinner(game.winner)
     })
     return () => subscribe.unsubscribe()
   }, [])
@@ -72,20 +105,20 @@ function Puzzles() {
     const url = `https://api.chess.com/pub/puzzle/random`
     const response = await fetch(url)
     const data = await response.json()
-    console.log(data)
+    // console.log(data)
     setGame(data.fen)
     setPuzzleFen(data.fen)
-    console.log(getTurn())
+    // console.log(getTurn())
     setTurn(getTurn())
     setPlayerPieces(getTurn())
     setPuzzleTitle(data.title)
-    console.log(data.title)
-    console.log(data.pgn)
+    // console.log(data.title)
+    // console.log(data.pgn)
     const tempChess = new Chess()
     tempChess.loadPgn(data.pgn, { sloppy: true })
     const moves = tempChess.history({ verbose: true })
     setPuzzleMoves(moves)
-    console.log(moves)
+    // console.log(moves)
     /* setGame("rnb2bnr/pppPkppp/8/4p3/7q/8/PPPP1PPP/RNBQKBNR w KQ - 1 5")
     setPuzzleFen("rnb2bnr/pppPkppp/8/4p3/7q/8/PPPP1PPP/RNBQKBNR w KQ - 1 5")
     setTurn(getTurn())
@@ -98,6 +131,9 @@ function Puzzles() {
   useEffect(() => {
     getPuzzles()
   }, [getPuzzles])
+
+  const [hint, setHint] = useState(false)
+  const [solution, setSolution] = useState(false)
 
   return (
     <div className="puzzles" data-theme={theme}>
@@ -117,13 +153,20 @@ function Puzzles() {
             userSelect: "none"}}/>
           </div> :
           <div>
+            <HintButton theme={theme} onClick={() => setHint(true && playerPieces === turn)}>
+              <HiIcons.HiLightBulb/>
+            </HintButton>
+            <SolutionButton theme={theme} onClick={() => setSolution(true && playerPieces === turn)}>
+              <BsIcons.BsQuestionCircleFill/>
+            </SolutionButton>
             <h2 style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)", 
-            fontSize: "min(1.5rem, min(3.2vw, 3.2vh))", marginLeft: "min(2rem, min(4.25vw, 4.25vh))", 
-            marginTop: "min(1rem, min(2.1vw, 2.1vh))"}}>{puzzleTitle} ➜ {playerPieces === "w" ? "white" : "black"} to move</h2>
-            {/* <ModalResult open={isGameOver} result={result} winner={winner}/> */}
+            fontSize: "min(1.4rem, min(3vw, 3vh))", marginLeft: "min(1.5rem, min(3.2vw, 3.2vh))", 
+            marginTop: "min(0.5rem, min(1.05vw, 1.05vh))"}}>{puzzleTitle} ➜ {playerPieces === "w" ? "white" : "black"} to move</h2>
+            <ModalPuzzles open={solved}/>
             <div className="board_container_puzzle">
               <Chessboard className="chessboard" playerPieces={playerPieces} board={board} turn={turn} boardtype={"puzzles"}
-              puzzleMoves={puzzleMoves} puzzleFen={puzzleFen}/>
+              puzzleMoves={puzzleMoves} puzzleFen={puzzleFen} puzzleHint={hint} puzzleSolution={solution} 
+              changeHint={() => setHint(false)} changeSolution={() => setSolution(false)} changeSolved={() => setSolved(true)}/>
               <div className="board_padding"/>
             </div>
           </div> }
