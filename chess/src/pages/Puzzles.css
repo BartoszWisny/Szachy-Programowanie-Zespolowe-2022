@@ -72,8 +72,8 @@ body {
 }
 
 .board_container_puzzle {
-  margin-top: min(1rem, min(2.1vw, 2.1vh)); 
-  margin-bottom: 2.5rem;
+  margin-top: min(0.5rem, min(1.05vw, 1.05vh)); 
+  margin-bottom: 0rem;
   max-width: min(90vw, 90vh);
   max-height: min(90vw, 90vh);
   width: 40rem;
@@ -103,6 +103,16 @@ body {
 
 .checksquare {
   background: rgba(255, 0, 0, 1);
+  background-size: 100%;
+}
+
+.ismovesquare {
+  background: rgba(255, 255, 0, 1);
+  background-size: 100%;
+}
+
+.hintsquare {
+  background: rgba(135, 206, 250, 1);
   background-size: 100%;
 }
 

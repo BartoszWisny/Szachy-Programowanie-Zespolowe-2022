@@ -7,7 +7,8 @@ import moveSound from "../assets/sounds/move.mp3"
 import captureSound from "../assets/sounds/capture.mp3"
 import silenceSound from "../assets/sounds/silence.mp3"
 
-const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, stockfishLevel, puzzleMoves, puzzleFen}) => {
+const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, stockfishLevel, puzzleMoves, puzzleFen, puzzleHint, 
+  puzzleSolution, changeHint, changeSolution, changeSolved}) => {
   const [currentChessboard, setCurrentChessboard] = useState([])
   const [ourChessEngineMove, setOurChessEngineMove] = useState("")
   const [stockfishMove, setStockfishMove] = useState("")
@@ -146,10 +147,43 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
         setTimeout(function() {
           moveAN(puzzleMoves[puzzleMoveCounter])
           setPuzzleMoveCounter(puzzleMoveCounter + 1)
+          changeHint()
+          changeSolution()
         }, 1000)
       }
     }
-  }, [playerPieces, turn, boardtype, puzzleMoves, puzzleMoveCounter])
+  }, [playerPieces, turn, boardtype, puzzleMoves, changeHint, changeSolution, puzzleMoveCounter])
+
+  useEffect(() => {
+    if (boardtype === "puzzles" && turn === playerPieces && puzzleSolution) {
+      if (puzzleMoveCounter < puzzleMoves.length) {
+        setTimeout(function() {
+          moveAN(puzzleMoves[puzzleMoveCounter])
+          setPuzzleMoveCounter(puzzleMoveCounter + 1)
+          NotificationManager.success("Correct move!", '', 3000, () => {})
+
+          if (getLastMoveCaptured()) {
+            playCaptureSound()
+          } else {
+            playMoveSound()
+          }
+
+          changeHint()
+          changeSolution()
+        }, 1000)
+      }
+    }
+  }, [playerPieces, turn, boardtype, puzzleMoves, puzzleSolution, changeHint, changeSolution, puzzleMoveCounter])
+
+  useEffect(() => {
+    if (boardtype === "puzzles") {
+      if (puzzleMoves.length !== 0 && puzzleMoveCounter === puzzleMoves.length) {
+        setTimeout(function() {
+          changeSolved()
+        }, 2000)
+      }
+    }
+  }, [boardtype, puzzleMoves, changeSolved, puzzleMoveCounter])
 
   useEffect(() => {
     if (boardtype === "1vs1offline") {
@@ -247,9 +281,9 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
         <div key={i} className="square">
           <ChessboardSquare playerPieces={playerPieces} piece={piece} dark={isDark(i)} position={getPosition(i)}
           turn={turn} boardtype={boardtype} changePositionClicked={positionClicked => handleClicked(positionClicked)}
-          highlightPuzzle={boardtype === "puzzles" ? (puzzleMoveCounter < puzzleMoves.length ? puzzleMoves[puzzleMoveCounter].from 
-          : null) : null} puzzleMove={boardtype === "puzzles" ? (puzzleMoveCounter < puzzleMoves.length ? 
-          puzzleMoves[puzzleMoveCounter] : null) : null}/>
+          hintPuzzle={boardtype === "puzzles" ? (puzzleMoveCounter < puzzleMoves.length && turn === playerPieces && puzzleHint ? 
+          puzzleMoves[puzzleMoveCounter].from : null) : null} puzzleMove={boardtype === "puzzles" ? 
+          (puzzleMoveCounter < puzzleMoves.length ? puzzleMoves[puzzleMoveCounter] : null) : null}/>
         </div>
       ))}
     </div>

@@ -1,7 +1,8 @@
 import React from "react"
 
-const Square = ({children, playerPieces, dark, position, isMove, check, turn, boardtype}) => {
-  const background = isMove ? "ismovesquare" : (check ? "checksquare" : dark ? "darksquare" : "lightsquare")
+const Square = ({children, playerPieces, dark, position, isMove, check, hintPuzzle, turn, boardtype}) => {
+  const background = isMove ? "ismovesquare" : (hintPuzzle ? "hintsquare" : (check ? "checksquare"
+  : (dark ? "darksquare" : "lightsquare")))
   const number = (position ? (position.charAt(0) === "a" ? position.charAt(1) : null) : null)
   const letter = (position ? (position.charAt(1) === "1" ? position.charAt(0) : null) : null)
 

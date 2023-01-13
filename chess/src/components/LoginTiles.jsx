@@ -20,6 +20,7 @@ import {Link} from "react-router-dom"
 import { useNavigate } from 'react-router-dom'
 import ModalFacebookLinkAccount from "./ModalFacebookLinkAccount";
 import {NotificationManager} from 'react-notifications';
+import ModalResetPassword from "./ModalResetPassword";
 
 const LoginTiles = () => {
   return (
@@ -38,8 +39,13 @@ const LoginTitle = styled.span`
 
 function LoginTile() {
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
+  const [showLink, setShowLink] = useState(false);
+  const [showReset, setShowReset] = useState(false);
   const [credential, setCredential] = useState(undefined);
+
+  const handleResetClick = event => {
+    setShowReset(true);
+  }
 
   function loginGoogle() {
     const provider = new GoogleAuthProvider();
@@ -88,7 +94,7 @@ function LoginTile() {
 
           fetchSignInMethodsForEmail(auth, email).then((result) => {
             if (result[0] === 'password') {
-              setShow(true);
+              setShowLink(true);
               setEmail(email);
               setCredential(credential);
             }
@@ -111,7 +117,9 @@ function LoginTile() {
             console.log(error);
           });
         }
-        NotificationManager.error('Facebook login failed.', 'Error:', 5000, () => {});
+        else {
+          NotificationManager.error('Facebook login failed.', 'Error:', 5000, () => {});
+        }
       });
   }
 
@@ -149,7 +157,8 @@ function LoginTile() {
 
   return(
     <div className="logintile">
-      <ModalFacebookLinkAccount open={show} email={email} credential={credential}/>
+      <ModalResetPassword open={showReset} stateChanger={setShowReset}/>
+      <ModalFacebookLinkAccount open={showLink} email={email} credential={credential} stateChanger={setShowLink}/>
       <Input id="email" type="text" placeholder="Email" value={email} onChange={handleEmailChange}/>
       <Input id="password" type="password" placeholder="Password" value={password} onChange={handlePasswordChange}/>
       <button className="logintile_button1"  onClick={login} >
@@ -177,7 +186,10 @@ function LoginTile() {
         </LoginIcon>
       </button>
       <b className="logintile_signuplink">Don't have an account yet? <Link to="/signup"
-      style={{color: "var(--primary)"}}>Sign up</Link></b></div>
+      style={{color: "var(--primary)"}}>Sign up</Link></b>
+      <b className="logintile_resetlink"> <Link onClick={handleResetClick} style={{color: "var(--primary)"}}>Forgot password?</Link></b>
+    </div>
+
   )
 }
 

@@ -1,15 +1,34 @@
 import React, {useState} from "react"
 import "./ModalFacebookLinkAccount.css"
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import ModalInput from "./ModalInput";
-import {getAuth, linkWithCredential, signInWithEmailAndPassword} from "firebase/auth"
-import {NotificationManager} from "react-notifications"
+import {getAuth, linkWithCredential, signInWithEmailAndPassword} from "firebase/auth";
+import {NotificationManager} from "react-notifications";
+import styled from "styled-components";
+import * as IoIcons from "react-icons/io";
 
-const ModalFacebookLinkAccount = ({open, email, credential}) => {
+const NavIcon = styled(Link)`
+  color: var(--primary);
+  opacity: 0.98;
+  margin-top: 0.4rem;
+  margin-right: 0.6rem;
+  margin-left: auto;
+  font-size: 1.4rem;
+  height: 2.2rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`
+
+const ModalFacebookLinkAccount = ({open, email, credential, stateChanger}) => {
   const [password, setPassword] = useState("")
 
   const handlePasswordChange = e => {
     setPassword(e.target.value)
+  }
+
+  const handleClose = event => {
+    stateChanger(false);
   }
   
   const navigate = useNavigate()
@@ -21,10 +40,11 @@ const ModalFacebookLinkAccount = ({open, email, credential}) => {
         console.log(result)
         linkWithCredential(auth.currentUser, credential).then((result) => {
           console.log(result)
+          localStorage.setItem("logged_in", "true")
+          navigate("/");
         }).catch((error) => {
           // console.log(error)
         });
-        navigate("/")
       })
       .catch((error) => {
         // console.log(error)
@@ -35,6 +55,9 @@ const ModalFacebookLinkAccount = ({open, email, credential}) => {
   return (open ?
     <div className="overlayfacebooklinkaccount">
       <div className="modalfacebooklinkaccount_container">
+        <NavIcon to="#" draggable="false">
+          <IoIcons.IoIosCloseCircle onClick={handleClose}/>
+        </NavIcon>
         <p className="modalfacebooklinkaccount_title" style={{fontSize: "min(1rem, 3.2vw)"}}>
         Provided email is linked to an existing account. Login to link your facebook account:</p>
         <ModalInput id="password" type="password" placeholder="Password" value={password} onChange={handlePasswordChange}/>

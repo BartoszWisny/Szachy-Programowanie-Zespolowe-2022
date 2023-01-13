@@ -9,7 +9,7 @@ import moveSound from "../assets/sounds/move.mp3"
 import captureSound from "../assets/sounds/capture.mp3"
 import silenceSound from "../assets/sounds/silence.mp3"
 
-const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype, changePositionClicked, highlightPuzzle, puzzleMove}) => {
+const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype, changePositionClicked, hintPuzzle, puzzleMove}) => {
   const [promotion, setPromotion] = useState(null)
 
   function playMoveSound() {
@@ -76,8 +76,8 @@ const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype,
     : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" ? 
     (playerPieces === turn ? drop : null) : (turn === "w" ? drop : null)))} onClick={() => changePositionClicked(position)}>
       <Square playerPieces={playerPieces} dark={dark} position={position} isMove={position === getLastMove()} check={isCheck() 
-        && piece ? (piece.type === "k" && piece.color === getTurn() ? true : false) : false} turn={turn} 
-        boardtype={boardtype}>
+        && piece ? (piece.type === "k" && piece.color === getTurn() ? true : false) : false} 
+        hintPuzzle={hintPuzzle === position} turn={turn} boardtype={boardtype}>
         {promotion && boardtype === "1vs1offline" ? <Promotion promotion={promotion} /> /* to be done for other types of boards */
         : (promotion && (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles") 
         && playerPieces === turn ? <Promotion promotion={promotion} boardtype={boardtype} puzzleMove={puzzleMove}/> 
