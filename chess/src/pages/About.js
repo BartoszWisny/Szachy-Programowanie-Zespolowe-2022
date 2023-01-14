@@ -56,10 +56,10 @@ function About() {
           userSelect: "none"}}/>
         </div> :
         <div> 
-          <div className="title">
+          <div className="title" style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)"}}>
             <p>Welcome to <b> Chess - Learn And Play </b></p>
           </div>
-          <div className="description">
+          <div className="description" style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)"}}>
             
             We are happy that you decided to practice your chess skills with us. On our website you can play chess <br />
             in four different ways. You can play online with other users with the <b>Play 1 vs 1 (online)</b> mode. <br />
@@ -81,15 +81,15 @@ function About() {
 
           </div>
 
-          <div className="footer">
+          <div className="footer" style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)"}}>
             <p><b>Created by:</b></p> 
-            <p> Bartosz Wiśny, Karol Dzwonkowski, Wojciech Mulka, Maurycy Sosnowski, Jakub Sokołowski </p> 
+            <p> Bartosz Wiśny, Jakub Sokołowski, Wojciech Mulka, Maurycy Sosnowski, Karol Dzwonkowski </p> 
             <p> You can contact our team at: chesslearnandplay@gmail.com </p>
           </div>
 
         </div>
         }
-      <SwitchThemeButton onClick={switchTheme}>
+      <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
         {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
       </SwitchThemeButton>
     </div>
