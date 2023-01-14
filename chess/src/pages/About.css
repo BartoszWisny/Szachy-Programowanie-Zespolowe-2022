@@ -50,6 +50,30 @@ body {
   bottom: 0;
   z-index: -1;
   transition: background 200ms ease-in;
+  text-align: center;
+}
+
+.title {
+  position: relative;
+  text-align: center;
+  font-size: 2.5rem;
+  top: 2rem;
+}
+
+.description {
+  position: relative;
+  text-align: center;
+  top: 4rem;
+  font-size: 1.2rem;
+  white-space: pre-wrap;
+}
+
+.footer {
+  position: relative;
+  text-align: center;
+  top: 5rem;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
 }
 
 [data-theme="lightmode"] {
