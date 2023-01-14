@@ -78,8 +78,10 @@ body {
 
 [data-theme="lightmode"] {
   --background: url("../assets/backgroundgray.jpg");
+  color: var(--primary);
 }
 
 [data-theme="darkmode"] {
   --background: url("../assets/backgrounddarkgray.jpg");
+  color: var(--secondary);
 }
