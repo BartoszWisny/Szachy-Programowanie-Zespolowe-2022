@@ -11,7 +11,7 @@ import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
 import {GridLoader} from "react-spinners"
-import { getAuth, onAuthStateChanged } from "firebase/auth"
+// import { getAuth, onAuthStateChanged } from "firebase/auth"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -34,7 +34,7 @@ function Play1vs1online() {
   const [result, setResult] = useState()
   const [turn, setTurn] = useState()
   const [winner, setWinner] = useState()
-  const [playerPieces, setPlayerPieces] = useState("")
+  // const [playerPieces, setPlayerPieces] = useState("")
 
   useEffect(() => {
     resetGame()
@@ -65,7 +65,7 @@ function Play1vs1online() {
     }, 2000)
   }, [])
 
-  const imagewhite = require(`../assets/chessboard/k_w.png`)
+  /* const imagewhite = require(`../assets/chessboard/k_w.png`)
   const imageblack = require(`../assets/chessboard/k_b.png`)
   const imagerandom = require(`../assets/chessboard/k_r.png`)
 
@@ -77,7 +77,7 @@ function Play1vs1online() {
     } else {
       setPlayerPieces("b")
     }
-  }
+  } */
 
   /* const [user, setUser] = useState(null)
   const auth = getAuth()
