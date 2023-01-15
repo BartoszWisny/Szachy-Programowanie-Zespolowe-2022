@@ -56,24 +56,24 @@ body {
 .title {
   position: relative;
   text-align: center;
-  font-size: 2.5rem;
-  top: 2rem;
+  font-size: min(2.5rem, min(10.6vw, 10.6vh));
 }
 
 .description {
   position: relative;
   text-align: center;
-  top: 4rem;
-  font-size: 1.2rem;
+  top: min(2rem, min(8.5vw, 8.5vh));
+  font-size: min(1.2rem, min(5.1vw, 5.1vh));
   white-space: pre-wrap;
 }
 
 .footer {
   position: relative;
   text-align: center;
-  top: 5rem;
-  font-size: 0.8rem;
+  top: min(3rem, min(12.75vw, 12.75vh));
+  font-size: min(0.8rem, min(3.4vw, 3.4vh));
   white-space: pre-wrap;
+  padding-bottom: 1.5rem;
 }
 
 [data-theme="lightmode"] {
