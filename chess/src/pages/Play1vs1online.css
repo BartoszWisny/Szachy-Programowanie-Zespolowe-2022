@@ -277,3 +277,99 @@ body {
   transform: translate(-50%, -50%);
   user-select: none;
 }
+
+.overlaychoosepiecesonline {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 1.5rem;
+  font-size: 1rem;
+}
+
+.modalchoosepiecesonline_container {
+  position: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: min(10rem, 8vh);
+  height: min(15rem, min(50vw, 50vh));
+  width: min(27rem, min(90vw, 90vh));
+  overflow: hidden;
+  box-shadow: 0 0 1rem var(--gray6);
+  border-radius: var(--radius);
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 200ms ease-in;
+  background-color: rgba(255, 255, 255, 0.85);
+  z-index: 1;
+  user-select: none;
+}
+
+.modalchoosepiecesonline_title {
+  margin-top: min(1rem, min(3.3vw, 3.3vh));
+  padding: 0rem;
+  user-select: none;
+}
+  
+.modalchoosepiecesonline_container:hover {
+  transform: scale(1.04);
+}
+
+.modalchoosepiecesonline_button1 {
+  padding: min(1rem, min(3.3vw, 3.3vh));
+  font-family: inherit;
+  font-weight: bold;
+  font-size: min(1rem, min(3.3vw, 3.3vh));
+  margin: min(1rem, min(3.3vw, 3.3vh));
+  border: min(0.1rem, min(0.3vw, 0.3vh)) solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  user-select: none;
+}
+  
+.modalchoosepiecesonline_button2 {
+  padding: min(1rem, min(3.3vw, 3.3vh));
+  font-family: inherit;
+  font-weight: bold;
+  font-size: min(1rem, min(3.3vw, 3.3vh));
+  margin: min(1rem, min(3.3vw, 3.3vh));
+  border: min(0.1rem, min(0.3vw, 0.3vh)) solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  user-select: none;
+}
+
+.modalchoosepiecesonline_button3 {
+  padding: min(1rem, min(3.3vw, 3.3vh));
+  font-family: inherit;
+  font-weight: bold;
+  font-size: min(1rem, min(3.3vw, 3.3vh));
+  margin: min(1rem, min(3.3vw, 3.3vh));
+  border: min(0.1rem, min(0.3vw, 0.3vh)) solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  user-select: none;
+}
+  
+.modalchoosepiecesonline_button1:hover {
+  background: var(--primary);
+  color: white;
+}
+  
+.modalchoosepiecesonline_button2:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.modalchoosepiecesonline_button3:hover {
+  background: var(--primary);
+  color: white;
+}

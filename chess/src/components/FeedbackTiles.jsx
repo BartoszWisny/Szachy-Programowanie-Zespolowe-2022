@@ -8,6 +8,7 @@ import {addDoc, collection} from "firebase/firestore"
 import ModalMessageSent from "./ModalMessageSent"
 import ModalMessageError from "./ModalMessageError"
 import emailjs from "@emailjs/browser"
+import {NotificationManager} from "react-notifications";
 
 const FeedbackTiles = () => {
   return (
@@ -75,7 +76,7 @@ function FeedbackTile() {
         setMessage("")
       })
     } else {
-      alert("Make sure you have filled in all the fields!")
+      NotificationManager.error('Make sure you have filled in all the fields!', 'Error:', 5000, () => {});
     }
   }
 

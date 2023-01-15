@@ -6,7 +6,9 @@ import {Link} from "react-router-dom"
 import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth"
 import { auth } from "../FirebaseConfig"
 import { useNavigate } from 'react-router-dom'
-import {NotificationManager} from "react-notifications";
+import {NotificationManager} from "react-notifications"
+import { database } from "../FirebaseConfig"
+import { doc, setDoc, getDoc } from "firebase/firestore"
 
 const SignUpTiles = () => {
   return (
@@ -43,7 +45,7 @@ function SignUpTile() {
         if(password === confirmPassword) {
           if(password.length >= 6) {
             createUserWithEmailAndPassword(auth, email, password)
-              .then((result) => {
+              .then(async (result) => {
                 const user = result.user;
 
                 updateProfile(user, {displayName: firstName + " " + lastName});
@@ -53,7 +55,28 @@ function SignUpTile() {
                   console.log(error);
                 });
 
-                console.log(result);
+                console.log(result)
+
+                const userid = user.uid
+                const username = user.displayName
+                const docRef = doc(database, "leaderboards",  userid)
+                const docSnap = await getDoc(docRef)
+
+                if (typeof docSnap.data() === "undefined") {
+                  setDoc(docRef, {
+                    userID: userid,
+                    username: username,
+                    gamesWon: 0,
+                    draws: 0,
+                    gamesLost: 0,
+                    points: 600
+                  }).then(() => {
+
+                  }).catch(() => {
+
+                  })
+                }
+
                 navigate("/");
               })
               .catch((error) => {
