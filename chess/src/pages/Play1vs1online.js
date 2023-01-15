@@ -33,6 +33,7 @@ function Play1vs1online() {
   const [result, setResult] = useState()
   const [turn, setTurn] = useState()
   const [winner, setWinner] = useState()
+  const [playerPieces, setPlayerPieces] = useState("")
 
   useEffect(() => {
     resetGame()
@@ -63,6 +64,20 @@ function Play1vs1online() {
     }, 2000)
   }, [])
 
+  const imagewhite = require(`../assets/chessboard/k_w.png`)
+  const imageblack = require(`../assets/chessboard/k_b.png`)
+  const imagerandom = require(`../assets/chessboard/k_r.png`)
+
+  const choosePieces = () => {
+    const random = Math.random()
+
+    if (random <= 0.5) {
+      setPlayerPieces("w")
+    } else {
+      setPlayerPieces("b")
+    }
+  }
+
   return (
     <div className="play1vs1online" data-theme={theme}>
       <DndProvider backend={HTML5Backend}>
@@ -81,12 +96,47 @@ function Play1vs1online() {
             userSelect: "none"}}/>
           </div> :
           <div>
+            {/* {playerPieces === "" && (
+              <div className="overlaychoosepiecesonline">
+                <div className="modalchoosepiecesonline_container">
+                  <div className="modalchoosepiecesonline_content">
+                    <h1 className="modalchoosepiecesonline_title" style={{fontSize: "min(2rem, min(6.6vw, 6.6vh))"}}>CHOOSE PIECES</h1>
+                    <button className="modalchoosepiecesonline_button1" onClick={() => setPlayerPieces("w")}>
+                      <img src={imagewhite} alt="chess" style={{maxHeight: "min(5rem, min(16.5vw, 16.5vh))"}}/>
+                      <h2 style={{fontSize: "min(1.5rem, min(5vw, 5vh))"}}>WHITE</h2>
+                    </button>
+                    <button className="modalchoosepiecesonline_button2" onClick={() => setPlayerPieces("b")}>
+                      <img src={imageblack} alt="chess" style={{maxHeight: "min(5rem, min(16.5vw, 16.5vh))"}}/>
+                      <h2 style={{fontSize: "min(1.5rem, min(5vw, 5vh))"}}>BLACK</h2>
+                    </button>
+                    <button className="modalchoosepiecesonline_button3" onClick={() => choosePieces()}>
+                      <img src={imagerandom} alt="chess" style={{maxHeight: "min(5rem, min(16.5vw, 16.5vh))"}}/>
+                      <h2 style={{paddingTop: "min(0.4rem, min(1.3vw, 1.3vh))", paddingBottom: "min(0.2rem, min(0.65vw, 0.65vh))",
+                       fontSize: "min(1rem, min(3.3vw, 3.3vh))"}}>RANDOM</h2>
+                    </button>
+                  </div>
+                </div>
+              </div> )}
+            {playerPieces !== "" && (
+              <div>
+                <div>
+                  <ModalResult open={isGameOver} result={result} winner={winner}/>
+                </div>
+                <div className="board_container">
+                  <Chessboard className="chessboard" playerPieces={playerPieces} isGameOver={isGameOver} board={board} 
+                  turn={turn} boardtype={"1vs1online"}/>
+                  <div className="board_padding"/>
+                </div>
+            </div>)} */}
             <div>
-              <ModalResult open={isGameOver} result={result} winner={winner}/>
-            </div>
-            <div className="board_container">
-              <Chessboard className="chessboard" board={board} turn={turn} boardtype={"1vs1online"}/>
-              <div className="board_padding"/>
+                <div>
+                  <ModalResult open={isGameOver} result={result} winner={winner}/>
+                </div>
+                <div className="board_container">
+                  <Chessboard className="chessboard" playerPieces={playerPieces} isGameOver={isGameOver} board={board} 
+                  turn={turn} boardtype={"1vs1online"}/>
+                  <div className="board_padding"/>
+                </div>
             </div>
           </div> }
         <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>

@@ -17,10 +17,12 @@ import {
 } from "firebase/auth"
 import {auth} from "../FirebaseConfig"
 import {Link} from "react-router-dom"
-import { useNavigate } from 'react-router-dom'
-import ModalFacebookLinkAccount from "./ModalFacebookLinkAccount";
-import {NotificationManager} from 'react-notifications';
-import ModalResetPassword from "./ModalResetPassword";
+import { useNavigate } from "react-router-dom"
+import ModalFacebookLinkAccount from "./ModalFacebookLinkAccount"
+import {NotificationManager} from 'react-notifications'
+import ModalResetPassword from "./ModalResetPassword"
+import { database } from "../FirebaseConfig"
+import { doc, setDoc, getDoc } from "firebase/firestore"
 
 const LoginTiles = () => {
   return (
@@ -51,12 +53,33 @@ function LoginTile() {
     const provider = new GoogleAuthProvider();
 
     signInWithPopup(auth, provider) // signInWithRedirect
-      .then((result) => {
-        console.log(result);
+      .then(async (result) => {
+        console.log(result)
         localStorage.setItem("logged_in", "true")
-        navigate("/");
+        
+        const userid = result.user.uid
+        const username = result.user.displayName
+        const docRef = doc(database, "leaderboards",  userid)
+        const docSnap = await getDoc(docRef)
+
+        if (typeof docSnap.data() === "undefined") {
+          setDoc(docRef, {
+            userID: userid,
+            username: username,
+            gamesWon: 0,
+            draws: 0,
+            gamesLost: 0,
+            points: 600
+          }).then(() => {
+
+          }).catch(() => {
+
+          })
+        }
+
+        navigate("/")
       }).catch((error) => {
-        // console.log(error);
+        console.log(error);
         NotificationManager.error('Google login failed.', 'Error:', 5000, () => {});
       });
   }
@@ -65,7 +88,7 @@ function LoginTile() {
     const provider = new FacebookAuthProvider();
 
     signInWithPopup(auth, provider) // signInWithRedirect
-      .then((result) => {
+      .then(async (result) => {
         const {isNewUser} = getAdditionalUserInfo(result)
 
         if(isNewUser) {
@@ -79,7 +102,28 @@ function LoginTile() {
         }
         console.log(result);
         localStorage.setItem("logged_in", "true")
-        navigate("/");
+
+        const userid = result.user.uid
+        const username = result.user.displayName
+        const docRef = doc(database, "leaderboards",  userid)
+        const docSnap = await getDoc(docRef)
+
+        if (typeof docSnap.data() === "undefined") {
+          setDoc(docRef, {
+            userID: userid,
+            username: username,
+            gamesWon: 0,
+            draws: 0,
+            gamesLost: 0,
+            points: 600
+          }).then(() => {
+
+          }).catch(() => {
+
+          })
+        }
+
+        navigate("/")
         // GraphAPI access token: EAAPtF26rDYYBAO8JlwxKXjUvGuvENvY3lrIuip7mPPJnDCO7CETZCJ07zwrFXV5CZA7BdmYMJm9pNZCqxY1ddH4tIGcwQM6t9zc0ZCitdMfAP884wKUPV4PEHquoEJiiasNZBW6kUESJy54ZB0FLa4hdWSF07VNpwx6j62oTKokgBgJiOPkmHBEIRAZCYHFQeiyRzWvUJ9TzdZBnKaPK7ONoOUya3U67PhuU52Eq063SNGgAZCxHuzzkO
         // https://graph.facebook.com/1241216816608059/picture?width=480&access_token=EAAPtF26rDYYBAO8JlwxKXjUvGuvENvY3lrIuip7mPPJnDCO7CETZCJ07zwrFXV5CZA7BdmYMJm9pNZCqxY1ddH4tIGcwQM6t9zc0ZCitdMfAP884wKUPV4PEHquoEJiiasNZBW6kUESJy54ZB0FLa4hdWSF07VNpwx6j62oTKokgBgJiOPkmHBEIRAZCYHFQeiyRzWvUJ9TzdZBnKaPK7ONoOUya3U67PhuU52Eq063SNGgAZCxHuzzkO
         // Scheme: https://graph.facebook.com/USER_ID/picture?width=480&access_token=ACCESS_TOKEN
@@ -126,10 +170,31 @@ function LoginTile() {
   function login() {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
-      .then((result) => {
+      .then(async (result) => {
         console.log(result);
         localStorage.setItem("logged_in", "true")
-        navigate("/");
+
+        const userid = result.user.uid
+        const username = result.user.displayName
+        const docRef = doc(database, "leaderboards",  userid)
+        const docSnap = await getDoc(docRef)
+
+        if (typeof docSnap.data() === "undefined") {
+          setDoc(docRef, {
+            userID: userid,
+            username: username,
+            gamesWon: 0,
+            draws: 0,
+            gamesLost: 0,
+            points: 600
+          }).then(() => {
+
+          }).catch(() => {
+
+          })
+        }
+
+        navigate("/")
       })
       .catch((error) => {
         // console.log(error);
