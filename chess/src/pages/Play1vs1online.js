@@ -11,6 +11,7 @@ import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
 import {GridLoader} from "react-spinners"
+// import { getAuth, onAuthStateChanged } from "firebase/auth"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -66,9 +67,9 @@ function Play1vs1online() {
 
   /* const imagewhite = require(`../assets/chessboard/k_w.png`)
   const imageblack = require(`../assets/chessboard/k_b.png`)
-  const imagerandom = require(`../assets/chessboard/k_r.png`) */
+  const imagerandom = require(`../assets/chessboard/k_r.png`)
 
-  /* const choosePieces = () => {
+  const choosePieces = () => {
     const random = Math.random()
 
     if (random <= 0.5) {
@@ -77,6 +78,17 @@ function Play1vs1online() {
       setPlayerPieces("b")
     }
   } */
+
+  /* const [user, setUser] = useState(null)
+  const auth = getAuth()
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(auth.currentUser)
+      }
+    })
+  }, [auth]) */
 
   return (
     <div className="play1vs1online" data-theme={theme}>
@@ -142,6 +154,7 @@ function Play1vs1online() {
         <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
           {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
         </SwitchThemeButton>
+        {}
       </DndProvider>
     </div>
   )

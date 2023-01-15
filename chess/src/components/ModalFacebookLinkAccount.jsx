@@ -1,11 +1,11 @@
 import React, {useState} from "react"
 import "./ModalFacebookLinkAccount.css"
 import {Link, useNavigate} from "react-router-dom"
-import ModalInput from "./ModalInput";
-import {getAuth, linkWithCredential, signInWithEmailAndPassword} from "firebase/auth";
-import {NotificationManager} from "react-notifications";
-import styled from "styled-components";
-import * as IoIcons from "react-icons/io";
+import ModalInput from "./ModalInput"
+import {getAuth, linkWithCredential, signInWithEmailAndPassword} from "firebase/auth"
+import {NotificationManager} from "react-notifications"
+import styled from "styled-components"
+import * as IoIcons from "react-icons/io"
 
 const NavIcon = styled(Link)`
   color: var(--primary);

@@ -16,24 +16,29 @@ export const SidebarData = [
       {
         title: "Play 1 vs 1 (online)",
         path: "/play/1vs1online",
-        icon: <HiIcons.HiStatusOnline />
+        icon: <HiIcons.HiStatusOnline />,
+        mustBeLoggedIn: true
       },
       {
         title: "Play vs computer",
         path: "/play/vscomputer",
-        icon: <FaIcons.FaRobot />
+        icon: <FaIcons.FaRobot />,
+        mustBeLoggedIn: false
       },
       {
         title: "Play 1 vs 1 (offline)",
         path: "/play/1vs1offline",
-        icon: <HiIcons.HiStatusOffline />
+        icon: <HiIcons.HiStatusOffline />,
+        mustBeLoggedIn: false
       },
       {
         title: "Play vs our chess AI",
         path: "/play/vsourchessai",
-        icon: <GiIcons.GiArtificialIntelligence />
+        icon: <GiIcons.GiArtificialIntelligence />,
+        mustBeLoggedIn: false
       }
-    ]
+    ],
+    mustBeLoggedIn: false
   },
   {
     title: "Learn",
@@ -44,33 +49,40 @@ export const SidebarData = [
       {
         title: "Analyze games",
         path: "/learn/analyze",
-        icon: <GiIcons.GiBookmarklet />
+        icon: <GiIcons.GiBookmarklet />,
+        mustBeLoggedIn: true
       },
       {
         title: "Watch games",
         path: "/learn/watch",
-        icon: <GiIcons.GiBinoculars />
+        icon: <GiIcons.GiBinoculars />,
+        mustBeLoggedIn: false
       }
-    ]
+    ],
+    mustBeLoggedIn: false
   },
   {
     title: "Puzzles",
     path: "/puzzles",
-    icon: <GiIcons.GiJigsawBox />
+    icon: <GiIcons.GiJigsawBox />,
+    mustBeLoggedIn: false
   },
   {
     title: "Leaderboards",
     path: "/leaderboards",
-    icon: <MdIcons.MdLeaderboard />
+    icon: <MdIcons.MdLeaderboard />,
+    mustBeLoggedIn: true
   },
   {
     title: "Feedback",
     path: "/feedback",
-    icon: <IoIcons.IoIosHelpCircle />
+    icon: <IoIcons.IoIosHelpCircle />,
+    mustBeLoggedIn: false
   },
   {
     title: "About",
     path: "/about",
-    icon: <FaIcons.FaInfoCircle />
+    icon: <FaIcons.FaInfoCircle />,
+    mustBeLoggedIn: false
   }
 ] 

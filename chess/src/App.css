@@ -121,11 +121,30 @@ video {
   user-select: none;
 }
 
+.tile_button:disabled {
+  padding: 1rem;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1rem;
+  border: 0.1rem solid var(--gray7);
+  color: var(--gray7);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 200ms ease-in, color 200ms ease-in;
+  user-select: none;
+}
+
 .tile:hover {
   transform: scale(1.04);
 }
 
 .tile:hover > .tile_button {
   background: var(--primary);
+  color: white;
+}
+
+.tile:hover > .tile_button:disabled {
+  background: var(--gray7);
   color: white;
 }
