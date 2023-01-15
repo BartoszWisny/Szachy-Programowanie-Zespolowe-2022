@@ -33,7 +33,7 @@ function Play1vs1online() {
   const [result, setResult] = useState()
   const [turn, setTurn] = useState()
   const [winner, setWinner] = useState()
-  const [playerPieces, setPlayerPieces] = useState("")
+  // const [playerPieces, setPlayerPieces] = useState("")
 
   useEffect(() => {
     resetGame()
@@ -64,11 +64,11 @@ function Play1vs1online() {
     }, 2000)
   }, [])
 
-  const imagewhite = require(`../assets/chessboard/k_w.png`)
+  /* const imagewhite = require(`../assets/chessboard/k_w.png`)
   const imageblack = require(`../assets/chessboard/k_b.png`)
-  const imagerandom = require(`../assets/chessboard/k_r.png`)
+  const imagerandom = require(`../assets/chessboard/k_r.png`) */
 
-  const choosePieces = () => {
+  /* const choosePieces = () => {
     const random = Math.random()
 
     if (random <= 0.5) {
@@ -76,7 +76,7 @@ function Play1vs1online() {
     } else {
       setPlayerPieces("b")
     }
-  }
+  } */
 
   return (
     <div className="play1vs1online" data-theme={theme}>
@@ -133,7 +133,7 @@ function Play1vs1online() {
                   <ModalResult open={isGameOver} result={result} winner={winner}/>
                 </div>
                 <div className="board_container">
-                  <Chessboard className="chessboard" playerPieces={playerPieces} isGameOver={isGameOver} board={board} 
+                  <Chessboard className="chessboard" /* playerPieces={playerPieces} */ isGameOver={isGameOver} board={board} 
                   turn={turn} boardtype={"1vs1online"}/>
                   <div className="board_padding"/>
                 </div>
