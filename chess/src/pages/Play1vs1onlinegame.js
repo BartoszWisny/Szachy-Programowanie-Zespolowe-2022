@@ -11,8 +11,9 @@ import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
 import {GridLoader} from "react-spinners"
-// import { getAuth, onAuthStateChanged } from "firebase/auth"
 import {useParams} from "react-router-dom"
+import {database} from "../FirebaseConfig"
+import {updateDoc, doc, getDocs, collection, query, where, onSnapshot} from "firebase/firestore"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -37,6 +38,8 @@ function Play1vs1onlinegame() {
   const [winner, setWinner] = useState()
   const playerPieces = localStorage.getItem("chosenPieces")
   const {gameID} = useParams()
+  const [whitePlayer, setWhitePlayer] = useState(null)
+  const [blackPlayer, setBlackPlayer] = useState(null)
   
   useEffect(() => {
     resetGame()
@@ -62,22 +65,62 @@ function Play1vs1onlinegame() {
 
   useEffect(() => {
     setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-    }, 2000)
-  }, [])
+    const docRef = doc(database, "games", gameID)
 
-  /* const [user, setUser] = useState(null)
-  const auth = getAuth()
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(auth.currentUser)
-        // console.log(user.displayName)
+    onSnapshot(docRef, (doc) => {
+      if (doc.data().status === "started") {
+        setLoading(false)
       }
     })
-  }, [auth]) */
+  }, [gameID])
+
+  useEffect(() => {
+    const getUsersData = () => {
+      let whitePlayerID = ""
+      let blackPlayerID = ""
+      const docUserIDRef = doc(database, "games", gameID)
+
+      onSnapshot(docUserIDRef, async (doc) => {
+        if (doc.data().status === "started") {
+          whitePlayerID = doc.data().whiteID
+          blackPlayerID = doc.data().blackID
+          const userCollectionRef = collection(database, "leaderboards")
+          const getWhiteUser = query(userCollectionRef, where("userID", "==", whitePlayerID))
+          const querySnapshotWhite = await getDocs(getWhiteUser)
+
+          querySnapshotWhite.forEach((doc) => {
+            setWhitePlayer(doc.data().username)
+          })
+
+          const getBlackUser = query(userCollectionRef, where("userID", "==", blackPlayerID))
+          const querySnapshotBlack = await getDocs(getBlackUser)
+
+          querySnapshotBlack.forEach((doc) => {
+            setBlackPlayer(doc.data().username)
+          })
+        }
+      })
+    }
+
+    getUsersData()
+  }, [gameID])
+
+  useEffect(() => {
+    if (isGameOver) {
+      const docRef = doc(database, "games", gameID)
+      const gameResult = result === "Black is the winner by checkmate!" ? "black" : (result === "White is the winner by checkmate!" ?
+      "white" : "draw")
+
+      updateDoc(docRef, {
+        result: gameResult,
+        status: "ended",
+      }).then(() => {
+        
+      }).catch(() => {
+        
+      })
+    }
+  }, [gameID, isGameOver, result])
 
   return (
     <div className="play1vs1onlinegame" data-theme={theme}>
@@ -100,10 +143,14 @@ function Play1vs1onlinegame() {
             <div>
               <ModalResult open={isGameOver} result={result} winner={winner} online={true}/>
             </div>
-            <div className="board_container">
+            <div className="board_container_online">
+              <h2 style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)", marginBottom: "min(0.2rem, min(0.4vw, 0.4vh))", 
+              textAlign: "right", fontSize: "min(1.2rem, min(2.5vw, 2.5vh))"}}>{playerPieces === "w" ? blackPlayer : whitePlayer}</h2>
               <Chessboard className="chessboard" playerPieces={playerPieces} isGameOver={isGameOver} board={board} 
               turn={turn} boardtype={"1vs1online"} onlineGameID={gameID}/>
-              <div className="board_padding"/>
+              <h2 style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)", marginTop: "min(0.2rem, min(0.4vw, 0.4vh))",
+              textAlign: "left", fontSize: "min(1.2rem, min(2.5vw, 2.5vh))"}}>{playerPieces === "w" ? whitePlayer : blackPlayer}</h2>
+              <div className="board_padding_online"/>
             </div>
           </div>}
         <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
