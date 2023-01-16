@@ -29,7 +29,7 @@ const SwitchThemeButton = styled.button`
 `
 
 function Play1vs1online() {
-  const [playerPieces, setPlayerPieces] = useState("") /* useLocalStorage("playerPieces", "") */
+  const [playerPieces, setPlayerPieces] = useState("")
   const [theme, setTheme] = useLocalStorage("theme" ? "darkmode" : "lightmode")
   
   const switchTheme = () => {
@@ -164,50 +164,6 @@ function Play1vs1online() {
     startOnlineGame(playerPieces)
   }, [navigate, playerPieces, user])
 
-  /* async function startOnlineGame(pieces) {
-    const userCollectionRef = collection(database, "games")
-    
-    if (pieces === "w") {
-      const getGames = query(userCollectionRef, where("whiteID", "==", null))
-      const querySnapshot = await getDocs(getGames)
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id)
-      })
-    } else {
-      const getGames = query(userCollectionRef, where("blackID", "==", null))
-      const querySnapshot = await getDocs(getGames)
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id)
-      })
-    }
-
-
-
-    const whiteid = pieces === "w" ? user.uid : null
-    const blackid = pieces === "b" ? user.uid : null
-    // const userCollectionRef = collection(database, "games")
-
-    addDoc(userCollectionRef, {
-      whiteID: whiteid,
-      blackID: blackid,
-      status: "created",
-      result: null,
-      moves: null,
-    }).then(docRef => {
-      updateDoc(docRef, {
-        gameID: docRef.id,
-      }).then(() => {
-    
-      }).catch(() => {
-    
-      })
-
-      navigate(`/play/1vs1online/${docRef.id}`)
-    }).catch(() => {
-       
-    })
-  } */
-
   return (
     <div className="play1vs1online" data-theme={theme}>
       <DndProvider backend={HTML5Backend}>
@@ -247,7 +203,6 @@ function Play1vs1online() {
                   </div>
                 </div>
               </div> )}
-            {/* {playerPieces !== "" && startOnlineGame(playerPieces)} */}
           </div> }
         <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
           {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
