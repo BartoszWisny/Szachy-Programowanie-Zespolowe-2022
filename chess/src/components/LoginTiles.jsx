@@ -58,7 +58,7 @@ function LoginTile() {
         localStorage.setItem("logged_in", "true")
         
         const userid = result.user.uid
-        const username = result.user.displayName
+        const username = result.user.displayName ? result.user.displayName : result.user.email
         const docRef = doc(database, "leaderboards",  userid)
         const docSnap = await getDoc(docRef)
 
@@ -104,7 +104,7 @@ function LoginTile() {
         localStorage.setItem("logged_in", "true")
 
         const userid = result.user.uid
-        const username = result.user.displayName
+        const username = result.user.displayName ? result.user.displayName : result.user.email
         const docRef = doc(database, "leaderboards",  userid)
         const docSnap = await getDoc(docRef)
 
@@ -175,7 +175,7 @@ function LoginTile() {
         localStorage.setItem("logged_in", "true")
 
         const userid = result.user.uid
-        const username = result.user.displayName
+        const username = result.user.displayName ? result.user.displayName : result.user.email
         const docRef = doc(database, "leaderboards",  userid)
         const docSnap = await getDoc(docRef)
 

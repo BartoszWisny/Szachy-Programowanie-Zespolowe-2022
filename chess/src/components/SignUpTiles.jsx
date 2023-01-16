@@ -58,7 +58,7 @@ function SignUpTile() {
                 console.log(result)
 
                 const userid = user.uid
-                const username = user.displayName
+                const username = result.user.displayName ? result.user.displayName : result.user.email
                 const docRef = doc(database, "leaderboards",  userid)
                 const docSnap = await getDoc(docRef)
 
