@@ -54,9 +54,8 @@ function LoginTile() {
 
     signInWithPopup(auth, provider) // signInWithRedirect
       .then(async (result) => {
-        console.log(result)
         localStorage.setItem("logged_in", "true")
-        
+
         const userid = result.user.uid
         const username = result.user.displayName ? result.user.displayName : result.user.email
         const docRef = doc(database, "leaderboards",  userid)
@@ -79,7 +78,6 @@ function LoginTile() {
 
         navigate("/")
       }).catch((error) => {
-        console.log(error);
         NotificationManager.error('Google login failed.', 'Error:', 5000, () => {});
       });
   }
@@ -95,12 +93,9 @@ function LoginTile() {
           const user = result.user;
 
           sendEmailVerification(user).then((result) => {
-            console.log(result);
           }).catch((error) => {
-            // console.log(error);
           });
         }
-        console.log(result);
         localStorage.setItem("logged_in", "true")
 
         const userid = result.user.uid
@@ -130,7 +125,6 @@ function LoginTile() {
         // Or sth like: result.photoUrl + ?width=480&access_token=ACCESS_TOKEN
       })
       .catch((error) => {
-        // console.log(error);
 
         if(error.code === 'auth/account-exists-with-different-credential') {
           const credential = OAuthProvider.credentialFromError(error);
@@ -148,17 +142,14 @@ function LoginTile() {
 
               signInWithPopup(auth, provider).then((result) => {
                 linkWithCredential(auth.currentUser, credential).then((result) => {
-                  console.log(result);
                   localStorage.setItem("logged_in", "true")
                   navigate("/");
                 }).catch((error) => {
-                  // console.log(error);
                   NotificationManager.error('Facebook login failed.', 'Error:', 5000, () => {});
                 });
               });
             }
           }).catch((error) => {
-            // console.log(error);
           });
         }
         else {
@@ -171,7 +162,6 @@ function LoginTile() {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then(async (result) => {
-        console.log(result);
         localStorage.setItem("logged_in", "true")
 
         const userid = result.user.uid
@@ -197,7 +187,6 @@ function LoginTile() {
         navigate("/")
       })
       .catch((error) => {
-        // console.log(error);
         NotificationManager.error('Invalid email or password.', 'Error:', 5000, () => {});
       });
   }
