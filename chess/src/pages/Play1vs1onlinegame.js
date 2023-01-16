@@ -98,7 +98,7 @@ function Play1vs1onlinegame() {
           </div> :
           <div>
             <div>
-              <ModalResult open={isGameOver} result={result} winner={winner}/>
+              <ModalResult open={isGameOver} result={result} winner={winner} online={true}/>
             </div>
             <div className="board_container">
               <Chessboard className="chessboard" playerPieces={playerPieces} isGameOver={isGameOver} board={board} 

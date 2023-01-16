@@ -7,25 +7,29 @@ import {useNavigate} from "react-router-dom"
 import {BlurhashCanvas} from "react-blurhash"
 import {LazyLoadImage} from "react-lazy-load-image-component"
 
-const ModalResult = ({open, result, winner}) => {
-  const [isLoaded, setLoaded] = useState(false);
-  const [isLoadStarted, setLoadStarted] = useState(false);
+const ModalResult = ({open, result, winner, online}) => {
+  const [isLoaded, setLoaded] = useState(false)
+  const [isLoadStarted, setLoadStarted] = useState(false)
 
   const handleLoad = () => {
-    setLoaded(true);
-  };
+    setLoaded(true)
+  }
 
   const handleLoadStarted = () => {
-    setLoadStarted(true);
-  };
+    setLoadStarted(true)
+  }
   
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const homeRoute = () => {
-    navigate("/");
-  };
+    navigate("/")
+  }
 
   function refreshPage() {
-    window.location.reload(false);
+    if (online) {
+      navigate("/play/1vs1online")
+    } else {
+      window.location.reload(false)
+    }
   }
 
   const modalresultwinwhitehash="MAGuH;~W?GI:E2xa9H-oxtIU~A9aE2%2xt"
