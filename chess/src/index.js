@@ -24,7 +24,7 @@ root.render(
       <Route path="/login" element={<Login/>}/>
       <Route path="/signup" element={<SignUp/>}/>
       <Route path="/play/1vs1online" element={<Play1vs1online/>}/>
-      <Route path="/play/1vs1online/:id" element={<Play1vs1onlinegame/>}/>
+      <Route path="/play/1vs1online/:gameID" element={<Play1vs1onlinegame/>}/>
       <Route path="/play/vscomputer" element={<Playvscomputer/>}/>
       <Route path="/play/1vs1offline" element={<Play1vs1offline/>}/>
       <Route path="/play/vsourchessai" element={<Playvsourchessai/>}/>

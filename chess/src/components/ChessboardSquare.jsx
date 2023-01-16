@@ -2,14 +2,17 @@ import React, {useState, useEffect} from "react"
 import Square from "./Square"
 import Piece from "./Piece"
 import {useDrop} from "react-dnd"
-import {handleMove, gameSubject, isCheck, getTurn, getMove, getLastMove} from "./Game"
+import {handleMove, gameSubject, isCheck, getTurn, getMove, getLastMove, getHistory} from "./Game"
 import Promotion from "./Promotion"
 import {NotificationManager} from "react-notifications"
 import moveSound from "../assets/sounds/move.mp3"
 import captureSound from "../assets/sounds/capture.mp3"
 import silenceSound from "../assets/sounds/silence.mp3"
+import {database} from "../FirebaseConfig"
+import {doc, updateDoc} from "firebase/firestore"
 
-const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype, changePositionClicked, hintPuzzle, puzzleMove}) => {
+const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype, changePositionClicked, hintPuzzle, puzzleMove,
+  onlineGameID}) => {
   const [promotion, setPromotion] = useState(null)
 
   function playMoveSound() {
@@ -40,6 +43,18 @@ const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype,
       if (boardtype !== "puzzles") {
         move.length !== 0 && type && color === turn ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
         handleMove(fromPosition, position)
+
+        if (boardtype === "1vs1online") {
+          const docRef = doc(database, "games", onlineGameID)
+
+          updateDoc(docRef, {
+            moves: getHistory(),
+          }).then(() => {
+            
+          }).catch(() => {
+          
+          })
+        }
       } else {
         if (puzzleMove !== null) {
           if (puzzleMove.from === fromPosition && puzzleMove.to === position && typeof puzzleMove.promotion === "undefined") {

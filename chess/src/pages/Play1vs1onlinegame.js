@@ -12,6 +12,7 @@ import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
 import {GridLoader} from "react-spinners"
 // import { getAuth, onAuthStateChanged } from "firebase/auth"
+import {useParams} from "react-router-dom"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -34,7 +35,8 @@ function Play1vs1onlinegame() {
   const [result, setResult] = useState()
   const [turn, setTurn] = useState()
   const [winner, setWinner] = useState()
-  // const [playerPieces, setPlayerPieces] = useState("") // get doc from firebase
+  const playerPieces = localStorage.getItem("chosenPieces")
+  const {gameID} = useParams()
   
   useEffect(() => {
     resetGame()
@@ -99,15 +101,14 @@ function Play1vs1onlinegame() {
               <ModalResult open={isGameOver} result={result} winner={winner}/>
             </div>
             <div className="board_container">
-              <Chessboard className="chessboard" /* playerPieces={playerPieces} */ isGameOver={isGameOver} board={board} 
-              turn={turn} boardtype={"1vs1online"}/>
+              <Chessboard className="chessboard" playerPieces={playerPieces} isGameOver={isGameOver} board={board} 
+              turn={turn} boardtype={"1vs1online"} onlineGameID={gameID}/>
               <div className="board_padding"/>
             </div>
           </div>}
         <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
           {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
         </SwitchThemeButton>
-        {/* {console.log(playerPieces)} */}
       </DndProvider>
     </div>
   )

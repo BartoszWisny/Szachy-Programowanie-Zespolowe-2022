@@ -10,7 +10,7 @@ import * as IoIcons from "react-icons/io"
 import {GridLoader} from "react-spinners"
 import {getAuth, onAuthStateChanged} from "firebase/auth"
 import {database} from "../FirebaseConfig"
-import {updateDoc, addDoc, collection} from "firebase/firestore"
+import {updateDoc, addDoc, collection, getDocs, query, where, doc} from "firebase/firestore"
 import {useNavigate} from "react-router-dom"
 
 const SwitchThemeButton = styled.button`
@@ -29,7 +29,7 @@ const SwitchThemeButton = styled.button`
 `
 
 function Play1vs1online() {
-  const [playerPieces, setPlayerPieces] = useState("") /* useLocalStorage("playerPieces", "") */  
+  const [playerPieces, setPlayerPieces] = useState("") /* useLocalStorage("playerPieces", "") */
   const [theme, setTheme] = useLocalStorage("theme" ? "darkmode" : "lightmode")
   
   const switchTheme = () => {
@@ -55,8 +55,10 @@ function Play1vs1online() {
 
     if (random <= 0.5) {
       setPlayerPieces("w")
+      localStorage.setItem("chosenPieces", "w")
     } else {
       setPlayerPieces("b")
+      localStorage.setItem("chosenPieces", "b")
     }
   }
 
@@ -73,10 +75,117 @@ function Play1vs1online() {
 
   const navigate = useNavigate()
 
-  function startOnlineGame(pieces) {
+  function getRandomInt(int) {
+    return Math.floor(Math.random() * int);
+  }
+
+  useEffect(() => {
+    async function startOnlineGame(pieces) {
+      if (pieces !== "") {
+        const userCollectionRef = collection(database, "games")
+        let games = []
+        const conditions = []
+        
+        if (pieces === "w") {
+          conditions.push(where("whiteID", "==", null))
+          conditions.push(where("blackID", "!=", user.uid))
+          const getGames = query(userCollectionRef, ...conditions)
+          const querySnapshot = await getDocs(getGames)
+
+          querySnapshot.forEach((doc) => {
+            games.push(doc.id)
+          })
+        } else {
+          conditions.push(where("blackID", "==", null))
+          conditions.push(where("whiteID", "!=", user.uid))
+          const getGames = query(userCollectionRef, ...conditions)
+          const querySnapshot = await getDocs(getGames)
+
+          querySnapshot.forEach((doc) => {
+            games.push(doc.id)
+          })
+        }
+
+        if (games.length !== 0) {
+          const random = getRandomInt(games.length)
+          const gameID = games[random]
+          const docRef = doc(database, "games", gameID)
+
+          if (pieces === "w") {
+            const whiteid = user.uid
+
+            updateDoc(docRef, {
+              whiteID: whiteid,
+              status: "started",
+            }).then(() => {
+              navigate(`/play/1vs1online/${gameID}`)
+            }).catch(() => {
+          
+            })
+          } else {
+            const blackid = user.uid
+
+            updateDoc(docRef, {
+              blackID: blackid,
+              status: "started",
+            }).then(() => {
+              navigate(`/play/1vs1online/${gameID}`)
+            }).catch(() => {
+          
+            })
+          }
+        } else {
+          const whiteid = pieces === "w" ? user.uid : null
+          const blackid = pieces === "b" ? user.uid : null
+      
+          addDoc(userCollectionRef, {
+            whiteID: whiteid,
+            blackID: blackid,
+            status: "created",
+            result: null,
+            moves: null,
+          }).then(docRef => {
+            updateDoc(docRef, {
+              gameID: docRef.id,
+            }).then(() => {
+          
+            }).catch(() => {
+          
+            })
+      
+            navigate(`/play/1vs1online/${docRef.id}`)
+          }).catch(() => {
+            
+          })
+        }
+      }
+    }
+
+    startOnlineGame(playerPieces)
+  }, [navigate, playerPieces, user])
+
+  /* async function startOnlineGame(pieces) {
+    const userCollectionRef = collection(database, "games")
+    
+    if (pieces === "w") {
+      const getGames = query(userCollectionRef, where("whiteID", "==", null))
+      const querySnapshot = await getDocs(getGames)
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id)
+      })
+    } else {
+      const getGames = query(userCollectionRef, where("blackID", "==", null))
+      const querySnapshot = await getDocs(getGames)
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id)
+      })
+    }
+
+
+
     const whiteid = pieces === "w" ? user.uid : null
     const blackid = pieces === "b" ? user.uid : null
-    const userCollectionRef = collection(database, "game")
+    // const userCollectionRef = collection(database, "games")
 
     addDoc(userCollectionRef, {
       whiteID: whiteid,
@@ -84,7 +193,6 @@ function Play1vs1online() {
       status: "created",
       result: null,
       moves: null,
-      createdBy: user.uid,
     }).then(docRef => {
       updateDoc(docRef, {
         gameID: docRef.id,
@@ -98,7 +206,7 @@ function Play1vs1online() {
     }).catch(() => {
        
     })
-  }
+  } */
 
   return (
     <div className="play1vs1online" data-theme={theme}>
@@ -123,11 +231,11 @@ function Play1vs1online() {
                 <div className="modalchoosepiecesonline_container">
                   <div className="modalchoosepiecesonline_content">
                     <h1 className="modalchoosepiecesonline_title" style={{fontSize: "min(2rem, min(6.6vw, 6.6vh))"}}>CHOOSE PIECES</h1>
-                    <button className="modalchoosepiecesonline_button1" onClick={() => {setPlayerPieces("w")}}>
+                    <button className="modalchoosepiecesonline_button1" onClick={() => {setPlayerPieces("w"); localStorage.setItem("chosenPieces", "w")}}>
                       <img src={imagewhite} alt="chess" style={{maxHeight: "min(5rem, min(16.5vw, 16.5vh))"}}/>
                       <h2 style={{fontSize: "min(1.5rem, min(5vw, 5vh))"}}>WHITE</h2>
                     </button>
-                    <button className="modalchoosepiecesonline_button2" onClick={() => setPlayerPieces("b")}>
+                    <button className="modalchoosepiecesonline_button2" onClick={() => {setPlayerPieces("b"); localStorage.setItem("chosenPieces", "b")}}>
                       <img src={imageblack} alt="chess" style={{maxHeight: "min(5rem, min(16.5vw, 16.5vh))"}}/>
                       <h2 style={{fontSize: "min(1.5rem, min(5vw, 5vh))"}}>BLACK</h2>
                     </button>
@@ -139,7 +247,7 @@ function Play1vs1online() {
                   </div>
                 </div>
               </div> )}
-            {playerPieces !== "" && startOnlineGame(playerPieces)}
+            {/* {playerPieces !== "" && startOnlineGame(playerPieces)} */}
           </div> }
         <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
           {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
