@@ -153,12 +153,6 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
 
         if (moves !== null) {
           moveAN(moves[moves.length - 1])
-
-          if (getLastMoveCaptured()) {
-            playCaptureSound()
-          } else {
-            playMoveSound()
-          }
         }
       })
     }
@@ -236,6 +230,15 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
       setSound(true && getStockfishFen() !== puzzleFen)
       setCurrentChessboard(playerPieces === "w" ? board.flat() : board.flat().reverse())
     } else if (boardtype === "1vs1online") {
+      if (sound === true && turn === playerPieces) {
+        if (getLastMoveCaptured()) {
+          playCaptureSound()
+        } else {
+          playMoveSound()
+        }
+      }
+
+      setSound(true && getStockfishFen() !== "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
       setCurrentChessboard(playerPieces === "w" ? board.flat() : board.flat().reverse())
     } else {
       setCurrentChessboard(board.flat())
