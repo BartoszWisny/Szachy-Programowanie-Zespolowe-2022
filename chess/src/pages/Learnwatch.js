@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState /* , useCallback */} from "react"
 import "./Learnwatch.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
@@ -39,6 +39,13 @@ function Learnwatch() {
     }, 2000)
   }, [])
 
+  /* const getGMs = useCallback(async () => {
+    const url = "https://api.chess.com/pub/titled/GM"
+    const response = await fetch(url)
+    const data = await response.json()
+    console.log(data)  
+  }, []) */
+
   return (
     <div className="learnwatch" data-theme={theme}>
       <Helmet>
@@ -58,6 +65,7 @@ function Learnwatch() {
       <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
         {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
       </SwitchThemeButton>
+      {/* <button onClick={() => getGMs()}>button</button> */}
     </div>
   )
 }
