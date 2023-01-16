@@ -123,6 +123,14 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
     }
   }, [chessDBMove, sound, stockfishEngineMove])
 
+
+
+
+
+
+
+
+
   useEffect(() => {
     if (boardtype === "vsourchessai" && turn === (playerPieces === "w" ? "b" : "w") && !isGameOver) {
       chessEngineMove()
@@ -140,6 +148,22 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
       chessDBEngineMove()
     }
   }, [playerPieces, isGameOver, turn, boardtype, engine, chessDBMove, chessDBEngineMove])
+
+
+
+
+
+  useEffect(() => {
+    if (boardtype === "1vs1online" && turn === (playerPieces === "w" ? "b" : "w") && !isGameOver) {
+      // chessEngineMove()
+    }
+  }, [playerPieces, isGameOver, turn, boardtype]) // get move/board from database
+
+
+
+
+
+
 
   useEffect(() => {
     if (boardtype === "puzzles" && turn === (playerPieces === "w" ? "b" : "w")) {
@@ -185,6 +209,10 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
     }
   }, [boardtype, puzzleMoves, changeSolved, puzzleMoveCounter])
 
+
+
+
+
   useEffect(() => {
     if (boardtype === "1vs1offline") {
       setCurrentChessboard(turn === "w" ? board.flat() : board.flat().reverse())
@@ -212,6 +240,8 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
 
       setSound(true && getStockfishFen() !== puzzleFen)
       setCurrentChessboard(playerPieces === "w" ? board.flat() : board.flat().reverse())
+    } else if (boardtype === "1vs1online") {
+      setCurrentChessboard(playerPieces === "w" ? board.flat() : board.flat().reverse())
     } else {
       setCurrentChessboard(board.flat())
     }
@@ -219,11 +249,11 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
 
   function getXYPosition(i) {
     const x = boardtype === "1vs1offline" ? (turn === "w" ? i % 8 : Math.abs(i % 8 - 7)) 
-              : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" ? 
+              : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online" ? 
               (playerPieces === "w" ? i % 8 : Math.abs(i % 8 - 7)) 
               : i % 8)
     const y = boardtype === "1vs1offline" ? (turn === "w" ? Math.abs(Math.floor(i / 8) - 7) : Math.floor(i / 8)) 
-              : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" ? 
+              : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online" ? 
               (playerPieces === "w" ? Math.abs(Math.floor(i / 8) - 7) : Math.floor(i / 8)) 
               : Math.abs(Math.floor(i / 8) - 7))
     return {x, y}
