@@ -42,7 +42,7 @@ body {
   transition: background 200ms ease-in;
 }
 
-.play1vs1online {
+.play1vs1onlinegame {
   position: absolute;
   top: 0;
   left: 0;
@@ -60,7 +60,7 @@ body {
   --background: url("../assets/backgrounddarkgray.jpg");
 }
 
-/* .chessboard {
+.chessboard {
   width: 100%;
   height: 100%;
   display: flex;
@@ -266,7 +266,7 @@ body {
   position: absolute;
   font-size: 1rem;
   user-select: none;
-} */
+}
 
 .loading {
   position: absolute;
@@ -278,7 +278,7 @@ body {
   user-select: none;
 }
 
-.overlaychoosepiecesonline {
+/* .overlaychoosepiecesonline {
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -372,4 +372,4 @@ body {
 .modalchoosepiecesonline_button3:hover {
   background: var(--primary);
   color: white;
-}
+} */

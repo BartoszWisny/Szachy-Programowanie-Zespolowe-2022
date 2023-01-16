@@ -2,16 +2,16 @@ import React, {useEffect, useState} from "react"
 import "./Play1vs1online.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
-import {gameSubject, initGame, resetGame} from "../components/Game"
-import Chessboard from "../components/Chessboard"
 import {DndProvider} from "react-dnd"
 import {HTML5Backend} from "react-dnd-html5-backend"
-import ModalResult from "../components/ModalResult"
 import useLocalStorage from "use-local-storage"
 import styled from "styled-components"
 import * as IoIcons from "react-icons/io"
 import {GridLoader} from "react-spinners"
-// import { getAuth, onAuthStateChanged } from "firebase/auth"
+import {getAuth, onAuthStateChanged} from "firebase/auth"
+import {database} from "../FirebaseConfig"
+import {updateDoc, addDoc, collection} from "firebase/firestore"
+import {useNavigate} from "react-router-dom"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -29,26 +29,7 @@ const SwitchThemeButton = styled.button`
 `
 
 function Play1vs1online() {
-  const [board, setBoard] = useState([])
-  const [isGameOver, setIsGameOver] = useState()
-  const [result, setResult] = useState()
-  const [turn, setTurn] = useState()
-  const [winner, setWinner] = useState()
-  // const [playerPieces, setPlayerPieces] = useState("")
-
-  useEffect(() => {
-    resetGame()
-    initGame()
-    const subscribe = gameSubject.subscribe((game) => {
-      setBoard(game.board)
-      setIsGameOver(game.isGameOver)
-      setResult(game.result)
-      setTurn(game.turn)
-      setWinner(game.winner)
-    })
-    return () => subscribe.unsubscribe()
-  }, [])
-
+  const [playerPieces, setPlayerPieces] = useState("") /* useLocalStorage("playerPieces", "") */  
   const [theme, setTheme] = useLocalStorage("theme" ? "darkmode" : "lightmode")
   
   const switchTheme = () => {
@@ -65,7 +46,7 @@ function Play1vs1online() {
     }, 2000)
   }, [])
 
-  /* const imagewhite = require(`../assets/chessboard/k_w.png`)
+  const imagewhite = require(`../assets/chessboard/k_w.png`)
   const imageblack = require(`../assets/chessboard/k_b.png`)
   const imagerandom = require(`../assets/chessboard/k_r.png`)
 
@@ -77,9 +58,9 @@ function Play1vs1online() {
     } else {
       setPlayerPieces("b")
     }
-  } */
+  }
 
-  /* const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null)
   const auth = getAuth()
 
   useEffect(() => {
@@ -88,7 +69,36 @@ function Play1vs1online() {
         setUser(auth.currentUser)
       }
     })
-  }, [auth]) */
+  }, [auth])
+
+  const navigate = useNavigate()
+
+  function startOnlineGame(pieces) {
+    const whiteid = pieces === "w" ? user.uid : null
+    const blackid = pieces === "b" ? user.uid : null
+    const userCollectionRef = collection(database, "game")
+
+    addDoc(userCollectionRef, {
+      whiteID: whiteid,
+      blackID: blackid,
+      status: "created",
+      result: null,
+      moves: null,
+      createdBy: user.uid,
+    }).then(docRef => {
+      updateDoc(docRef, {
+        gameID: docRef.id,
+      }).then(() => {
+    
+      }).catch(() => {
+    
+      })
+
+      navigate(`/play/1vs1online/${docRef.id}`)
+    }).catch(() => {
+       
+    })
+  }
 
   return (
     <div className="play1vs1online" data-theme={theme}>
@@ -108,12 +118,12 @@ function Play1vs1online() {
             userSelect: "none"}}/>
           </div> :
           <div>
-            {/* {playerPieces === "" && (
+            {playerPieces === "" && (
               <div className="overlaychoosepiecesonline">
                 <div className="modalchoosepiecesonline_container">
                   <div className="modalchoosepiecesonline_content">
                     <h1 className="modalchoosepiecesonline_title" style={{fontSize: "min(2rem, min(6.6vw, 6.6vh))"}}>CHOOSE PIECES</h1>
-                    <button className="modalchoosepiecesonline_button1" onClick={() => setPlayerPieces("w")}>
+                    <button className="modalchoosepiecesonline_button1" onClick={() => {setPlayerPieces("w")}}>
                       <img src={imagewhite} alt="chess" style={{maxHeight: "min(5rem, min(16.5vw, 16.5vh))"}}/>
                       <h2 style={{fontSize: "min(1.5rem, min(5vw, 5vh))"}}>WHITE</h2>
                     </button>
@@ -129,32 +139,11 @@ function Play1vs1online() {
                   </div>
                 </div>
               </div> )}
-            {playerPieces !== "" && (
-              <div>
-                <div>
-                  <ModalResult open={isGameOver} result={result} winner={winner}/>
-                </div>
-                <div className="board_container">
-                  <Chessboard className="chessboard" playerPieces={playerPieces} isGameOver={isGameOver} board={board} 
-                  turn={turn} boardtype={"1vs1online"}/>
-                  <div className="board_padding"/>
-                </div>
-            </div>)} */}
-            <div>
-                <div>
-                  <ModalResult open={isGameOver} result={result} winner={winner}/>
-                </div>
-                <div className="board_container">
-                  <Chessboard className="chessboard" /* playerPieces={playerPieces} */ isGameOver={isGameOver} board={board} 
-                  turn={turn} boardtype={"1vs1online"}/>
-                  <div className="board_padding"/>
-                </div>
-            </div>
+            {playerPieces !== "" && startOnlineGame(playerPieces)}
           </div> }
         <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
           {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
         </SwitchThemeButton>
-        {}
       </DndProvider>
     </div>
   )

@@ -5,6 +5,7 @@ import {HashRouter, Routes, Route} from "react-router-dom"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import Play1vs1online from "./pages/Play1vs1online"
+import Play1vs1onlinegame from "./pages/Play1vs1onlinegame"
 import Playvscomputer from "./pages/Playvscomputer"
 import Play1vs1offline from "./pages/Play1vs1offline"
 import Playvsourchessai from "./pages/Playvsourchessai"
@@ -23,6 +24,7 @@ root.render(
       <Route path="/login" element={<Login/>}/>
       <Route path="/signup" element={<SignUp/>}/>
       <Route path="/play/1vs1online" element={<Play1vs1online/>}/>
+      <Route path="/play/1vs1online/:id" element={<Play1vs1onlinegame/>}/>
       <Route path="/play/vscomputer" element={<Playvscomputer/>}/>
       <Route path="/play/1vs1offline" element={<Play1vs1offline/>}/>
       <Route path="/play/vsourchessai" element={<Playvsourchessai/>}/>
