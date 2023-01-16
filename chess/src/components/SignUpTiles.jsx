@@ -50,12 +50,8 @@ function SignUpTile() {
 
                 updateProfile(user, {displayName: firstName + " " + lastName});
                 sendEmailVerification(user).then((result) => {
-                  console.log(result);
                 }).catch((error) => {
-                  console.log(error);
                 });
-
-                console.log(result)
 
                 const userid = user.uid
                 const username = result.user.displayName ? result.user.displayName : result.user.email
@@ -77,13 +73,13 @@ function SignUpTile() {
                   })
                 }
 
+                localStorage.setItem("logged_in", "true")
                 navigate("/");
               })
               .catch((error) => {
                 if (error.code === 'auth/email-already-in-use') {
                   NotificationManager.error('Account using this email already exists.', 'Error:', 5000, () => {});
                 }
-                // console.log(error);
               });
           }
           else {
