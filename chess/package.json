@@ -53,6 +53,7 @@
     "react-spinners": "^0.13.6",
     "react-spinners-kit": "^1.9.1",
     "reactstrap": "^9.1.5",
+    "rxfire": "^6.0.3",
     "rxjs": "^7.5.7",
     "stockfish": "^15.0.0",
     "stream": "^0.0.2",

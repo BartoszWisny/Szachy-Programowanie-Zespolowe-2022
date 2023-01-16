@@ -1,14 +1,17 @@
 import React, {useCallback, useEffect, useState, useRef, useMemo} from "react"
 import ChessboardSquare from "./ChessboardSquare"
-import {getEngineFen, move, getLastMoveCaptured, handleMove, getMove, getStockfishFen, getChessDBFen, moveAN, getPiece} from "./Game"
+import {getEngineFen, move, getLastMoveCaptured, handleMove, getMove, getStockfishFen, getChessDBFen, moveAN, getPiece, 
+getHistory} from "./Game"
 import Stockfish from "../components/Stockfish"
 import {NotificationManager} from "react-notifications"
 import moveSound from "../assets/sounds/move.mp3"
 import captureSound from "../assets/sounds/capture.mp3"
 import silenceSound from "../assets/sounds/silence.mp3"
+import {database} from "../FirebaseConfig"
+import {doc, onSnapshot, updateDoc} from "firebase/firestore"
 
 const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, stockfishLevel, puzzleMoves, puzzleFen, puzzleHint, 
-  puzzleSolution, changeHint, changeSolution, changeSolved}) => {
+  puzzleSolution, changeHint, changeSolution, changeSolved, onlineGameID}) => {
   const [currentChessboard, setCurrentChessboard] = useState([])
   const [ourChessEngineMove, setOurChessEngineMove] = useState("")
   const [stockfishMove, setStockfishMove] = useState("")
@@ -123,14 +126,6 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
     }
   }, [chessDBMove, sound, stockfishEngineMove])
 
-
-
-
-
-
-
-
-
   useEffect(() => {
     if (boardtype === "vsourchessai" && turn === (playerPieces === "w" ? "b" : "w") && !isGameOver) {
       chessEngineMove()
@@ -149,21 +144,19 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
     }
   }, [playerPieces, isGameOver, turn, boardtype, engine, chessDBMove, chessDBEngineMove])
 
-
-
-
-
   useEffect(() => {
-    if (boardtype === "1vs1online" && turn === (playerPieces === "w" ? "b" : "w") && !isGameOver) {
-      // chessEngineMove()
+    if (boardtype === "1vs1online" && turn === (playerPieces === "w" ? "b" : "w") && !isGameOver && onlineGameID) {
+      const docRef = doc(database, "games", onlineGameID)
+
+      onSnapshot(docRef, (doc) => {
+        const moves = doc.data().moves
+
+        if (moves !== null) {
+          moveAN(moves[moves.length - 1])
+        }
+      })
     }
-  }, [playerPieces, isGameOver, turn, boardtype]) // get move/board from database
-
-
-
-
-
-
+  }, [playerPieces, isGameOver, turn, boardtype, onlineGameID])
 
   useEffect(() => {
     if (boardtype === "puzzles" && turn === (playerPieces === "w" ? "b" : "w")) {
@@ -208,10 +201,6 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
       }
     }
   }, [boardtype, puzzleMoves, changeSolved, puzzleMoveCounter])
-
-
-
-
 
   useEffect(() => {
     if (boardtype === "1vs1offline") {
@@ -285,6 +274,18 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
       if (boardtype !== "puzzles") {
         move.length !== 0 ? (captured[0] ? playCaptureSound() : playMoveSound()) : playSilenceSound()
         handleMove(previousPositionClicked.current, positionClicked)
+
+        if (boardtype === "1vs1online") {
+          const docRef = doc(database, "games", onlineGameID)
+
+          updateDoc(docRef, {
+            moves: getHistory(),
+          }).then(() => {
+            
+          }).catch(() => {
+          
+          })
+        }
       } else {
         if (puzzleMoveCounter < puzzleMoves.length) {
           if (puzzleMoves[puzzleMoveCounter].from === previousPositionClicked.current && puzzleMoves[puzzleMoveCounter].to === positionClicked 
@@ -313,7 +314,8 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
           turn={turn} boardtype={boardtype} changePositionClicked={positionClicked => handleClicked(positionClicked)}
           hintPuzzle={boardtype === "puzzles" ? (puzzleMoveCounter < puzzleMoves.length && turn === playerPieces && puzzleHint ? 
           puzzleMoves[puzzleMoveCounter].from : null) : null} puzzleMove={boardtype === "puzzles" ? 
-          (puzzleMoveCounter < puzzleMoves.length ? puzzleMoves[puzzleMoveCounter] : null) : null}/>
+          (puzzleMoveCounter < puzzleMoves.length ? puzzleMoves[puzzleMoveCounter] : null) : null} 
+          onlineGameID={boardtype === "1vs1online" ? onlineGameID : null}/>
         </div>
       ))}
     </div>

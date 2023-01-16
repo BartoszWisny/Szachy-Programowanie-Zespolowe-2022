@@ -80,6 +80,10 @@ export function moveAN(move) {
   updateGame()
 }
 
+export function getHistory() {
+  return chess.history()
+}
+
 export function getPiece(square) {
   return chess.get(square)
 }
