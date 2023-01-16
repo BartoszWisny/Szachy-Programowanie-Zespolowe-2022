@@ -52,7 +52,7 @@ function LoginTile() {
   function loginGoogle() {
     const provider = new GoogleAuthProvider();
 
-    signInWithPopup(auth, provider) // signInWithRedirect
+    signInWithPopup(auth, provider)
       .then(async (result) => {
         localStorage.setItem("logged_in", "true")
 
@@ -85,7 +85,7 @@ function LoginTile() {
   function loginFacebook() {
     const provider = new FacebookAuthProvider();
 
-    signInWithPopup(auth, provider) // signInWithRedirect
+    signInWithPopup(auth, provider)
       .then(async (result) => {
         const {isNewUser} = getAdditionalUserInfo(result)
 
@@ -119,10 +119,6 @@ function LoginTile() {
         }
 
         navigate("/")
-        // GraphAPI access token: EAAPtF26rDYYBAO8JlwxKXjUvGuvENvY3lrIuip7mPPJnDCO7CETZCJ07zwrFXV5CZA7BdmYMJm9pNZCqxY1ddH4tIGcwQM6t9zc0ZCitdMfAP884wKUPV4PEHquoEJiiasNZBW6kUESJy54ZB0FLa4hdWSF07VNpwx6j62oTKokgBgJiOPkmHBEIRAZCYHFQeiyRzWvUJ9TzdZBnKaPK7ONoOUya3U67PhuU52Eq063SNGgAZCxHuzzkO
-        // https://graph.facebook.com/1241216816608059/picture?width=480&access_token=EAAPtF26rDYYBAO8JlwxKXjUvGuvENvY3lrIuip7mPPJnDCO7CETZCJ07zwrFXV5CZA7BdmYMJm9pNZCqxY1ddH4tIGcwQM6t9zc0ZCitdMfAP884wKUPV4PEHquoEJiiasNZBW6kUESJy54ZB0FLa4hdWSF07VNpwx6j62oTKokgBgJiOPkmHBEIRAZCYHFQeiyRzWvUJ9TzdZBnKaPK7ONoOUya3U67PhuU52Eq063SNGgAZCxHuzzkO
-        // Scheme: https://graph.facebook.com/USER_ID/picture?width=480&access_token=ACCESS_TOKEN
-        // Or sth like: result.photoUrl + ?width=480&access_token=ACCESS_TOKEN
       })
       .catch((error) => {
 
@@ -190,11 +186,6 @@ function LoginTile() {
         NotificationManager.error('Invalid email or password.', 'Error:', 5000, () => {});
       });
   }
-
-  /* const navigate = useNavigate();
-  const route = () => {
-    navigate(props.path);
-  }; */
 
   const [email, setEmail] = useState("")
 
