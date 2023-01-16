@@ -153,6 +153,12 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
 
         if (moves !== null) {
           moveAN(moves[moves.length - 1])
+
+          if (getLastMoveCaptured()) {
+            playCaptureSound()
+          } else {
+            playMoveSound()
+          }
         }
       })
     }

@@ -81,7 +81,7 @@ export function moveAN(move) {
 }
 
 export function getHistory() {
-  return chess.history()
+  return chess.history({ verbose: true })
 }
 
 export function getPiece(square) {
