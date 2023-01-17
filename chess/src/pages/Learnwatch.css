@@ -52,6 +52,41 @@ body {
   transition: background 200ms ease-in;
 }
 
+.score_table {
+  background-color: var(--white);
+  z-index: -2;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: min(4rem, min(6vw, 6vh));
+  width: min(50rem, min(90vw, 100vh));
+  font-size: min(3rem, min(3.6vw, 3.6vh));
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius);
+  box-shadow: 0 0 1rem var(--gray6);
+  transition: transform 200ms ease-in;
+}
+
+.table_padding {
+  padding-bottom: min(4rem, min(6vw, 6vh));
+}
+
+.score_table:hover {
+  transform: scale(1.04);
+}
+
+.score_table_columns {
+  border-collapse: separate;
+  margin: auto;
+  border-spacing: 3vmin 3vmin;
+}
+
+.score_table_header {
+  color: var(--primary);
+}
+
 [data-theme="lightmode"] {
   --background: url("../assets/backgroundgray.jpg");
 }
