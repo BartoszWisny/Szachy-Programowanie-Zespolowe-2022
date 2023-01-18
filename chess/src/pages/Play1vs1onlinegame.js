@@ -194,7 +194,7 @@ function Play1vs1onlinegame() {
       })
     }
 
-  }, [gameID, result])
+  }, [gameID, result, playerPieces])
 
   useEffect(() => {
     if (isGameOver) {
