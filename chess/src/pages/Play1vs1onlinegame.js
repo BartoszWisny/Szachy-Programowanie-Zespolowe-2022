@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useCallback, useEffect, useState } from "react"
 import "./Play1vs1onlinegame.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
@@ -13,7 +13,8 @@ import * as IoIcons from "react-icons/io"
 import {GridLoader} from "react-spinners"
 import {useParams} from "react-router-dom"
 import {database} from "../FirebaseConfig"
-import {updateDoc, doc, getDocs, collection, query, where, onSnapshot} from "firebase/firestore"
+import {updateDoc, doc, getDocs, getDoc, collection, query, where, onSnapshot} from "firebase/firestore"
+import Elo from "elo-js"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -105,6 +106,72 @@ function Play1vs1onlinegame() {
     getUsersData()
   }, [gameID])
 
+  const updateLeaderboards = useCallback(async () => {
+    const docUserIDRef = doc(database, "games", gameID)
+    const docSnap = await getDoc(docUserIDRef)
+    const docData = docSnap.data()
+    const leaderWhiteRef = doc(database, "leaderboards", docData.whiteID)
+    const leaderBlackRef = doc(database, "leaderboards", docData.blackID)
+    const whiteSnap = await getDoc(leaderWhiteRef)
+    const blackSnap = await getDoc(leaderBlackRef)
+    const whiteData = whiteSnap.data()
+    const blackData = blackSnap.data()
+    console.log(whiteData)
+    console.log(blackData)
+
+    if (whiteData !== null && blackData !== null && docData !== null) {
+      var whitePoints = 0
+      var whiteWins = whiteData.gamesWon
+      var whiteDraws = whiteData.draws
+      var whiteDefeats = whiteData.gamesLost  
+      var blackPoints = 0
+      var blackWins = blackData.gamesWon
+      var blackDraws = blackData.draws
+      var blackDefeats = blackData.gamesLost  
+      const elo = new Elo()
+  
+      if (result === "Black is the winner by checkmate!") {
+        blackWins += 1
+        whiteDefeats += 1
+        blackPoints = elo.ifWins(blackData.points, whiteData.points)
+        whitePoints = elo.ifLoses(whiteData.points, blackData.points)
+      } else if (result === "White is the winner by checkmate!") {
+        whiteWins += 1
+        blackDefeats += 1
+        whitePoints = elo.ifWins(whiteData.points, blackData.points)
+        blackPoints = elo.ifLoses(blackData.points, whiteData.points)
+      } else {
+        whiteDraws += 1
+        blackDraws += 1
+        whitePoints = elo.ifTies(whiteData.points, blackData.points)
+        blackPoints = elo.ifTies(blackData.points, whiteData.points)
+      }
+  
+      updateDoc(leaderWhiteRef, {
+        gamesWon: whiteWins,
+        gamesLost: whiteDefeats,
+        draws: whiteDraws,
+        points: whitePoints
+      }).then(() => {
+  
+      }).catch(() => {
+        
+      })
+  
+      updateDoc(leaderBlackRef, {
+        gamesWon: blackWins,
+        gamesLost: blackDefeats,
+        draws: blackDraws,
+        points: blackPoints
+      }).then(() => {
+  
+      }).catch(() => {
+        
+      })
+    }
+
+  }, [gameID, result])
+
   useEffect(() => {
     if (isGameOver) {
       const docRef = doc(database, "games", gameID)
@@ -115,12 +182,14 @@ function Play1vs1onlinegame() {
         result: gameResult,
         status: "ended",
       }).then(() => {
-        
+
       }).catch(() => {
         
       })
+      
+      updateLeaderboards()
     }
-  }, [gameID, isGameOver, result])
+  },[gameID, isGameOver, result, updateLeaderboards])
 
   return (
     <div className="play1vs1onlinegame" data-theme={theme}>
