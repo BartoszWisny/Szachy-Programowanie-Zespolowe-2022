@@ -106,8 +106,6 @@ function Play1vs1onlinegame() {
     getUsersData()
   }, [gameID])
 
-  const [updated, setUpdated] = useState(false)
-
   const updateLeaderboards = useCallback(async () => {
     const docUserIDRef = doc(database, "games", gameID)
     const docSnap = await getDoc(docUserIDRef)
@@ -133,48 +131,70 @@ function Play1vs1onlinegame() {
       const elo = new Elo()
   
       if (result === "Black is the winner by checkmate!") {
-        blackWins += 1
+        if (playerPieces === "b") {
+          blackWins += 1
+          blackPoints = elo.ifWins(blackData.points, whiteData.points)
+        } else if (playerPieces === "w") {
+          whiteDefeats += 1
+          whitePoints = elo.ifLoses(whiteData.points, blackData.points)
+        }
+
+        /* blackWins += 1
         whiteDefeats += 1
         blackPoints = elo.ifWins(blackData.points, whiteData.points)
-        whitePoints = elo.ifLoses(whiteData.points, blackData.points)
+        whitePoints = elo.ifLoses(whiteData.points, blackData.points) */
       } else if (result === "White is the winner by checkmate!") {
-        whiteWins += 1
+        if (playerPieces === "w") {
+          whiteWins += 1
+          whitePoints = elo.ifWins(whiteData.points, blackData.points)
+        } else if (playerPieces === "b") {
+          blackDefeats += 1
+          blackPoints = elo.ifLoses(blackData.points, whiteData.points)
+        }
+
+        /* whiteWins += 1
         blackDefeats += 1
         whitePoints = elo.ifWins(whiteData.points, blackData.points)
-        blackPoints = elo.ifLoses(blackData.points, whiteData.points)
+        blackPoints = elo.ifLoses(blackData.points, whiteData.points) */
       } else {
-        whiteDraws += 1
+        if (playerPieces === "w") {
+          whiteDraws += 1
+          whitePoints = elo.ifTies(whiteData.points, blackData.points)
+        } else if (playerPieces === "b") {
+          blackDraws += 1
+          blackPoints = elo.ifTies(blackData.points, whiteData.points)
+        }
+
+        /* whiteDraws += 1
         blackDraws += 1
         whitePoints = elo.ifTies(whiteData.points, blackData.points)
-        blackPoints = elo.ifTies(blackData.points, whiteData.points)
+        blackPoints = elo.ifTies(blackData.points, whiteData.points) */
       }
   
-      if (!updated) {
-        updateDoc(leaderWhiteRef, {
-          gamesWon: whiteWins,
-          gamesLost: whiteDefeats,
-          draws: whiteDraws,
-          points: whitePoints
-        }).then(() => {
-    
-        }).catch(() => {
-          
-        })
-    
-        updateDoc(leaderBlackRef, {
-          gamesWon: blackWins,
-          gamesLost: blackDefeats,
-          draws: blackDraws,
-          points: blackPoints
-        }).then(() => {
-    
-        }).catch(() => {
-          
-        })
-      }
+      updateDoc(leaderWhiteRef, {
+        gamesWon: whiteWins,
+        gamesLost: whiteDefeats,
+        draws: whiteDraws,
+        points: whitePoints
+      }).then(() => {
+  
+      }).catch(() => {
+        
+      })
+  
+      updateDoc(leaderBlackRef, {
+        gamesWon: blackWins,
+        gamesLost: blackDefeats,
+        draws: blackDraws,
+        points: blackPoints
+      }).then(() => {
+  
+      }).catch(() => {
+        
+      })
     }
 
-  }, [gameID, result, updated])
+  }, [gameID, result])
 
   useEffect(() => {
     if (isGameOver) {
@@ -192,7 +212,6 @@ function Play1vs1onlinegame() {
       })
       
       updateLeaderboards()
-      setUpdated(true)
     }
   },[gameID, isGameOver, result, updateLeaderboards])
 
