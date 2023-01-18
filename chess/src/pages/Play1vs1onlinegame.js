@@ -106,6 +106,8 @@ function Play1vs1onlinegame() {
     getUsersData()
   }, [gameID])
 
+  const [updated, setUpdated] = useState(false)
+
   const updateLeaderboards = useCallback(async () => {
     const docUserIDRef = doc(database, "games", gameID)
     const docSnap = await getDoc(docUserIDRef)
@@ -147,27 +149,29 @@ function Play1vs1onlinegame() {
         blackPoints = elo.ifTies(blackData.points, whiteData.points)
       }
   
-      updateDoc(leaderWhiteRef, {
-        gamesWon: whiteWins,
-        gamesLost: whiteDefeats,
-        draws: whiteDraws,
-        points: whitePoints
-      }).then(() => {
-  
-      }).catch(() => {
-        
-      })
-  
-      updateDoc(leaderBlackRef, {
-        gamesWon: blackWins,
-        gamesLost: blackDefeats,
-        draws: blackDraws,
-        points: blackPoints
-      }).then(() => {
-  
-      }).catch(() => {
-        
-      })
+      if (!updated) {
+        updateDoc(leaderWhiteRef, {
+          gamesWon: whiteWins,
+          gamesLost: whiteDefeats,
+          draws: whiteDraws,
+          points: whitePoints
+        }).then(() => {
+    
+        }).catch(() => {
+          
+        })
+    
+        updateDoc(leaderBlackRef, {
+          gamesWon: blackWins,
+          gamesLost: blackDefeats,
+          draws: blackDraws,
+          points: blackPoints
+        }).then(() => {
+    
+        }).catch(() => {
+          
+        })
+      }
     }
 
   }, [gameID, result])
@@ -188,6 +192,7 @@ function Play1vs1onlinegame() {
       })
       
       updateLeaderboards()
+      setUpdated(true)
     }
   },[gameID, isGameOver, result, updateLeaderboards])
 
