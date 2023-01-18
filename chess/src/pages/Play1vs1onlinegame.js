@@ -171,29 +171,30 @@ function Play1vs1onlinegame() {
         blackPoints = elo.ifTies(blackData.points, whiteData.points) */
       }
   
-      updateDoc(leaderWhiteRef, {
-        gamesWon: whiteWins,
-        gamesLost: whiteDefeats,
-        draws: whiteDraws,
-        points: whitePoints
-      }).then(() => {
-  
-      }).catch(() => {
-        
-      })
-  
-      updateDoc(leaderBlackRef, {
-        gamesWon: blackWins,
-        gamesLost: blackDefeats,
-        draws: blackDraws,
-        points: blackPoints
-      }).then(() => {
-  
-      }).catch(() => {
-        
-      })
+      if (playerPieces === "w") {
+        updateDoc(leaderWhiteRef, {
+          gamesWon: whiteWins,
+          gamesLost: whiteDefeats,
+          draws: whiteDraws,
+          points: whitePoints
+        }).then(() => {
+    
+        }).catch(() => {
+          
+        })
+      } else if (playerPieces === "b") {
+        updateDoc(leaderBlackRef, {
+          gamesWon: blackWins,
+          gamesLost: blackDefeats,
+          draws: blackDraws,
+          points: blackPoints
+        }).then(() => {
+    
+        }).catch(() => {
+          
+        })
+      }
     }
-
   }, [gameID, result, playerPieces])
 
   useEffect(() => {
