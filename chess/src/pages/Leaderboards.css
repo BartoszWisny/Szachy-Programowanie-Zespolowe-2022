@@ -60,19 +60,20 @@ body {
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  margin-top: min(4rem, min(6vw, 6vh));
+  margin-top: min(3rem, min(4.5vw, 4.5vh));
   width: min(50rem, min(90vw, 100vh));
-  font-size: min(3rem, min(3.6vw, 3.6vh));
+  font-size: min(3rem, min(3vw, 3vh));
   text-align: center;
   justify-content: center;
   align-items: center;
   border-radius: var(--radius);
   box-shadow: 0 0 1rem var(--gray6);
   transition: transform 200ms ease-in;
+  table-layout: fixed;
 }
 
 td {
-  word-wrap: break-word;
+  word-break: break-all;
 }
 
 .table_padding {
