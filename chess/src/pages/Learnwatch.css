@@ -94,3 +94,221 @@ body {
 [data-theme="darkmode"] {
   --background: url("../assets/backgrounddarkgray.jpg");
 }
+
+.chessboard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 2rem var(--gray6);
+  user-select: none;
+}
+
+.board_container_watch {
+  margin-top: min(0.5rem, min(1.05vw, 1.05vh)); 
+  margin-bottom: 0rem;
+  max-width: min(90vw, 90vh);
+  max-height: min(90vw, 90vh);
+  width: 40rem;
+  height: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.board_padding {
+  padding-bottom: min(2rem, 6vh);
+}
+
+.square {
+  width: 12.5%;
+  height: 12.5%;
+}
+
+.darksquare {
+  background: rgba(255, 255, 255, 0) url("../assets/chessboard/darksquare.jpg");
+  background-size: 100%;
+}
+
+.lightsquare {
+  background: rgba(255, 255, 255, 0) url("../assets/chessboard/lightsquare.jpg");
+  background-size: 100%;
+}
+
+.checksquare {
+  background: rgba(255, 0, 0, 1);
+  background-size: 100%;
+}
+
+.ismovesquare {
+  background: rgba(255, 255, 0, 1);
+  background-size: 100%;
+}
+
+.chessboardsquare {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.piececontainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.piece_p {
+  display: block;
+  max-width: 48%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.piece_r {
+  display: block;
+  max-width: 48%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.piece_n {
+  display: block;
+  max-width: 53.5%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.piece_b {
+  display: block;
+  max-width: 47.5%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.piece_q {
+  display: block;
+  max-width: 54%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.piece_k {
+  display: block;
+  max-width: 51.5%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.promotionsquare {
+  position: relative;
+  width: 110%;
+  height: 110%;
+  cursor: pointer;
+  z-index: 2;
+  border: 0.25rem solid var(--primary);
+  border-radius: var(--radius);
+}
+
+.promotioncontainer {
+  background-color: var(--primary);
+  background: rgba(255, 255, 255, 0) url("../assets/chessboard/lightsquare.jpg");
+  background-size: 100%;
+  transition: background 200ms ease-in, color 200ms ease-in;
+}
+
+.promotioncontainer:hover {
+  background: var(--primary);
+}
+
+.promotionpiece_r {
+  display: block;
+  max-width: 52.8%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.promotionpiece_n {
+  display: block;
+  max-width: 58.85%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.promotionpiece_b {
+  display: block;
+  max-width: 52.25%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.promotionpiece_q {
+  display: block;
+  max-width: 59.4%;
+  width: auto;
+  height: auto;
+  cursor: grab;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.number {
+  position: absolute;
+  font-size: 1rem;
+  user-select: none;
+}
+
+.letter {
+  position: absolute;
+  font-size: 1rem;
+  user-select: none;
+}
+
+.loading {
+  position: absolute;
+  font-size: 2rem;
+  margin: 0;
+  top: 67%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  user-select: none;
+}

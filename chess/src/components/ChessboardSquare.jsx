@@ -93,7 +93,7 @@ const ChessboardSquare = ({playerPieces, piece, dark, position, turn, boardtype,
       <Square playerPieces={playerPieces} dark={dark} position={position} isMove={position === getLastMove()} check={isCheck() 
         && piece ? (piece.type === "k" && piece.color === getTurn() ? true : false) : false} 
         hintPuzzle={hintPuzzle === position} turn={turn} boardtype={boardtype}>
-        {promotion && boardtype === "1vs1offline" ? <Promotion promotion={promotion} /> /* to be done for other types of boards */
+        {promotion && boardtype === "1vs1offline" ? <Promotion promotion={promotion} />
         : (promotion && (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online") 
         && playerPieces === turn ? <Promotion promotion={promotion} boardtype={boardtype} puzzleMove={puzzleMove}/> 
         : (piece ? (<Piece playerPieces={playerPieces} piece={piece} position={position} turn={turn} boardtype={boardtype} />) 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from "react"
+import React, {useEffect, useState, useCallback, useMemo} from "react"
 import "./Learnanalyze.css"
 import {Helmet} from "react-helmet"
 import SidebarMenu from "../components/SidebarMenu"
@@ -9,6 +9,16 @@ import {GridLoader} from "react-spinners"
 import { onAuthStateChanged, getAuth } from "firebase/auth"
 import { collection, getDocs, query, where } from "firebase/firestore"
 import {database} from "../FirebaseConfig"
+import {gameSubject, initGame, resetGame, moveAN, undoMove, getLastMoveCaptured, getStockfishFen, move} from "../components/Game"
+import Chessboard from "../components/Chessboard"
+import {DndProvider} from "react-dnd"
+import {HTML5Backend} from "react-dnd-html5-backend"
+import * as BsIcons from "react-icons/bs"
+import * as AiIcons from "react-icons/ai"
+import * as FaIcons from "react-icons/fa"
+import moveSound from "../assets/sounds/move.mp3"
+import captureSound from "../assets/sounds/capture.mp3"
+import Stockfish from "../components/Stockfish"
 
 const SwitchThemeButton = styled.button`
   background-color: var(--primary);
@@ -25,7 +35,100 @@ const SwitchThemeButton = styled.button`
   top: 0;
 `
 
+const BackButton = styled.button`
+  position: absolute;
+  background-color: ${({disabled, theme}) => (disabled ? (theme === "lightmode" ? "var(--gray7)" : "var(--gray4)") 
+  : (theme === "lightmode" ? "var(--primary)" : "var(--secondary)"))};
+  color: ${({disabled, theme}) => (disabled ? (theme === "lightmode" ? "var(--gray4)" : "var(--gray7)") 
+  : (theme === "lightmode" ? "var(--secondary)" : "var(--primary)"))};
+  opacity: 0.98;
+  bottom: min(6rem, min(12.7vw, 12.7vh));
+  right: min(6rem, min(12.7vw, 12.7vh));
+  font-size: min(3rem, min(6.35vw, 6.35vh));
+  height: min(3rem, min(6.35vw, 6.35vh));
+  width: min(3rem, min(6.35vw, 6.35vh));
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  border: 0;
+  border-radius: min(0.4rem, min(0.85vw, 0.85vh));
+`
+
+const NextButton = styled.button`
+  position: absolute;
+  background-color: ${({disabled, theme}) => (disabled ? (theme === "lightmode" ? "var(--gray7)" : "var(--gray4)") 
+  : (theme === "lightmode" ? "var(--primary)" : "var(--secondary)"))};
+  color: ${({disabled, theme}) => (disabled ? (theme === "lightmode" ? "var(--gray4)" : "var(--gray7)") 
+  : (theme === "lightmode" ? "var(--secondary)" : "var(--primary)"))};
+  opacity: 0.98;
+  bottom: min(6rem, min(12.7vw, 12.7vh));
+  right: min(2.5rem, min(5.3vw, 5.3vh)); 
+  font-size: min(3rem, min(6.35vw, 6.35vh));
+  height: min(3rem, min(6.35vw, 6.35vh));
+  width: min(3rem, min(6.35vw, 6.35vh));
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  border: 0;
+  border-radius: min(0.4rem, min(0.85vw, 0.85vh));
+`
+
+const PlayButton = styled.button`
+  position: absolute;
+  background-color: ${({disabled, theme}) => (disabled ? (theme === "lightmode" ? "var(--gray7)" : "var(--gray4)") 
+  : (theme === "lightmode" ? "var(--primary)" : "var(--secondary)"))};
+  color: ${({disabled, theme}) => (disabled ? (theme === "lightmode" ? "var(--gray4)" : "var(--gray7)") 
+  : (theme === "lightmode" ? "var(--secondary)" : "var(--primary)"))};
+  opacity: 0.98;
+  bottom: min(2.5rem, min(5.3vw, 5.3vh)); 
+  right: min(6rem, min(12.7vw, 12.7vh));
+  font-size: min(3rem, min(6.35vw, 6.35vh));
+  height: min(3rem, min(6.35vw, 6.35vh));
+  width: min(3rem, min(6.35vw, 6.35vh));
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  border: 0;
+  border-radius: min(0.4rem, min(0.85vw, 0.85vh));
+`
+
+const StockfishButton = styled.button`
+  position: absolute;
+  background-color: ${({disabled, theme}) => (disabled ? (theme === "lightmode" ? "var(--gray7)" : "var(--gray4)") 
+  : (theme === "lightmode" ? "var(--primary)" : "var(--secondary)"))};
+  color: ${({disabled, theme}) => (disabled ? (theme === "lightmode" ? "var(--gray4)" : "var(--gray7)") 
+  : (theme === "lightmode" ? "var(--secondary)" : "var(--primary)"))};
+  opacity: 0.98;
+  bottom: min(2.5rem, min(5.3vw, 5.3vh)); 
+  right: min(2.5rem, min(5.3vw, 5.3vh)); 
+  font-size: min(3rem, min(6.35vw, 6.35vh));
+  height: min(3rem, min(6.35vw, 6.35vh));
+  width: min(3rem, min(6.35vw, 6.35vh));
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  border: 0;
+  border-radius: min(0.4rem, min(0.85vw, 0.85vh));
+`
+
 function Learnanalyze() {
+  const [board, setBoard] = useState([])
+  const [turn, setTurn] = useState()
+
+  useEffect(() => {
+    resetGame()
+    initGame()
+    const subscribe = gameSubject.subscribe((game) => {
+      setBoard(game.board)
+      setTurn(game.turn)
+    })
+    return () => subscribe.unsubscribe()
+  }, [])
+
   const [theme, setTheme] = useLocalStorage("theme" ? "darkmode" : "lightmode")
   
   const switchTheme = () => {
@@ -39,8 +142,20 @@ function Learnanalyze() {
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
-    }, 2000)
+    }, 5000)
   }, [])
+
+  function playMoveSound() {
+    new Audio(moveSound).play().then(() => {
+    }).catch(error => {
+    })
+  }
+
+  function playCaptureSound() {
+    new Audio(captureSound).play().then(() => {
+    }).catch(error => {
+    })
+  }
 
   const [user, setUser] = useState(null)
   const auth = getAuth()
@@ -82,6 +197,8 @@ function Learnanalyze() {
 
   const [fetched, setFetched] = useState(false)
   const [userPieces, setUserPieces] = useState([])
+  const [chosenGame, setChosenGame] = useState(null)
+  const [playerPieces, setPlayerPieces] = useState(null)
 
   useEffect(() => {
     if(user !== null && games.length === 0 && !fetched) {
@@ -139,52 +256,156 @@ function Learnanalyze() {
     getUserGamesData()
   }, [games, fetchData, fetched, user])
 
+  const [moveCounter, setMoveCounter] = useState(0)
+
+  const nextMove = useCallback(() => {
+    const move = chosenGame[moveCounter]
+    moveAN(move)
+    setMoveCounter(moveCounter + 1)
+
+    if (getLastMoveCaptured()) {
+      playCaptureSound()
+    } else {
+      playMoveSound()
+    }
+  }, [chosenGame, moveCounter])
+
+  const backMove = useCallback(() => {
+    undoMove()
+    setMoveCounter(moveCounter - 1)
+  }, [moveCounter])
+
+  const [playGame, setPlayGame] = useState(false)
+
+  useEffect(() => {
+    if (playGame === true && moveCounter !== chosenGame.length) {
+      let timeout = setTimeout(nextMove, 1500)
+
+      return () => {
+        clearTimeout(timeout)
+      }
+    } else if (playGame === true && moveCounter === chosenGame.length) {
+      setPlayGame(false)
+    }
+  }, [playGame, moveCounter, chosenGame, nextMove])
+
+  const stockfish = useMemo(() => {
+    return new Stockfish()
+  }, [])
+  
+  stockfish.setSkillLevel(20)  
+  stockfish.setMoveTime(500)
+  const [stockfishMove, setStockfishMove] = useState("")
+
+  const stockfishEngineMove = useCallback(() => {
+    const getMove = setInterval(() => {
+      const bestMove = stockfish.getBestMove()
+        
+      if (!bestMove && !stockfish.isThinking) {
+        stockfish.searchBestMoveMoveTime(getStockfishFen())
+      } else if (bestMove) {
+        setStockfishMove(bestMove)
+        stockfish.bestMove = null
+        const positions = stockfishMove.split(' ')
+
+        if (positions.length === 2) {
+          move(positions[0], positions[1])
+        } else if (positions.length === 3) {
+          move(positions[0], positions[1], positions[2])
+        }
+
+        clearInterval(getMove)
+      }
+    }, 1000)
+  }, [stockfish, stockfishMove])
+
+  const [hintShowed, setHintShowed] = useState(true)
+  const [moveShow, setMoveShow] = useState(false)
+
+  useEffect(() => {
+    if (moveShow && playGame === false && hintShowed === false) {
+      stockfishEngineMove()
+
+      setTimeout(() => {
+        undoMove()
+        setHintShowed(true)
+      }, 10000)
+    }
+
+    setMoveShow(!moveShow)
+  }, [playGame, hintShowed, moveShow, stockfishEngineMove])
 
   return (
     <div className="learnanalyze" data-theme={theme}>
-      <Helmet>
-        <meta charSet="utf-8" />
-          <title>Analyze games</title>
-          <link rel="canonical" href="http://mysite.com/example" />
-          <meta name="description" content="Title" />
-      </Helmet>
-      <SidebarMenu />
-      <div className="img" data-theme={theme}/>
-      {loading ? 
-        <div>
-          <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={50} 
-          speedMultiplier={1} style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-          userSelect: "none"}}/>
-        </div> : 
-        <div className="games_table" style={{zIndex: 0}}>
-          <table className="games_table_columns">
-            <thead className="games_table_header">
-              <tr>
-                <th>User</th>
-                <th></th>
-                <th>Opponent</th>
-                <th>Result</th>
-                <th>Analyze</th>
-              </tr>
-            </thead>
-            {games !== null && games.map((val, key) => {
-              return (
-                <tbody key={key}>
-                  <tr>
-                    <td><b>{userPieces[key] === "w" ? val.whiteID : val.blackID}</b></td>
-                    <td>vs</td>
-                    <td><b>{userPieces[key] === "w" ? val.blackID : val.whiteID}</b></td>
-                    <td><b>{val.result}</b></td>
-                    <td><button className="analyze_button">Analyze</button></td>
-                  </tr>
-                </tbody>
-              )
-            })}
-          </table>
-        </div>}
-      <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
-        {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
-      </SwitchThemeButton>
+      <DndProvider backend={HTML5Backend}>
+        <Helmet>
+          <meta charSet="utf-8" />
+            <title>Analyze games</title>
+            <link rel="canonical" href="http://mysite.com/example" />
+            <meta name="description" content="Title" />
+        </Helmet>
+        <SidebarMenu />
+        <div className="img" data-theme={theme}/>
+        {loading ? 
+          <div>
+            <GridLoader color={theme === "lightmode" ? "var(--primary)" : "var(--secondary)"} loading={loading} size={50} 
+            speedMultiplier={1} style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+            userSelect: "none"}}/>
+          </div> : 
+          <div className="games_table" style={{zIndex: 0}}>
+            {games !== null && chosenGame === null && (<table className="games_table_columns">
+              <thead className="games_table_header">
+                <tr>
+                  <th>User</th>
+                  <th></th>
+                  <th>Opponent</th>
+                  <th>Result</th>
+                  <th>Analyze</th>
+                </tr>
+              </thead>
+              {games !== null && chosenGame === null && games.map((val, key) => {
+                return (
+                  <tbody key={key}>
+                    <tr>
+                      <td><b>{userPieces[key] === "w" ? val.whiteID : val.blackID}</b></td>
+                      <td>vs</td>
+                      <td><b>{userPieces[key] === "w" ? val.blackID : val.whiteID}</b></td>
+                      <td><b>{val.result}</b></td>
+                      <td><button className="analyze_button" onClick={() => {setChosenGame(val.moves); setPlayerPieces(userPieces[key])}}>
+                      Analyze</button></td>
+                    </tr>
+                  </tbody>
+                )
+              })}
+            </table>)}
+          </div>}
+          {games !== null && chosenGame === null && <div className="table_padding"/>}
+          {chosenGame && (<div>
+            <BackButton theme={theme} onClick={hintShowed ? backMove : null} 
+            disabled={!hintShowed || playGame || moveCounter === 0 ? true : false}>
+              <AiIcons.AiOutlineCaretLeft/>
+            </BackButton>
+            <NextButton theme={theme} onClick={hintShowed ? nextMove : null} 
+            disabled={!hintShowed || playGame || moveCounter === chosenGame.length ? true : false}>
+              <AiIcons.AiOutlineCaretRight/>
+            </NextButton>
+            <PlayButton theme={theme} onClick={() => setPlayGame(!playGame)}
+            disabled={!hintShowed || moveCounter === chosenGame.length ? true : false}>
+              {playGame && moveCounter !== chosenGame.length ? <FaIcons.FaPauseCircle/> : <FaIcons.FaPlayCircle/>}
+            </PlayButton>
+            <StockfishButton theme={theme} onClick={() => setHintShowed(false)} 
+            disabled={!hintShowed || playGame || moveCounter === chosenGame.length ? true : false}>
+              <BsIcons.BsQuestionCircleFill/>
+            </StockfishButton>
+            <div className="board_container">
+              <Chessboard className="chessboard" playerPieces={playerPieces} board={board} turn={turn} boardtype={"analyze"}/>
+              <div className="board_padding"/>
+            </div>
+          </div>)}
+        <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
+          {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
+        </SwitchThemeButton>
+      </DndProvider>
     </div>
   )
 }

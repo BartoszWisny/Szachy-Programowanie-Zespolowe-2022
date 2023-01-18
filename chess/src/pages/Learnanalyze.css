@@ -60,19 +60,24 @@ body {
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  margin-top: min(4rem, 6vh);
+  margin-top: min(3rem, min(4.5vw, 4.5vh));
   width: min(50rem, min(90vw, 120vh));
-  font-size: min(3rem, min(3.6vw, 3.6vh));
+  font-size: min(3rem, min(3vw, 3vh));
   text-align: center;
   justify-content: center;
   align-items: center;
   border-radius: var(--radius);
   box-shadow: 0 0 1rem var(--gray6);
   transition: transform 200ms ease-in;
+  table-layout: fixed;
 }
 
 td {
-  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.table_padding {
+  padding-bottom: min(4rem, min(6vw, 6vh));
 }
 
 .games_table:hover {
@@ -90,12 +95,12 @@ td {
 }
 
 .analyze_button {
-  padding: min(1rem, min(1.8vw, 1.8vh));
+  padding: min(1rem, min(1.5vw, 1.5vh));
   font-family: inherit;
   font-weight: bold;
-  font-size: min(1rem, min(3.6vw, 3.6vh));
-  margin: min(1rem, min(1.8vw, 1.8vh));
-  border: min(0.1rem, min(0.35vw, 0.35vh)) solid var(--primary);
+  font-size: min(1rem, min(3vw, 3vh));
+  margin: 0rem;
+  border: min(0.1rem, min(0.3vw, 0.3vh)) solid var(--primary);
   color: var(--primary);
   border-radius: var(--radius);
   cursor: pointer;

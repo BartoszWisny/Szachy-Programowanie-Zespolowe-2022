@@ -32,7 +32,7 @@ const Piece = ({playerPieces, piece: {type, color}, position, turn, boardtype}) 
   }
   const ref = useOutsideClick(handleClickOutside)
   const handleClick = () => {
-    setClicked(true)
+    setClicked(boardtype !== "analyze" && boardtype !== "watch")
   }
 
   function isTouchDevice() {
@@ -41,14 +41,15 @@ const Piece = ({playerPieces, piece: {type, color}, position, turn, boardtype}) 
 
   const image = require(`../assets/chessboard/${type}_${color}.png`)
 
-  return ( // if drag won't work then uncomment next line
-    <div /* ref={isTouchDevice() ? ref : drag} */>
+  return (
+    <div>
       <DragPreviewImage className="previewimage" connect={preview} src={image}/>
       <div className="piececontainer" ref={isTouchDevice() ? (boardtype === "1vs1offline" ? (turn === color ? ref : handleClickOutside) 
-      : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online" ? (playerPieces === turn ? ref : handleClickOutside) 
-      : (color === "w" ? ref : handleClickOutside))) : (boardtype === "1vs1offline" ? (turn === color ? drag : handleClickOutside) 
-      : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online" ? (playerPieces === turn ? drag : handleClickOutside) 
-      : (color === "w" ? drag : handleClickOutside)))} style={{opacity: isDragging ? 0 : 1, cursor: "grab"}} onClick={handleClick}>
+      : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online" ? 
+      (playerPieces === turn ? ref : handleClickOutside) : null)) : (boardtype === "1vs1offline" ? (turn === color ? drag 
+      : handleClickOutside) : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" 
+      || boardtype === "1vs1online" ? (playerPieces === turn ? drag : handleClickOutside) : null))} style={{opacity: isDragging ? 
+      0 : 1, cursor: "grab"}} onClick={handleClick}>
         <img src={image} alt="chess" className={`piece_${type}`} />
       </div>
       {(isDragging && !isTouchDevice()) || (clicked && isTouchDevice()) ? getPossibleMoves(position).map((pos, i) => (
@@ -60,17 +61,21 @@ const Piece = ({playerPieces, piece: {type, color}, position, turn, boardtype}) 
             position: "absolute", 
             left: ((pos[0].charCodeAt(0) - position.charCodeAt(0)) * 100 + 35 * 
                   (boardtype === "1vs1offline" ? (turn === "w" ? 1 : -1) 
-                  : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online" ? (playerPieces === "w" ? 1 : -1)
+                  : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" 
+                  || boardtype === "1vs1online" || boardtype === "analyze" ? (playerPieces === "w" ? 1 : -1)
                   : 1))) * 
                   (boardtype === "1vs1offline" ? (turn === "w" ? 1 : -1) 
-                  : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online" ? (playerPieces === "w" ? 1 : -1)
+                  : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles"
+                  || boardtype === "1vs1online" || boardtype === "analyze" ? (playerPieces === "w" ? 1 : -1)
                   : 1)) + "%", 
             top: ((position.charCodeAt(1) - pos[0].charCodeAt(1)) * 100 + 35 * 
                  (boardtype === "1vs1offline" ? (turn === "w" ? 1 : -1) 
-                 : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online" ? (playerPieces === "w" ? 1 : -1)
+                 : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" 
+                 || boardtype === "1vs1online" || boardtype === "analyze" ? (playerPieces === "w" ? 1 : -1)
                  : 1))) * 
                  (boardtype === "1vs1offline" ? (turn === "w" ? 1 : -1) 
-                 : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online" ? (playerPieces === "w" ? 1 : -1)
+                 : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" 
+                 || boardtype === "1vs1online" || boardtype === "analyze" ? (playerPieces === "w" ? 1 : -1)
                  : 1)) + "%",
             borderRadius: "15px",
             zIndex: 1,

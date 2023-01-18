@@ -240,19 +240,21 @@ const Chessboard = ({playerPieces, isGameOver, board, turn, boardtype, engine, s
 
       setSound(true && getStockfishFen() !== "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
       setCurrentChessboard(playerPieces === "w" ? board.flat() : board.flat().reverse())
-    } else {
+    } else if (boardtype === "analyze") {
+      setCurrentChessboard(playerPieces === "w" ? board.flat() : board.flat().reverse())
+    } else if (boardtype === "watch") {
       setCurrentChessboard(board.flat())
     }
   }, [playerPieces, board, turn, boardtype, puzzleFen, sound, engineSource])
 
   function getXYPosition(i) {
     const x = boardtype === "1vs1offline" ? (turn === "w" ? i % 8 : Math.abs(i % 8 - 7)) 
-              : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online" ? 
-              (playerPieces === "w" ? i % 8 : Math.abs(i % 8 - 7)) 
+              : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online"
+              || boardtype === "analyze" ? (playerPieces === "w" ? i % 8 : Math.abs(i % 8 - 7)) 
               : i % 8)
     const y = boardtype === "1vs1offline" ? (turn === "w" ? Math.abs(Math.floor(i / 8) - 7) : Math.floor(i / 8)) 
-              : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online" ? 
-              (playerPieces === "w" ? Math.abs(Math.floor(i / 8) - 7) : Math.floor(i / 8)) 
+              : (boardtype === "vsourchessai" || boardtype === "vscomputer" || boardtype === "puzzles" || boardtype === "1vs1online"
+              || boardtype === "analyze" ? (playerPieces === "w" ? Math.abs(Math.floor(i / 8) - 7) : Math.floor(i / 8)) 
               : Math.abs(Math.floor(i / 8) - 7))
     return {x, y}
   }
