@@ -6087,6 +6087,11 @@
     "minimalistic-assert" "^1.0.1"
     "minimalistic-crypto-utils" "^1.0.1"
 
+"elo-js@^1.0.1":
+  "integrity" "sha512-/cBpBQRQqTc2/M32ENFsNDOIDuqjQVpCI/9gxCyCTp9gPqtvyeO/kzaJstogiAlybbML/VzMOqj+A8LYLFaz0g=="
+  "resolved" "https://registry.npmjs.org/elo-js/-/elo-js-1.0.1.tgz"
+  "version" "1.0.1"
+
 "emitter-component@^1.1.1":
   "integrity" "sha512-G+mpdiAySMuB7kesVRLuyvYRqDmshB7ReKEVuyBPkzQlmiDiLrt7hHHIy4Aff552bgknVN7B2/d3lzhGO5dvpQ=="
   "resolved" "https://registry.npmjs.org/emitter-component/-/emitter-component-1.1.1.tgz"
