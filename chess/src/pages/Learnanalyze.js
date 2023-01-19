@@ -9,7 +9,7 @@ import {GridLoader} from "react-spinners"
 import { onAuthStateChanged, getAuth } from "firebase/auth"
 import { collection, getDocs, query, where } from "firebase/firestore"
 import {database} from "../FirebaseConfig"
-import {gameSubject, initGame, resetGame, moveAN, undoMove, getLastMoveCaptured, getStockfishFen, move} from "../components/Game"
+import {gameSubject, initGame, resetGame, moveAN, undoMove, getLastMoveCaptured, getStockfishFen} from "../components/Game"
 import Chessboard from "../components/Chessboard"
 import {DndProvider} from "react-dnd"
 import {HTML5Backend} from "react-dnd-html5-backend"
@@ -294,7 +294,7 @@ function Learnanalyze() {
   }, [])
   
   stockfish.setSkillLevel(20)  
-  stockfish.setMoveTime(500)
+  stockfish.setMoveTime(1000)
   const [stockfishMove, setStockfishMove] = useState("")
 
   const stockfishEngineMove = useCallback(() => {
@@ -304,36 +304,24 @@ function Learnanalyze() {
       if (!bestMove && !stockfish.isThinking) {
         stockfish.searchBestMoveMoveTime(getStockfishFen())
       } else if (bestMove) {
-        setStockfishMove(bestMove)
-        stockfish.bestMove = null
-        const positions = stockfishMove.split(' ')
-
-        if (positions.length === 2) {
-          move(positions[0], positions[1])
-        } else if (positions.length === 3) {
-          move(positions[0], positions[1], positions[2])
+        if (stockfishMove === "") {
+          setStockfishMove(bestMove)
+          stockfish.bestMove = null
         }
-
+        
+        setHintShowed(true)
         clearInterval(getMove)
       }
     }, 1000)
   }, [stockfish, stockfishMove])
 
   const [hintShowed, setHintShowed] = useState(true)
-  const [moveShow, setMoveShow] = useState(false)
 
   useEffect(() => {
-    if (moveShow && playGame === false && hintShowed === false) {
+    if (playGame === false && hintShowed === false) {
       stockfishEngineMove()
-
-      setTimeout(() => {
-        undoMove()
-        setHintShowed(true)
-      }, 10000)
     }
-
-    setMoveShow(!moveShow)
-  }, [playGame, hintShowed, moveShow, stockfishEngineMove])
+  }, [playGame, hintShowed, stockfishMove, stockfishEngineMove])
 
   return (
     <div className="learnanalyze" data-theme={theme}>
@@ -368,10 +356,10 @@ function Learnanalyze() {
                   <tbody key={key}>
                     <tr>
                       <td><b>{userPieces[key] === "w" ? val.whiteID : val.blackID}</b></td>
-                      <td>vs</td>
+                      <td style={{minWidth: "min(3rem, min(4.5vw, 4.5vh))"}}>vs</td>
                       <td><b>{userPieces[key] === "w" ? val.blackID : val.whiteID}</b></td>
                       <td><b>{val.result}</b></td>
-                      <td><button className="analyze_button" onClick={() => {setChosenGame(val.moves); setPlayerPieces(userPieces[key])}}>
+                      <td style={{minWidth: "min(8rem, min(20vw, 20vh))"}}><button className="analyze_button" onClick={() => {setChosenGame(val.moves); setPlayerPieces(userPieces[key])}}>
                       Analyze</button></td>
                     </tr>
                   </tbody>
@@ -381,15 +369,15 @@ function Learnanalyze() {
           </div>}
           {games !== null && chosenGame === null && <div className="table_padding"/>}
           {chosenGame && (<div>
-            <BackButton theme={theme} onClick={hintShowed ? backMove : null} 
+            <BackButton theme={theme} onClick={() => {backMove(); setStockfishMove("")}} 
             disabled={!hintShowed || playGame || moveCounter === 0 ? true : false}>
               <AiIcons.AiOutlineCaretLeft/>
             </BackButton>
-            <NextButton theme={theme} onClick={hintShowed ? nextMove : null} 
+            <NextButton theme={theme} onClick={() => {nextMove(); setStockfishMove("")}} 
             disabled={!hintShowed || playGame || moveCounter === chosenGame.length ? true : false}>
               <AiIcons.AiOutlineCaretRight/>
             </NextButton>
-            <PlayButton theme={theme} onClick={() => setPlayGame(!playGame)}
+            <PlayButton theme={theme} onClick={() => {setPlayGame(!playGame); setStockfishMove("")}}
             disabled={!hintShowed || moveCounter === chosenGame.length ? true : false}>
               {playGame && moveCounter !== chosenGame.length ? <FaIcons.FaPauseCircle/> : <FaIcons.FaPlayCircle/>}
             </PlayButton>
@@ -397,15 +385,20 @@ function Learnanalyze() {
             disabled={!hintShowed || playGame || moveCounter === chosenGame.length ? true : false}>
               <BsIcons.BsQuestionCircleFill/>
             </StockfishButton>
-            <div className="board_container">
+            <div className="board_container_analyze">
               <Chessboard className="chessboard" playerPieces={playerPieces} board={board} turn={turn} boardtype={"analyze"}/>
-              <div className="board_padding"/>
             </div>
+            <h2 style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)", 
+            fontSize: "min(1.4rem, min(3vw, 3vh))", marginLeft: "min(1.5rem, min(3.2vw, 3.2vh))", 
+            marginTop: "min(0.5rem, min(1.05vw, 1.05vh))", paddingBottom: "min(0.2rem, 0.6vh)"}}>
+            Move played ➜ {moveCounter === chosenGame.length ? "-" : chosenGame[moveCounter].from + " " + chosenGame[moveCounter].to}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Best move ➜ {stockfishMove === "" ? "-" : stockfishMove}</h2>
           </div>)}
         <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
           {theme === "lightmode" ? (<IoIcons.IoIosSunny />) : (<IoIcons.IoIosMoon />)}
         </SwitchThemeButton>
       </DndProvider>
+      {console.log(stockfishMove)}
     </div>
   )
 }

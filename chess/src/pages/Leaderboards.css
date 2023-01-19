@@ -69,7 +69,6 @@ body {
   border-radius: var(--radius);
   box-shadow: 0 0 1rem var(--gray6);
   transition: transform 200ms ease-in;
-  table-layout: fixed;
 }
 
 td {
@@ -81,7 +80,7 @@ td {
 }
 
 .score_table:hover {
-  transform: scale(1.04);
+  transform: scale(1);
 }
 
 .score_table_columns {
