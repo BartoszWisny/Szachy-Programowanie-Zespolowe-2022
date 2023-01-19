@@ -391,7 +391,7 @@ function Learnanalyze() {
             <h2 style={{color: theme === "lightmode" ? "var(--primary)" : "var(--secondary)", 
             fontSize: "min(1.4rem, min(3vw, 3vh))", marginLeft: "min(1.5rem, min(3.2vw, 3.2vh))", 
             marginTop: "min(0.5rem, min(1.05vw, 1.05vh))", paddingBottom: "min(0.2rem, 0.6vh)"}}>
-            Move played ➜ {moveCounter === chosenGame.length ? "-" : chosenGame[moveCounter].from + " " + chosenGame[moveCounter].to}
+            Next move played ➜ {moveCounter === chosenGame.length ? "-" : chosenGame[moveCounter].from + " " + chosenGame[moveCounter].to}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Best move ➜ {stockfishMove === "" ? "-" : stockfishMove}</h2>
           </div>)}
         <SwitchThemeButton onClick={switchTheme} style={{zIndex: "9"}}>
