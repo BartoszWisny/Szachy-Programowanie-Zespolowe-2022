@@ -138,11 +138,6 @@ function Play1vs1onlinegame() {
           whiteDefeats += 1
           whitePoints = elo.ifLoses(whiteData.points, blackData.points)
         }
-
-        /* blackWins += 1
-        whiteDefeats += 1
-        blackPoints = elo.ifWins(blackData.points, whiteData.points)
-        whitePoints = elo.ifLoses(whiteData.points, blackData.points) */
       } else if (result === "White is the winner by checkmate!") {
         if (playerPieces === "w") {
           whiteWins += 1
@@ -151,11 +146,6 @@ function Play1vs1onlinegame() {
           blackDefeats += 1
           blackPoints = elo.ifLoses(blackData.points, whiteData.points)
         }
-
-        /* whiteWins += 1
-        blackDefeats += 1
-        whitePoints = elo.ifWins(whiteData.points, blackData.points)
-        blackPoints = elo.ifLoses(blackData.points, whiteData.points) */
       } else {
         if (playerPieces === "w") {
           whiteDraws += 1
@@ -164,11 +154,6 @@ function Play1vs1onlinegame() {
           blackDraws += 1
           blackPoints = elo.ifTies(blackData.points, whiteData.points)
         }
-
-        /* whiteDraws += 1
-        blackDraws += 1
-        whitePoints = elo.ifTies(whiteData.points, blackData.points)
-        blackPoints = elo.ifTies(blackData.points, whiteData.points) */
       }
   
       if (playerPieces === "w") {
